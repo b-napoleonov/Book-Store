@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookStore.Data
+namespace BookStore.Infrastructure
 {
     public class ApplicationDbContext : IdentityDbContext
     {
