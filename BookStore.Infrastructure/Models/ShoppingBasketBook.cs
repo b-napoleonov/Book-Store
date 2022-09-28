@@ -9,5 +9,7 @@
         public int ShoppingBasketId { get; set; }
 
         public ShoppingBasket ShoppingBasket { get; set; }
+
+        public int Count { get; set; }
     }
 }

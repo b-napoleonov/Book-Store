@@ -7,9 +7,9 @@ namespace BookStore.Infrastructure.Models
         public Book()
         {
             this.Id = Guid.NewGuid();
-            this.PublishersBooks = new HashSet<PublisherBook>();
-            this.WarehousesBooks = new HashSet<WarehouseBook>();
+            this.WarehouseBooks = new HashSet<WarehouseBook>();
             this.ShoppingBasketBooks = new HashSet<ShoppingBasketBook>();
+            this.AuthorBooks = new HashSet<AuthorBook>();
         }
 
         public Guid Id { get; set; }
@@ -25,14 +25,15 @@ namespace BookStore.Infrastructure.Models
         public decimal Price { get; set; }
 
         [Required]
-        public string AuthorName { get; set; }
-
-        [Required]
         public string PublisherName { get; set; }
 
-        public ICollection<PublisherBook> PublishersBooks { get; set; }
+        public int PublisherId { get; set; }
 
-        public ICollection<WarehouseBook> WarehousesBooks { get; set; }
+        public Publisher Publisher { get; set; }
+
+        public ICollection<AuthorBook> AuthorBooks { get; set; }
+
+        public ICollection<WarehouseBook> WarehouseBooks { get; set; }
 
         public ICollection<ShoppingBasketBook> ShoppingBasketBooks { get; set; }
     }

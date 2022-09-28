@@ -6,7 +6,7 @@ namespace BookStore.Infrastructure.Models
     {
         public Publisher()
         {
-            this.PublishersBooks = new HashSet<PublisherBook>();
+            this.Books = new HashSet<Book>();
         }
 
         public int Id { get; set; }
@@ -20,6 +20,6 @@ namespace BookStore.Infrastructure.Models
         [Required]
         public string URL { get; set; }
 
-        public ICollection<PublisherBook> PublishersBooks { get; set; }
+        public ICollection<Book> Books { get; set; }
     }
 }
