@@ -2,11 +2,11 @@
 
 namespace BookStore.Infrastructure.Models
 {
-    public class Author
+    public class Category
     {
-        public Author()
+        public Category()
         {
-            this.AuthorBooks = new HashSet<AuthorBook>();
+            this.Books = new HashSet<Book>();
         }
 
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace BookStore.Infrastructure.Models
         [StringLength(50)]
         public string Name { get; set; }
 
-        public ICollection<AuthorBook> AuthorBooks { get; set; }
+        public ICollection<Book> Books { get; set; }
     }
 }

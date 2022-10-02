@@ -12,12 +12,15 @@ namespace BookStore.Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
+        [StringLength(70)]
         public string Name { get; set; }
 
         [Required]
+        [StringLength(200)]
         public string Address { get; set; }
 
         [Required]
+        [StringLength(15)]
         public string Phone { get; set; }
 
         public ICollection<WarehouseBook> WarehousesBooks { get; set; }

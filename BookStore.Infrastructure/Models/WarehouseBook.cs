@@ -1,4 +1,6 @@
-﻿namespace BookStore.Infrastructure.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BookStore.Infrastructure.Models
 {
     public class WarehouseBook
     {
@@ -10,6 +12,8 @@
 
         public Warehouse Warehouse { get; set; }
 
+        //Depends of consumption
+        [Range(1, 300)]
         public int Count { get; set; }
     }
 }

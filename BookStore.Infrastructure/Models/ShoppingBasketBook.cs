@@ -1,4 +1,6 @@
-﻿namespace BookStore.Infrastructure.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BookStore.Infrastructure.Models
 {
     public class ShoppingBasketBook
     {
@@ -10,6 +12,7 @@
 
         public ShoppingBasket ShoppingBasket { get; set; }
 
+        [Range(1, 10)]
         public int Count { get; set; }
     }
 }
