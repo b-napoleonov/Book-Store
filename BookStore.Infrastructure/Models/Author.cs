@@ -6,15 +6,20 @@ namespace BookStore.Infrastructure.Models
     {
         public Author()
         {
-            this.AuthorBooks = new HashSet<AuthorBook>();
+            this.Books = new HashSet<Book>();
         }
 
+        [Key]
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string Name { get; set; }
+        [MaxLength(70)]
+        public string FirstName { get; set; } = null!;
 
-        public ICollection<AuthorBook> AuthorBooks { get; set; }
+        [Required]
+        [MaxLength(70)]
+        public string LastName { get; set; } = null!;
+
+        public ICollection<Book> Books { get; set; }
     }
 }

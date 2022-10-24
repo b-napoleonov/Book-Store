@@ -13,9 +13,11 @@ namespace BookStore.Infrastructure
 
         public DbSet<Author> Authors { get; set; }
 
-        public DbSet<AuthorBook> AuthorBooks { get; set; }
-
         public DbSet<Book> Books { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<CategoryBook> CategoryBooks { get; set; }
 
         public DbSet<Publisher> Publishers { get; set; }
 
@@ -29,11 +31,11 @@ namespace BookStore.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<AuthorBook>()
+            builder.Entity<CategoryBook>()
                 .HasKey(k => new
                 {
-                    k.AuthorId,
-                    k.BookId
+                    k.BookId,
+                    k.CategoryId
                 });
 
             builder.Entity<ShoppingBasketBook>()

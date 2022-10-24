@@ -9,23 +9,24 @@ namespace BookStore.Infrastructure.Models
             this.Books = new HashSet<Book>();
         }
 
+        [Key]
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100)]
-        public string Name { get; set; }
+        [MaxLength(100)]
+        public string Name { get; set; } = null!;
 
         [Required]
-        [StringLength(15)]
-        public string Phone { get; set; }
+        [MaxLength(15)]
+        public string Phone { get; set; } = null!;
 
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        [MaxLength(50)]
+        public string Email { get; set; } = null!;
 
         [Required]
-        [StringLength(50)]
-        public string URL { get; set; }
+        [MaxLength(50)]
+        public string URL { get; set; } = null!;
 
         public ICollection<Book> Books { get; set; }
     }

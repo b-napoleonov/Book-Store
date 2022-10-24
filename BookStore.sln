@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore", "BookStore.csproj", "{9ED23DEE-6A44-4310-B9E8-CC4E889332DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore", "BookStore\BookStore.csproj", "{9ED23DEE-6A44-4310-B9E8-CC4E889332DE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{58202ED3-8359-49D2-A362-A80167C6724D} = {58202ED3-8359-49D2-A362-A80167C6724D}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore.Infrastructure", "..\BookStore.Infrastructure\BookStore.Infrastructure.csproj", "{BB214366-B162-4B7E-AC76-FCD3A9CF4F90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore.Infrastructure", "BookStore.Infrastructure\BookStore.Infrastructure.csproj", "{BB214366-B162-4B7E-AC76-FCD3A9CF4F90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore.Core", "..\BookStore.Core\BookStore.Core.csproj", "{58202ED3-8359-49D2-A362-A80167C6724D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore.Core", "BookStore.Core\BookStore.Core.csproj", "{58202ED3-8359-49D2-A362-A80167C6724D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BB214366-B162-4B7E-AC76-FCD3A9CF4F90} = {BB214366-B162-4B7E-AC76-FCD3A9CF4F90}
 	EndProjectSection
