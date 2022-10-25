@@ -1,8 +1,9 @@
 ﻿using BookStore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace BookStore.Controllers
+namespace BookStore.BaseControllers
 {
     public class HomeController : Controller
     {
@@ -13,11 +14,13 @@ namespace BookStore.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
