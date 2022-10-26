@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<AllBooksViewModel>*@
+﻿@model IEnumerable<AllBooksViewModel>
 
 @{
     ViewBag.Title = "All Books";
@@ -18,8 +18,7 @@
 
                 <h5 class="card-title mt-1">@book.Title</h5>
                 <p class="mb-0">Author: @book.Author</p>
-                <p class="mb-0">Rating: @book.Rating</p>
-                <p>Category: @book.Category</p>
+                <p class="mb-0">Price: @book.Price</p>
             </div>
 
             <form class="input-group-sm" asp-controller="Books" asp-action="AddToCollection" asp-route-bookId="@book.Id">

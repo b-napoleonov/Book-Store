@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Infrastructure.Models
 {
+    //TODO: Add BookRating
     public class Book : IDeletableEntity
     {
         public Book()
