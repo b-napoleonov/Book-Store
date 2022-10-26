@@ -9,6 +9,8 @@
 
         Task AddAsync(TEntity entity);
 
+        Task<TEntity> GetByIdAsync(object id);
+
         void Update(TEntity entity);
 
         void Delete(TEntity entity);

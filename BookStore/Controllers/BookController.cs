@@ -1,4 +1,5 @@
 ﻿using BookStore.Core.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
@@ -13,11 +14,30 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var model = await bookService.GetAllBooksAsync();
 
-            return View(model);
+            return View("All", model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Details(Guid bookId)
+        {
+            try
+            {
+                var model = bookService.GetBookAsync(bookId);
+
+                return View(model);
+            }
+            catch (ArgumentException)
+            {
+                //TODO: Book is invalid. Handle the exception
+
+                throw;
+            }
         }
     }
 }

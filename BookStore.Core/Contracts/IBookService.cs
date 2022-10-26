@@ -5,5 +5,7 @@ namespace BookStore.Core.Contracts
     public interface IBookService
     {
         Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync();
+
+        Task<DetailsBookViewModel> GetBookAsync(Guid bookId);
     }
 }

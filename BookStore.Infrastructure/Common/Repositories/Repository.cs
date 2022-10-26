@@ -21,6 +21,11 @@ namespace BookStore.Infrastructure.Common.Repositories
 
         public virtual Task AddAsync(TEntity entity) => this.DbSet.AddAsync(entity).AsTask();
 
+        public async Task<TEntity> GetByIdAsync(object id)
+        {
+            return await DbSet.FindAsync(id);
+        }
+
         public virtual void Update(TEntity entity)
         {
             var entry = this.Context.Entry(entity);
