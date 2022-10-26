@@ -1,4 +1,4 @@
-﻿using BookStore.Infrastructure.Common.SoftDelete;
+﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Infrastructure.Common.Repositories

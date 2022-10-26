@@ -1,4 +1,4 @@
-﻿using BookStore.Infrastructure.Common.SoftDelete;
+﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,7 +10,6 @@ namespace BookStore.Infrastructure.Models
         {
             this.Id = Guid.NewGuid();
             this.WarehouseBooks = new HashSet<WarehouseBook>();
-            this.ShoppingBasketBooks = new HashSet<ShoppingBasketBook>();
             this.Categories = new HashSet<CategoryBook>();
         }
 
@@ -36,6 +35,12 @@ namespace BookStore.Infrastructure.Models
         [Required]
         public decimal Price { get; set; }
 
+        [Required]
+        public int Pages { get; set; }
+
+        [Required]
+        public string ImageUrl { get; set; }
+
         public int AuthorId { get; set; }
 
         [ForeignKey(nameof(AuthorId))]
@@ -51,8 +56,6 @@ namespace BookStore.Infrastructure.Models
         public DateTime? DeletedOn { get; set; }
 
         public ICollection<CategoryBook> Categories { get; set; }
-
-        public ICollection<ShoppingBasketBook> ShoppingBasketBooks { get; set; }
 
         public ICollection<WarehouseBook> WarehouseBooks { get; set; }
     }

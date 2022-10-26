@@ -1,4 +1,4 @@
-﻿using BookStore.Infrastructure.Common.SoftDelete;
+﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
 
 namespace BookStore.Infrastructure.Common.Repositories
 {

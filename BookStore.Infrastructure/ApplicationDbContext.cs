@@ -21,9 +21,7 @@ namespace BookStore.Infrastructure
 
         public DbSet<Publisher> Publishers { get; set; }
 
-        public DbSet<ShoppingBasket> ShoppingBaskets { get; set; }
-
-        public DbSet<ShoppingBasketBook> ShoppingBasketBooks { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         public DbSet<Warehouse> Warehouses { get; set; }
 
@@ -36,13 +34,6 @@ namespace BookStore.Infrastructure
                 {
                     k.BookId,
                     k.CategoryId
-                });
-
-            builder.Entity<ShoppingBasketBook>()
-                .HasKey(k => new
-                {
-                    k.BookId,
-                    k.ShoppingBasketId
                 });
 
             builder.Entity<WarehouseBook>()

@@ -1,4 +1,4 @@
-﻿namespace BookStore.Infrastructure.Common.SoftDelete
+﻿namespace BookStore.Infrastructure.Common.SoftDeleteBaseClass
 {
     internal class DeletableEntity : IDeletableEntity
     {

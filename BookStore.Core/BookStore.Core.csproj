@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Contracts\" />
+    <Folder Include="Models\Book\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

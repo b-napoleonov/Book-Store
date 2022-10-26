@@ -1,4 +1,4 @@
-﻿using BookStore.Infrastructure.Common.SoftDelete;
+﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

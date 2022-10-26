@@ -1,4 +1,4 @@
-﻿using BookStore.Infrastructure.Common.SoftDelete;
+﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,6 +6,11 @@ namespace BookStore.Infrastructure.Models
 {
     public class ApplicationUser : IdentityUser, IDeletableEntity
     {
+        public ApplicationUser()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         [MaxLength(50)]
         public string? FirstName { get; set; }
 
