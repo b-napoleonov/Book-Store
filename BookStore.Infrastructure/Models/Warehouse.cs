@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BookStore.Infrastructure.Common.SoftDelete;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Infrastructure.Models
 {
-    public class Warehouse
+    public class Warehouse : IDeletableEntity
     {
         public Warehouse()
         {
@@ -22,6 +23,10 @@ namespace BookStore.Infrastructure.Models
         [Required]
         [MaxLength(15)]
         public string Phone { get; set; } = null!;
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
 
         public ICollection<WarehouseBook> WarehousesBooks { get; set; }
     }

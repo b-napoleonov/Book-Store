@@ -1,6 +1,8 @@
-﻿namespace BookStore.Infrastructure.Models
+﻿using BookStore.Infrastructure.Common.SoftDelete;
+
+namespace BookStore.Infrastructure.Models
 {
-    public class ShoppingBasket
+    public class ShoppingBasket : IDeletableEntity
     {
         public ShoppingBasket()
         {
@@ -8,6 +10,10 @@
         }
 
         public int Id { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
 
         //TODO: Connect to User Entity
 

@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BookStore.Infrastructure.Common.SoftDelete;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Infrastructure.Models
 {
-    public class WarehouseBook
+    public class WarehouseBook : IDeletableEntity
     {
         public Guid BookId { get; set; }
 
@@ -18,5 +19,9 @@ namespace BookStore.Infrastructure.Models
         //Depends of consumption
         [Range(1, 300)]
         public int Count { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
     }
 }

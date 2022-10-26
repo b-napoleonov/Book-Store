@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BookStore.Infrastructure.Common.SoftDelete;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Infrastructure.Models
 {
-    public class Category
+    public class Category :IDeletableEntity
     {
         public Category()
         {
@@ -15,6 +16,9 @@ namespace BookStore.Infrastructure.Models
         [Required]
         [MaxLength(50)]
         public string Name { get; set; } = null!;
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
 
         public ICollection<CategoryBook> Books { get; set; }
     }

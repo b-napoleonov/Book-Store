@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BookStore.Infrastructure.Common.SoftDelete;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Infrastructure.Models
 {
-    public class Publisher
+    public class Publisher : IDeletableEntity
     {
         public Publisher()
         {
@@ -27,6 +28,10 @@ namespace BookStore.Infrastructure.Models
         [Required]
         [MaxLength(50)]
         public string URL { get; set; } = null!;
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
 
         public ICollection<Book> Books { get; set; }
     }
