@@ -1,4 +1,5 @@
 ﻿using BookStore.Core.Contracts;
+using BookStore.Core.Models.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,12 +33,27 @@ namespace BookStore.Controllers
 
                 return View(model);
             }
-            catch (ArgumentException)
+            catch (ArgumentException ae)
             {
                 //TODO: Book is invalid. Handle the exception
 
                 throw;
             }
+        }
+
+        //TODO: Implement administrator who can add books from here
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            var model = new AddBookViewModel()
+            {
+                Authors = await bookService.GetAllAuthorsAsync(),
+                Publishers = await bookService.GetAllPublishersAsync(),
+                Categories = await bookService.GetAllCategoriesAsync(),
+                Warehouses = await bookService.GetAllWarehousesAsync(),
+            };
+
+            return View(model);
         }
     }
 }

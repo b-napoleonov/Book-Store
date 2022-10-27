@@ -29,7 +29,6 @@ namespace BookStore.Infrastructure.Models
         [MaxLength(500)]
         public string Description { get; set; } = null!;
 
-        //TODO: Custom Attribute for present year
         [Required]
         public int Year { get; set; }
 
@@ -40,7 +39,7 @@ namespace BookStore.Infrastructure.Models
         public int Pages { get; set; }
 
         [Required]
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = null!;
 
         public int AuthorId { get; set; }
 

@@ -11,7 +11,10 @@ namespace BookStore.Infrastructure.Common.Repositories
         {
         }
 
-        public override IQueryable<TEntity> All() => base.All().Where(x => !x.IsDeleted);
+        public override IQueryable<TEntity> All()
+        {
+            return base.All().Where(x => !x.IsDeleted);
+        }
 
         public override IQueryable<TEntity> AllAsNoTracking() => base.AllAsNoTracking().Where(x => !x.IsDeleted);
 

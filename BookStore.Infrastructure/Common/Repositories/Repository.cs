@@ -2,7 +2,7 @@
 
 namespace BookStore.Infrastructure.Common.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> 
+    public class Repository<TEntity>: IRepository<TEntity>
         where TEntity : class
     {
         public Repository(ApplicationDbContext context)
@@ -20,11 +20,6 @@ namespace BookStore.Infrastructure.Common.Repositories
         public virtual IQueryable<TEntity> AllAsNoTracking() => this.DbSet.AsNoTracking();
 
         public virtual Task AddAsync(TEntity entity) => this.DbSet.AddAsync(entity).AsTask();
-
-        public async Task<TEntity> GetByIdAsync(object id)
-        {
-            return await DbSet.FindAsync(id);
-        }
 
         public virtual void Update(TEntity entity)
         {
