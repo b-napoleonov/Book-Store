@@ -8,6 +8,9 @@ namespace BookStore.Controllers
 {
     public class UserController : BaseController
     {
+        private const string ActionName = "Index";
+        private const string ControllerName = "Book";
+
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
 
@@ -24,7 +27,7 @@ namespace BookStore.Controllers
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("All", "Books");
+                return RedirectToAction(ActionName, ControllerName);
             }
 
             var model = new LoginViewModel();
@@ -49,7 +52,7 @@ namespace BookStore.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("All", "Books");
+                    return RedirectToAction(ActionName, ControllerName);
                 }
             }
 
@@ -64,7 +67,7 @@ namespace BookStore.Controllers
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("All", "Books");
+                return RedirectToAction(ActionName, ControllerName);
             }
 
             var model = new RegisterViewModel();
@@ -106,7 +109,7 @@ namespace BookStore.Controllers
         {
             await signInManager.SignOutAsync();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(ActionName, ControllerName);
         }
     }
 }

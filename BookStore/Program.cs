@@ -21,7 +21,8 @@ namespace BookStore
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = true;
+                //TODO: Implement account confirmation
+                options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequiredLength = 5;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();

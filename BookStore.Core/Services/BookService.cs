@@ -17,7 +17,6 @@ namespace BookStore.Core.Services
 
         public async Task AddBookAsync(AddBookViewModel model)
         {
-            //TODO: Find better implementation
             var book = new Book()
             {
                 ISBN = model.ISBN,
@@ -31,34 +30,23 @@ namespace BookStore.Core.Services
                 PublisherId = model.PublisherId
             };
 
+            var categoryBook = new CategoryBook()
+            {
+                Book = book,
+                CategoryId = model.CategoryId,
+            };
+
+            book.Categories.Add(categoryBook);
+
+            var warehouseBook = new WarehouseBook()
+            {
+                Book = book,
+                WarehouseId = model.WarehouseId
+            };
+
+            book.WarehouseBooks.Add(warehouseBook);
+
             await bookRepository.AddAsync(book);
-            await bookRepository.SaveChangesAsync();
-
-            var categories = new HashSet<CategoryBook>();
-
-            foreach (var category in model.Categories)
-            {
-                categories.Add(new CategoryBook
-                {
-                    BookId = book.Id,
-                    CategoryId = category.Id,
-                });
-            }
-
-            var warehouses = new HashSet<WarehouseBook>();
-
-            foreach (var warehouse in model.Warehouses)
-            {
-                warehouses.Add(new WarehouseBook
-                {
-                    BookId = book.Id,
-                    WarehouseId = warehouse.Id,
-                });
-            }
-
-            book.Categories = categories;
-            book.WarehouseBooks = warehouses;
-
             await bookRepository.SaveChangesAsync();
         }
 
@@ -104,6 +92,23 @@ namespace BookStore.Core.Services
                 Publisher = book.Publisher.Name,
                 Categories = book.Categories.Select(c => c.Category.Name).ToList()
             };
+        }
+
+        public async Task<Book> GetBookByCategoryAsync(string categoryName)
+        {
+            var book = await bookRepository
+                .AllAsNoTracking()
+                .Include(b => b.Categories)
+                .ThenInclude(cb => cb.Category)
+                .Where(b => b.Categories.Select(cb => cb.Category.Name == categoryName).FirstOrDefault())
+                .FirstOrDefaultAsync();
+
+            if (book == null)
+            {
+                throw new ArgumentException("Category not found");
+            }
+
+            return book;
         }
     }
 }

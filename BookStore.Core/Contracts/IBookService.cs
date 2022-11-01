@@ -1,4 +1,5 @@
 ﻿using BookStore.Core.Models.Book;
+using BookStore.Infrastructure.Models;
 
 namespace BookStore.Core.Contracts
 {
@@ -9,5 +10,7 @@ namespace BookStore.Core.Contracts
         Task<DetailsBookViewModel> GetBookAsync(Guid bookId);
 
         Task AddBookAsync(AddBookViewModel model);
+
+        Task<Book> GetBookByCategoryAsync(string categoryName);
     }
 }
