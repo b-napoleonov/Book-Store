@@ -2,10 +2,12 @@
 {
     public class DetailsBookViewModel
     {
+        public DetailsBookViewModel()
+        {
+            this.Categories = new List<string>();
+        }
+
         public Guid Id { get; set; }
-
-        public string ISBN { get; set; } = null!;
-
 
         public string Title { get; set; } = null!;
 

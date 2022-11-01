@@ -17,29 +17,7 @@ namespace BookStore.Core.Services
 
         public async Task AddBookAsync(AddBookViewModel model)
         {
-            //TODO: Won't work book has no ID
-            var categories = new HashSet<CategoryBook>();
-
-            foreach (var category in model.Categories)
-            {
-                categories.Add(new CategoryBook
-                {
-                    BookId = model.Id,
-                    CategoryId = category.Id,
-                });
-            }
-
-            var warehouses = new HashSet<WarehouseBook>();
-
-            foreach (var warehouse in model.Warehouses)
-            {
-                warehouses.Add(new WarehouseBook
-                {
-                    BookId = model.Id,
-                    WarehouseId = warehouse.Id,
-                });
-            }
-
+            //TODO: Find better implementation
             var book = new Book()
             {
                 ISBN = model.ISBN,
@@ -50,12 +28,37 @@ namespace BookStore.Core.Services
                 Pages = model.Pages,
                 ImageUrl = model.ImageUrl,
                 AuthorId = model.AuthorId,
-                PublisherId = model.PublisherId,
-                Categories = categories,
-                WarehouseBooks = warehouses
+                PublisherId = model.PublisherId
             };
 
             await bookRepository.AddAsync(book);
+            await bookRepository.SaveChangesAsync();
+
+            var categories = new HashSet<CategoryBook>();
+
+            foreach (var category in model.Categories)
+            {
+                categories.Add(new CategoryBook
+                {
+                    BookId = book.Id,
+                    CategoryId = category.Id,
+                });
+            }
+
+            var warehouses = new HashSet<WarehouseBook>();
+
+            foreach (var warehouse in model.Warehouses)
+            {
+                warehouses.Add(new WarehouseBook
+                {
+                    BookId = book.Id,
+                    WarehouseId = warehouse.Id,
+                });
+            }
+
+            book.Categories = categories;
+            book.WarehouseBooks = warehouses;
+
             await bookRepository.SaveChangesAsync();
         }
 
@@ -77,6 +80,9 @@ namespace BookStore.Core.Services
         {
             var book = await bookRepository
                 .AllAsNoTracking()
+                .Include(b => b.Author)
+                .Include(b => b.Publisher)
+                .Include(b => b.Categories)
                 .Where(x => x.Id == bookId)
                 .FirstOrDefaultAsync();
 
@@ -88,7 +94,6 @@ namespace BookStore.Core.Services
             return new DetailsBookViewModel()
             {
                 Id = book.Id,
-                ISBN = book.ISBN,
                 Title = book.Title,
                 Description = book.Description,
                 Year = book.Year,

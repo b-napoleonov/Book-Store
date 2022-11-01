@@ -1,5 +1,4 @@
 ﻿using BookStore.Core.Models.Book;
-using BookStore.Infrastructure.Models;
 
 namespace BookStore.Core.Contracts
 {

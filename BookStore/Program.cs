@@ -33,8 +33,11 @@ namespace BookStore
 
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<IBookService, BookService>();
             builder.Services.AddScoped<IAuthorService, AuthorService>();
+            builder.Services.AddScoped<IBookService, BookService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IPublisherService, PublisherService>();
+            builder.Services.AddScoped<IWarehouseService, WarehouseService>();
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(DeletableEntityRepository<>));
 

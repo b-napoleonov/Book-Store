@@ -37,13 +37,13 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Details(Guid bookId)
+        public async Task< IActionResult> Details(Guid bookId)
         {
             try
             {
-                var model = bookService.GetBookAsync(bookId);
+                var model = await bookService.GetBookAsync(bookId);
 
+                //ToDo: Add necessary css and JS
                 return View(model);
             }
             catch (ArgumentException ae)
@@ -56,7 +56,6 @@ namespace BookStore.Controllers
 
         //TODO: Implement administrator who can add books from here
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> Add()
         {
             var model = new AddBookViewModel()

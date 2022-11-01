@@ -6,7 +6,13 @@ namespace BookStore.Core.Models.Book
 {
     public class AddBookViewModel
     {
-        public Guid Id { get; set; }
+        public AddBookViewModel()
+        {
+            this.Authors = new List<Author>();
+            this.Publishers = new List<Publisher>();
+            this.Categories = new List<Category>();
+            this.Warehouses = new List<Warehouse>();
+        }
 
         [Required]
         [StringLength(13, MinimumLength = 13, ErrorMessage = "{0} must be between exactly {1} characters.")]
