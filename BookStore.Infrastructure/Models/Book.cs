@@ -12,6 +12,8 @@ namespace BookStore.Infrastructure.Models
             this.Id = Guid.NewGuid();
             this.WarehouseBooks = new HashSet<WarehouseBook>();
             this.Categories = new HashSet<CategoryBook>();
+            this.Ratings = new HashSet<Rating>();
+            this.Reviews = new HashSet<Review>();
         }
 
         [Key]
@@ -58,5 +60,9 @@ namespace BookStore.Infrastructure.Models
         public ICollection<CategoryBook> Categories { get; set; }
 
         public ICollection<WarehouseBook> WarehouseBooks { get; set; }
+
+        public ICollection<Rating> Ratings { get; set; }
+
+        public ICollection<Review> Reviews { get; set; }
     }
 }

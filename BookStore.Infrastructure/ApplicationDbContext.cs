@@ -1,6 +1,7 @@
 ﻿using BookStore.Infrastructure.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BookStore.Infrastructure
 {
@@ -20,6 +21,10 @@ namespace BookStore.Infrastructure
         public DbSet<CategoryBook> CategoryBooks { get; set; }
 
         public DbSet<Publisher> Publishers { get; set; }
+
+        public DbSet<Rating> Ratings { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
 
         public DbSet<Order> Orders { get; set; }
 
@@ -42,6 +47,18 @@ namespace BookStore.Infrastructure
                     k.BookId,
                     k.WarehouseId
                 });
+
+            builder.Entity<Rating>()
+                .HasOne(r => r.User)
+                .WithOne(au => au.Rating)
+                .HasForeignKey<ApplicationUser>(au => au.RatingId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<ApplicationUser>()
+                .HasOne(au => au.Rating)
+                .WithOne(r => r.User)
+                .HasForeignKey<Rating>(r => r.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             base.OnModelCreating(builder);
         }

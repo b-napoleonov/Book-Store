@@ -1,6 +1,7 @@
 ﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Infrastructure.Models
 {
@@ -9,6 +10,7 @@ namespace BookStore.Infrastructure.Models
         public ApplicationUser()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.Reviews = new HashSet<Review>();
         }
 
         [MaxLength(50)]
@@ -20,5 +22,12 @@ namespace BookStore.Infrastructure.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public int? RatingId { get; set; }
+
+        [ForeignKey(nameof(RatingId))]
+        public Rating? Rating { get; set; }
+
+        public ICollection<Review> Reviews { get; set; }
     }
 }
