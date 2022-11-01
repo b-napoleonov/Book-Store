@@ -6,6 +6,8 @@ namespace BookStore.Core.Models.Book
 {
     public class AddBookViewModel
     {
+        public Guid Id { get; set; }
+
         [Required]
         [StringLength(13, MinimumLength = 13, ErrorMessage = "{0} must be between exactly {1} characters.")]
         public string ISBN { get; set; } = null!;

@@ -9,12 +9,6 @@ namespace BookStore.Core.Contracts
 
         Task<DetailsBookViewModel> GetBookAsync(Guid bookId);
 
-        Task<IEnumerable<Author>> GetAllAuthorsAsync();
-
-        Task<IEnumerable<Publisher>> GetAllPublishersAsync();
-
-        Task<IEnumerable<Category>> GetAllCategoriesAsync();
-
-        Task<IEnumerable<Warehouse>> GetAllWarehousesAsync();
+        Task AddBookAsync(AddBookViewModel model);
     }
 }

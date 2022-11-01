@@ -8,10 +8,23 @@ namespace BookStore.Controllers
     public class BookController : BaseController
     {
         private readonly IBookService bookService;
+        private readonly IAuthorService authorService;
+        private readonly ICategoryService categoryService;
+        private readonly IPublisherService publisherService;
+        private readonly IWarehouseService warehouseService;
 
-        public BookController(IBookService _bookService)
+        public BookController(
+            IBookService _bookService,
+            IAuthorService _authorService,
+            ICategoryService _categoryService,
+            IPublisherService _publisherService,
+            IWarehouseService _warehouseService)
         {
             bookService = _bookService;
+            authorService = _authorService;
+            categoryService = _categoryService;
+            publisherService = _publisherService;
+            warehouseService = _warehouseService;
         }
 
         [HttpGet]
@@ -43,17 +56,40 @@ namespace BookStore.Controllers
 
         //TODO: Implement administrator who can add books from here
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Add()
         {
             var model = new AddBookViewModel()
             {
-                Authors = await bookService.GetAllAuthorsAsync(),
-                Publishers = await bookService.GetAllPublishersAsync(),
-                Categories = await bookService.GetAllCategoriesAsync(),
-                Warehouses = await bookService.GetAllWarehousesAsync(),
+                Authors = await authorService.GetAllAuthorsAsync(),
+                Categories = await categoryService.GetAllCategoriesAsync(),
+                Publishers = await publisherService.GetAllPublishersAsync(),
+                Warehouses = await warehouseService.GetAllWarehousesAsync(),
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddBookViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await bookService.AddBookAsync(model);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, "Something went wrong");
+
+                return View(model);
+            }
         }
     }
 }

@@ -54,7 +54,7 @@
                         <option value="@author.Id">@author.Name</option>
                     }
                 </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <span asp-validation-for="AuthorId" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="@Model.PublisherId" class="form-label">Publisher</label>
@@ -64,7 +64,7 @@
                         <option value="@publisher.Id">@publisher.Name</option>
                     }
                 </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <span asp-validation-for="PublisherId" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="@Model.CategoryId" class="form-label">Category</label>
@@ -84,7 +84,7 @@
                         <option value="@warehouse.Id">@warehouse.Name</option>
                     }
                 </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <span asp-validation-for="WarehouseId" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <input class="btn btn-primary" type="submit" value="Add" />

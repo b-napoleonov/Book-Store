@@ -1,7 +1,7 @@
-﻿using BookStore.Infrastructure.Models;
+﻿using BookStore.Infrastructure.Common.EntityConfiguration;
+using BookStore.Infrastructure.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
 
 namespace BookStore.Infrastructure
 {
@@ -54,11 +54,7 @@ namespace BookStore.Infrastructure
                 .HasForeignKey<ApplicationUser>(au => au.RatingId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Entity<ApplicationUser>()
-                .HasOne(au => au.Rating)
-                .WithOne(r => r.User)
-                .HasForeignKey<Rating>(r => r.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+            builder.ApplyConfiguration(new ApplicationUserConfiguration());
 
             base.OnModelCreating(builder);
         }

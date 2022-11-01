@@ -9,28 +9,54 @@ namespace BookStore.Core.Services
     public class BookService : IBookService
     {
         private readonly IDeletableEntityRepository<Book> bookRepository;
-        private readonly IDeletableEntityRepository<Author> authorRepository;
-        private readonly IDeletableEntityRepository<Publisher> publisherRepository;
-        private readonly IDeletableEntityRepository<Category> categoryService;
-        private readonly IDeletableEntityRepository<Warehouse> warehouseService;
 
-        public BookService(
-            IDeletableEntityRepository<Book> _bookRepository,
-            IDeletableEntityRepository<Author> _authorRepository,
-            IDeletableEntityRepository<Publisher> _publisherRepository,
-            IDeletableEntityRepository<Category> _categoryService,
-            IDeletableEntityRepository<Warehouse> _warehouseService)
+        public BookService(IDeletableEntityRepository<Book> _bookRepository)
         {
             bookRepository = _bookRepository;
-            authorRepository = _authorRepository;
-            publisherRepository = _publisherRepository;
-            categoryService = _categoryService;
-            warehouseService = _warehouseService;
         }
 
-        public async Task<IEnumerable<Author>> GetAllAuthorsAsync()
+        public async Task AddBookAsync(AddBookViewModel model)
         {
-            return await authorRepository.AllAsNoTracking().ToListAsync();
+            //TODO: Won't work book has no ID
+            var categories = new HashSet<CategoryBook>();
+
+            foreach (var category in model.Categories)
+            {
+                categories.Add(new CategoryBook
+                {
+                    BookId = model.Id,
+                    CategoryId = category.Id,
+                });
+            }
+
+            var warehouses = new HashSet<WarehouseBook>();
+
+            foreach (var warehouse in model.Warehouses)
+            {
+                warehouses.Add(new WarehouseBook
+                {
+                    BookId = model.Id,
+                    WarehouseId = warehouse.Id,
+                });
+            }
+
+            var book = new Book()
+            {
+                ISBN = model.ISBN,
+                Title = model.Title,
+                Description = model.Description,
+                Year = model.Year,
+                Price = model.Price,
+                Pages = model.Pages,
+                ImageUrl = model.ImageUrl,
+                AuthorId = model.AuthorId,
+                PublisherId = model.PublisherId,
+                Categories = categories,
+                WarehouseBooks = warehouses
+            };
+
+            await bookRepository.AddAsync(book);
+            await bookRepository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync()
@@ -45,21 +71,6 @@ namespace BookStore.Core.Services
                     Price = b.Price,
                 })
                 .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
-        {
-            return await categoryService.AllAsNoTracking().ToListAsync();
-        }
-
-        public async Task<IEnumerable<Publisher>> GetAllPublishersAsync()
-        {
-            return await publisherRepository.AllAsNoTracking().ToListAsync();
-        }
-
-        public async Task<IEnumerable<Warehouse>> GetAllWarehousesAsync()
-        {
-            return await warehouseService.AllAsNoTracking().ToListAsync();
         }
 
         public async Task<DetailsBookViewModel> GetBookAsync(Guid bookId)
