@@ -33,11 +33,13 @@ namespace BookStore.Controllers
         {
             var model = await bookService.GetAllBooksAsync();
 
+            ViewBag.Title = "All Books";
+
             return View("All", model);
         }
 
         [HttpGet]
-        public async Task< IActionResult> Details(Guid bookId)
+        public async Task<IActionResult> Details(Guid bookId)
         {
             try
             {
@@ -47,9 +49,7 @@ namespace BookStore.Controllers
             }
             catch (ArgumentException ae)
             {
-                //TODO: Book is invalid. Handle the exception
-
-                throw;
+                return View("Error404");
             }
         }
 
@@ -87,6 +87,57 @@ namespace BookStore.Controllers
                 ModelState.AddModelError(string.Empty, "Something went wrong");
 
                 return View(model);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Author(string authorName)
+        {
+            try
+            {
+                var model = await bookService.GetBooksByAuthorAsync(authorName);
+
+                ViewBag.Title = authorName.ToUpper();
+
+                return View("All", model);
+            }
+            catch (ArgumentException ae)
+            {
+                return View("Error404");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Publisher(string publisherName)
+        {
+            try
+            {
+                var model = await bookService.GetBooksByPublisherAsync(publisherName);
+
+                ViewBag.Title = publisherName.ToUpper();
+
+                return View("All", model);
+            }
+            catch (ArgumentException ae)
+            {
+                return View("Error404");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Category(string categoryName)
+        {
+            try
+            {
+                var model = await bookService.GetBooksByCategoryAsync(categoryName);
+
+                ViewBag.Title = categoryName.ToUpper();
+
+                return View("All", model);
+            }
+            catch (ArgumentException ae)
+            {
+                return View("Error404");
             }
         }
     }

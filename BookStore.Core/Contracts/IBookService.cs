@@ -11,10 +11,10 @@ namespace BookStore.Core.Contracts
 
         Task AddBookAsync(AddBookViewModel model);
 
-        Task<IEnumerable<Book>> GetBooksByCategoryAsync(string categoryName);
+        Task<IEnumerable<AllBooksViewModel>> GetBooksByCategoryAsync(string categoryName);
 
-        Task<IEnumerable<Book>> GetBooksByAuthorAsync(string authorName);
+        Task<IEnumerable<AllBooksViewModel>> GetBooksByAuthorAsync(string authorName);
 
-        Task<IEnumerable<Book>> GetBooksByPublisherAsync(string publisherName);
+        Task<IEnumerable<AllBooksViewModel>> GetBooksByPublisherAsync(string publisherName);
     }
 }

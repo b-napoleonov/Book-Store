@@ -95,7 +95,7 @@ namespace BookStore.Core.Services
             };
         }
 
-        public async Task<IEnumerable<Book>> GetBooksByCategoryAsync(string categoryName)
+        public async Task<IEnumerable<AllBooksViewModel>> GetBooksByCategoryAsync(string categoryName)
         {
             var books = await bookRepository
                 .AllAsNoTracking()
@@ -106,15 +106,31 @@ namespace BookStore.Core.Services
                 .Where(b => b.Categories.Select(cb => cb.Category.Name == categoryName).FirstOrDefault())
                 .ToListAsync();
 
-            if (books == null)
+            var models = new List<AllBooksViewModel>();
+
+            foreach (var book in books)
+            {
+                var model = new AllBooksViewModel()
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    ImageUrl = book.ImageUrl,
+                    Author = book.Author.Name,
+                    Price = book.Price,
+                };
+
+                models.Add(model);
+            }
+
+            if (books.Count <= 0)
             {
                 throw new ArgumentException("Category not found");
             }
 
-            return books;
+            return models;
         }
 
-        public async Task<IEnumerable<Book>> GetBooksByAuthorAsync(string authorName)
+        public async Task<IEnumerable<AllBooksViewModel>> GetBooksByAuthorAsync(string authorName)
         {
             var books = await bookRepository
                 .AllAsNoTracking()
@@ -125,15 +141,31 @@ namespace BookStore.Core.Services
                 .Where(b => b.Author.Name == authorName)
                 .ToListAsync();
 
-            if (books == null)
+            var models = new List<AllBooksViewModel>();
+
+            foreach (var book in books)
+            {
+                var model = new AllBooksViewModel()
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    ImageUrl = book.ImageUrl,
+                    Author = book.Author.Name,
+                    Price = book.Price,
+                };
+
+                models.Add(model);
+            }
+
+            if (books.Count <= 0)
             {
                 throw new ArgumentException("Author not found");
             }
 
-            return books;
+            return models;
         }
 
-        public async Task<IEnumerable<Book>> GetBooksByPublisherAsync(string publisherName)
+        public async Task<IEnumerable<AllBooksViewModel>> GetBooksByPublisherAsync(string publisherName)
         {
             var books = await bookRepository
                 .AllAsNoTracking()
@@ -144,12 +176,28 @@ namespace BookStore.Core.Services
                 .Where(b => b.Publisher.Name == publisherName)
                 .ToListAsync();
 
-            if (books == null)
+            var models = new List<AllBooksViewModel>();
+
+            foreach (var book in books)
+            {
+                var model = new AllBooksViewModel()
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    ImageUrl = book.ImageUrl,
+                    Author = book.Author.Name,
+                    Price = book.Price,
+                };
+
+                models.Add(model);
+            }
+
+            if (books.Count <= 0)
             {
                 throw new ArgumentException("Publisher not found");
             }
 
-            return books;
+            return models;
         }
     }
 }
