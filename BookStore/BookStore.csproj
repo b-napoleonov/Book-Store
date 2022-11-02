@@ -20,4 +20,8 @@
     <ProjectReference Include="..\BookStore.Core\BookStore.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\plugins\" />
+  </ItemGroup>
+
 </Project>

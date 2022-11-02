@@ -21,9 +21,13 @@
 				<p class="mb-0">Price: @book.Price</p>
 			</div>
 
-			<a asp-action="Details" asp-route-bookId="@book.Id">
+			<a type="button" class="fs-6 btn btn-success mb-3 p-2" asp-action="Details" asp-route-bookId="@book.Id">
 				<span>Book Details</span>
 			</a>
 		</div>
 	}
 </div>
+
+@*<a asp-action="Details" asp-route-bookId="@book.Id">
+	<span>Book Details</span>
+</a>*@

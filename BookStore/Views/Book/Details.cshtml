@@ -1,60 +1,124 @@
 ﻿@model DetailsBookViewModel
 
 @{
-    ViewBag.Title = "Book Details";
+	ViewBag.Title = "Book Details";
 }
 
 <div class="content-wrapper" style="min-height: 2646.8px;">
 
-    <section class="content">
+	<section class="content">
 
-        <div class="card card-solid">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <div class="col-12">
-                            <img src=@Model.ImageUrl class="product-image" alt="Product Image">
-                        </div>
+		<div class="card card-solid">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-12 col-sm-5">
+						<div class="col-12">
+							<img src=@Model.ImageUrl class="product-image" alt="Product Image">
+						</div>
 
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <h3 class="my-3">@Model.Title</h3>
-                        <hr>
+					</div>
+					<div class="col-12 col-sm-7">
+						<h3 class="my-3">@Model.Title</h3>
+						<hr>
 
-                        <div class="bg-gray py-2 px-3 mt-4">
-                            <h2 class="mb-0">
-                                @Model.Price
-                            </h2>
+						<!-- Responsive Hover Table -->
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="card-header">
+										<h3 class="card-title">Responsive Hover Table</h3>
 
-                        </div>
-                        <div class="mt-4">
-                            <div class="btn btn-primary btn-lg btn-flat">
-                                <i class="fas fa-cart-plus fa-lg mr-2"></i>
-                                Add to Cart
-                            </div>
+									</div>
+									<!-- /.card-header -->
+									<div class="card-body">
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th>Year</th>
+													<th>Pages</th>
+													<th>Author</th>
+													<th>Publisher</th>
+													<th>Categories</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>@Model.Year</td>
+													<td>@Model.Pages</td>
+													<td>
+														<a class="link-primary" asp-action="Index" asp-route-authorName="@Model.Author">
+															<span>@Model.Author</span>
+														</a>
+													</td>
+													<td>
+														<a class="link-primary" asp-action="Index" asp-route-authorName="@Model.Publisher">
+															<span>@Model.Publisher</span>
+														</a>
+													</td>
+													@foreach (var category in Model.Categories)
+													{
+														<td>
+															<a class="link-primary" asp-action="Index" asp-route-authorName="@category">
+																<span>@(string.Join(", ", category))</span>
+															</a>
+														</td>
+													}
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<!-- /.card-body -->
+								</div>
+								<!-- /.card -->
+							</div>
+						</div>
+						<!-- Responsive Hover Table -->
 
-                        </div>
+						<div class="bg-gray py-2 px-3 mt-4">
+							<h2 class="mb-0">
+								@Model.Price
+							</h2>
 
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <nav class="w-100">
-                        <div class="nav nav-tabs" id="product-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
-                            <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Comments</a>
-                            <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Rating</a>
-                        </div>
-                    </nav>
-                    <div class="tab-content p-3" id="nav-tabContent">
-                        <div class="tab-pane fade active show" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">@Model.Description</div>
-                        <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab"> Vivamus rhoncus nisl sed venenatis luctus. Sed condimentum risus ut tortor feugiat laoreet. Suspendisse potenti. Donec et finibus sem, ut commodo lectus. Cras eget neque dignissim, placerat orci interdum, venenatis odio. Nulla turpis elit, consequat eu eros ac, consectetur fringilla urna. Duis gravida ex pulvinar mauris ornare, eget porttitor enim vulputate. Mauris hendrerit, massa nec aliquam cursus, ex elit euismod lorem, vehicula rhoncus nisl dui sit amet eros. Nulla turpis lorem, dignissim a sapien eget, ultrices venenatis dolor. Curabitur vel turpis at magna elementum hendrerit vel id dui. Curabitur a ex ullamcorper, ornare velit vel, tincidunt ipsum. </div>
-                        <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab"> Cras ut ipsum ornare, aliquam ipsum non, posuere elit. In hac habitasse platea dictumst. Aenean elementum leo augue, id fermentum risus efficitur vel. Nulla iaculis malesuada scelerisque. Praesent vel ipsum felis. Ut molestie, purus aliquam placerat sollicitudin, mi ligula euismod neque, non bibendum nibh neque et erat. Etiam dignissim aliquam ligula, aliquet feugiat nibh rhoncus ut. Aliquam efficitur lacinia lacinia. Morbi ac molestie lectus, vitae hendrerit nisl. Nullam metus odio, malesuada in vehicula at, consectetur nec justo. Quisque suscipit odio velit, at accumsan urna vestibulum a. Proin dictum, urna ut varius consectetur, sapien justo porta lectus, at mollis nisi orci et nulla. Donec pellentesque tortor vel nisl commodo ullamcorper. Donec varius massa at semper posuere. Integer finibus orci vitae vehicula placerat. </div>
-                    </div>
-                </div>
-            </div>
+						</div>
+						<div class="mt-4">
+							<div class="btn btn-primary btn-lg btn-flat">
+								<i class="fas fa-cart-plus fa-lg mr-2"></i>
+								Add to Cart
+							</div>
 
-        </div>
+						</div>
 
-    </section>
+					</div>
+				</div>
+				<div class="row mt-4">
+					<nav class="w-100">
+						<div class="nav nav-tabs" id="product-tab" role="tablist">
+							<a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
+							<a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Comments</a>
+							<a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Rating</a>
+						</div>
+					</nav>
+					<div class="tab-content p-3" id="nav-tabContent">
+						<div class="tab-pane fade active show" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">@Model.Description</div>
+						<div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab"> Vivamus rhoncus nisl sed venenatis luctus. Sed condimentum risus ut tortor feugiat laoreet. Suspendisse potenti. Donec et finibus sem, ut commodo lectus. Cras eget neque dignissim, placerat orci interdum, venenatis odio. Nulla turpis elit, consequat eu eros ac, consectetur fringilla urna. Duis gravida ex pulvinar mauris ornare, eget porttitor enim vulputate. Mauris hendrerit, massa nec aliquam cursus, ex elit euismod lorem, vehicula rhoncus nisl dui sit amet eros. Nulla turpis lorem, dignissim a sapien eget, ultrices venenatis dolor. Curabitur vel turpis at magna elementum hendrerit vel id dui. Curabitur a ex ullamcorper, ornare velit vel, tincidunt ipsum. </div>
+						<div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab"> Cras ut ipsum ornare, aliquam ipsum non, posuere elit. In hac habitasse platea dictumst. Aenean elementum leo augue, id fermentum risus efficitur vel. Nulla iaculis malesuada scelerisque. Praesent vel ipsum felis. Ut molestie, purus aliquam placerat sollicitudin, mi ligula euismod neque, non bibendum nibh neque et erat. Etiam dignissim aliquam ligula, aliquet feugiat nibh rhoncus ut. Aliquam efficitur lacinia lacinia. Morbi ac molestie lectus, vitae hendrerit nisl. Nullam metus odio, malesuada in vehicula at, consectetur nec justo. Quisque suscipit odio velit, at accumsan urna vestibulum a. Proin dictum, urna ut varius consectetur, sapien justo porta lectus, at mollis nisi orci et nulla. Donec pellentesque tortor vel nisl commodo ullamcorper. Donec varius massa at semper posuere. Integer finibus orci vitae vehicula placerat. </div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</section>
 
 </div>
+
+@section Styles {
+	<link href="~/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" asp-append-version="true">
+	<link href="~/css/adminlte.min.css" rel="stylesheet" asp-append-version="true">
+}
+
+	@section Scripts{
+	<script src="~/plugins/jquery.min.js" asp-append-version="true"></script>
+	<script src="~/plugins/bootstrap.bundle.min.js" asp-append-version="true"></script>
+	<script src="~/js/adminlte.min.js" asp-append-version="true"></script>
+}

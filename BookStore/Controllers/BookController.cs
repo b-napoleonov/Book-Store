@@ -43,7 +43,6 @@ namespace BookStore.Controllers
             {
                 var model = await bookService.GetBookAsync(bookId);
 
-                //ToDo: Add necessary css and JS
                 return View(model);
             }
             catch (ArgumentException ae)
