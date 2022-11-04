@@ -8,11 +8,13 @@ namespace BookStore.Infrastructure.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public Guid BookId { get; set; }
 
         [ForeignKey(nameof(BookId))]
         public Book Book { get; set; } = null!;
 
+        [Required]
         public string UserId { get; set; } = null!;
 
         [ForeignKey(nameof(UserId))]

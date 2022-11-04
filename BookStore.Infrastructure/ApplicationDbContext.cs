@@ -12,48 +12,31 @@ namespace BookStore.Infrastructure
         {
         }
 
-        public DbSet<Author> Authors { get; set; }
+        public DbSet<Author> Authors { get; set; } = null!;
 
-        public DbSet<Book> Books { get; set; }
+        public DbSet<Book> Books { get; set; } = null!;
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; } = null!;
 
-        public DbSet<CategoryBook> CategoryBooks { get; set; }
+        public DbSet<CategoryBook> CategoryBooks { get; set; } = null!;
 
-        public DbSet<Publisher> Publishers { get; set; }
+        public DbSet<Publisher> Publishers { get; set; } = null!;
 
-        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Rating> Ratings { get; set; } = null!;
 
-        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Review> Reviews { get; set; } = null!;
 
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<Order> Orders { get; set; } = null!;
 
-        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; } = null!;
 
-        public DbSet<WarehouseBook> WarehouseBooks { get; set; }
+        public DbSet<WarehouseBook> WarehouseBooks { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<CategoryBook>()
-                .HasKey(k => new
-                {
-                    k.BookId,
-                    k.CategoryId
-                });
-
-            builder.Entity<WarehouseBook>()
-                .HasKey(k => new
-                {
-                    k.BookId,
-                    k.WarehouseId
-                });
-
-            builder.Entity<Rating>()
-                .HasOne(r => r.User)
-                .WithOne(au => au.Rating)
-                .HasForeignKey<ApplicationUser>(au => au.RatingId)
-                .OnDelete(DeleteBehavior.NoAction);
-
+            builder.ApplyConfiguration(new CategoryBookConfiguration());
+            builder.ApplyConfiguration(new RatingConfiguration());
+            builder.ApplyConfiguration(new WarehouseBookConfiguration());
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
 
             base.OnModelCreating(builder);

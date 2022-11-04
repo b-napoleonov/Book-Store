@@ -6,17 +6,20 @@ namespace BookStore.Infrastructure.Models
 {
     public class WarehouseBook : IDeletableEntity
     {
+        [Required]
         public Guid BookId { get; set; }
 
         [ForeignKey(nameof(BookId))]
         public Book Book { get; set; }
 
+        [Required]
         public int WarehouseId { get; set; }
 
         [ForeignKey(nameof(WarehouseId))]
         public Warehouse Warehouse { get; set; }
 
         //Depends of consumption
+        [Required]
         [Range(1, 300)]
         public int Count { get; set; }
 

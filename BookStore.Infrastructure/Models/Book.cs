@@ -1,4 +1,6 @@
 ﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -33,7 +35,10 @@ namespace BookStore.Infrastructure.Models
         [Required]
         public int Year { get; set; }
 
+        //TODO: Try adding migration for that
         [Required]
+        [Column(TypeName = "money")]
+        [Precision(18, 2)]
         public decimal Price { get; set; }
 
         [Required]
@@ -42,11 +47,13 @@ namespace BookStore.Infrastructure.Models
         [Required]
         public string ImageUrl { get; set; } = null!;
 
+        [Required]
         public int AuthorId { get; set; }
 
         [ForeignKey(nameof(AuthorId))]
         public Author Author { get; set; }
 
+        [Required]
         public int PublisherId { get; set; }
 
         [ForeignKey(nameof(PublisherId))]

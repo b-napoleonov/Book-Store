@@ -31,6 +31,7 @@ namespace BookStore.Infrastructure.Models
         [Required]
         public string OrderStatus { get; set; }
 
+        [Required]
         public int Copies { get; set; }
 
         public bool IsDeleted { get; set; }

@@ -22,8 +22,11 @@ namespace BookStore
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 //TODO: Implement account confirmation
-                options.SignIn.RequireConfirmedAccount = false;
-                options.Password.RequiredLength = 5;
+                options.SignIn.RequireConfirmedAccount = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedAccount");
+                options.SignIn.RequireConfirmedEmail = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedEmail");
+                options.SignIn.RequireConfirmedPhoneNumber = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedPhoneNumber");
+                options.Password.RequireNonAlphanumeric = builder.Configuration.GetValue<bool>("Identity:RequireNonAlphanumeric");
+                options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:RequiredLength");
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -68,7 +71,6 @@ namespace BookStore
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapRazorPages();
 
             app.Run();
         }
