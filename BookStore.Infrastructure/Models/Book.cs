@@ -15,6 +15,7 @@ namespace BookStore.Infrastructure.Models
             this.Categories = new HashSet<CategoryBook>();
             this.Ratings = new HashSet<Rating>();
             this.Reviews = new HashSet<Review>();
+            this.BookOrders = new HashSet<BookOrder>();
         }
 
         [Key]
@@ -51,13 +52,13 @@ namespace BookStore.Infrastructure.Models
         public int AuthorId { get; set; }
 
         [ForeignKey(nameof(AuthorId))]
-        public Author Author { get; set; }
+        public Author Author { get; set; } = null!;
 
         [Required]
         public int PublisherId { get; set; }
 
         [ForeignKey(nameof(PublisherId))]
-        public Publisher Publisher { get; set; }
+        public Publisher Publisher { get; set; } = null!;
 
         public bool IsDeleted { get; set; }
 
@@ -70,5 +71,7 @@ namespace BookStore.Infrastructure.Models
         public ICollection<Rating> Ratings { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
+
+        public ICollection<BookOrder> BookOrders { get; set; }
     }
 }

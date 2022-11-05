@@ -39,6 +39,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Details(Guid bookId)
         {
             try

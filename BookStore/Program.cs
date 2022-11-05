@@ -1,7 +1,4 @@
-using BookStore.Core.Contracts;
-using BookStore.Core.Services;
 using BookStore.Infrastructure;
-using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,13 +34,7 @@ namespace BookStore
 
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<IAuthorService, AuthorService>();
-            builder.Services.AddScoped<IBookService, BookService>();
-            builder.Services.AddScoped<ICategoryService, CategoryService>();
-            builder.Services.AddScoped<IPublisherService, PublisherService>();
-            builder.Services.AddScoped<IWarehouseService, WarehouseService>();
-            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            builder.Services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(DeletableEntityRepository<>));
+            builder.Services.AddApplicationServices();
 
             var app = builder.Build();
 

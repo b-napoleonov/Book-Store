@@ -9,6 +9,7 @@ namespace BookStore.Infrastructure.Models
         public Order()
         {
             this.Id = Guid.NewGuid();
+            this.BookOrders = new HashSet<BookOrder>();
         }
 
         [Key]
@@ -20,22 +21,15 @@ namespace BookStore.Infrastructure.Models
         [ForeignKey(nameof(CustomerId))]
         public ApplicationUser Customer { get; set; }
 
-        [Required]
-        public Guid BookId { get; set; }
-
-        [ForeignKey(nameof(BookId))]
-        public Book Book { get; set; }
-
         public DateTime OrderDate { get; set; }
 
         [Required]
         public string OrderStatus { get; set; }
 
-        [Required]
-        public int Copies { get; set; }
-
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public ICollection<BookOrder> BookOrders { get; set; }
     }
 }

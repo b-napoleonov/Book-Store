@@ -11,6 +11,7 @@ namespace BookStore.Infrastructure.Models
         {
             this.Id = Guid.NewGuid().ToString();
             this.Reviews = new HashSet<Review>();
+            this.Orders = new HashSet<Order>();
         }
 
         [MaxLength(50)]
@@ -29,5 +30,7 @@ namespace BookStore.Infrastructure.Models
         public Rating? Rating { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
     }
 }
