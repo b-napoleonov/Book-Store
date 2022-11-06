@@ -10,13 +10,13 @@ namespace BookStore.Infrastructure.Models
         public Guid BookId { get; set; }
 
         [ForeignKey(nameof(BookId))]
-        public Book Book { get; set; }
+        public Book Book { get; set; } = null!;
 
         [Required]
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
-        public Category Category { get; set; }
+        public Category Category { get; set; } = null!;
 
         public bool IsDeleted { get; set; }
 

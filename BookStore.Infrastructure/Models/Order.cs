@@ -16,15 +16,15 @@ namespace BookStore.Infrastructure.Models
         public Guid Id { get; set; }
 
         [Required]
-        public string CustomerId { get; set; }
+        public string CustomerId { get; set; } = null!;
 
         [ForeignKey(nameof(CustomerId))]
-        public ApplicationUser Customer { get; set; }
+        public ApplicationUser Customer { get; set; } = null!;
 
         public DateTime OrderDate { get; set; }
 
         [Required]
-        public string OrderStatus { get; set; }
+        public string OrderStatus { get; set; } = null!;
 
         public bool IsDeleted { get; set; }
 

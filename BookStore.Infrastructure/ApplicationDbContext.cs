@@ -16,6 +16,8 @@ namespace BookStore.Infrastructure
 
         public DbSet<Book> Books { get; set; } = null!;
 
+        public DbSet<BookOrder> BookOrders { get; set; } = null!;
+
         public DbSet<Category> Categories { get; set; } = null!;
 
         public DbSet<CategoryBook> CategoryBooks { get; set; } = null!;
@@ -27,8 +29,6 @@ namespace BookStore.Infrastructure
         public DbSet<Review> Reviews { get; set; } = null!;
 
         public DbSet<Order> Orders { get; set; } = null!;
-
-        public DbSet<BookOrder> BookOrders { get; set; } = null!;
 
         public DbSet<Warehouse> Warehouses { get; set; } = null!;
 

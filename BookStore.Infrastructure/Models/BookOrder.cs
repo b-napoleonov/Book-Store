@@ -13,10 +13,10 @@ namespace BookStore.Infrastructure.Models
         public Book Book { get; set; } = null!;
 
         [Required]
-        public int CategoryId { get; set; }
+        public Guid OrderId { get; set; }
 
-        [ForeignKey(nameof(CategoryId))]
-        public Category Category { get; set; } = null!;
+        [ForeignKey(nameof(OrderId))]
+        public Order Order { get; set; } = null!;
 
         public int Copies { get; set; }
 

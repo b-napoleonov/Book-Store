@@ -1,22 +1,49 @@
-﻿using BookStore.Core.Contracts;
+﻿using BookStore.Core.Constants;
+using BookStore.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
 {
-	public class OrderController : BaseController
-	{
-		private readonly IOrderService orderService;
+    public class OrderController : BaseController
+    {
+        private readonly IOrderService orderService;
 
-		public OrderController(IOrderService _orderService)
-		{
-			orderService = _orderService;
-		}
+        public OrderController(IOrderService _orderService)
+        {
+            orderService = _orderService;
+        }
 
-		public async Task<IActionResult> Order(Guid bookId)
-		{
-			await orderService.AddOrderAsync(bookId, GetCurrentUserId());
-			//TODO: Add order and refresh the page
-			return View();
-		}
-	}
+        public async Task<IActionResult> Order(Guid bookId)
+        {
+            try
+            {
+                if (await orderService.CheckUserOrderAsync(GetCurrentUserId()))
+                {
+                    if (await orderService.CheckBookOrderAsync(bookId))
+                    {
+                        await orderService.AddCopiesToOrderAsync(bookId, GetCurrentUserId());
+                    }
+                    else
+                    {
+                        await orderService.AddNewBookToOrderAsync(bookId, GetCurrentUserId());
+                    }
+
+                    TempData[MessageConstant.SuccessMessage] = "Book added to your cart.";
+
+                    return RedirectToAction("Index", "Book");
+                }
+
+                TempData[MessageConstant.SuccessMessage] = "Book added to your cart.";
+
+                await orderService.AddNewOrderAsync(bookId, GetCurrentUserId());
+
+                return RedirectToAction("Index", "Book");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+    }
 }

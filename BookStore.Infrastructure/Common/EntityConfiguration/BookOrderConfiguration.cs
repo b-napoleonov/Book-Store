@@ -11,7 +11,7 @@ namespace BookStore.Infrastructure.Common.EntityConfiguration
             builder.HasKey(k => new
             {
                 k.BookId,
-                k.CategoryId
+                k.OrderId
             });
         }
 	}

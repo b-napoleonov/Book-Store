@@ -10,13 +10,13 @@ namespace BookStore.Infrastructure.Models
         public Guid BookId { get; set; }
 
         [ForeignKey(nameof(BookId))]
-        public Book Book { get; set; }
+        public Book Book { get; set; } = null!;
 
         [Required]
         public int WarehouseId { get; set; }
 
         [ForeignKey(nameof(WarehouseId))]
-        public Warehouse Warehouse { get; set; }
+        public Warehouse Warehouse { get; set; } = null!;
 
         //Depends of consumption
         [Required]
