@@ -1,4 +1,4 @@
-﻿using BookStore.Infrastructure.Models;
+﻿using BookStore.Core.Models.Order;
 
 namespace BookStore.Core.Contracts
 {
@@ -13,5 +13,7 @@ namespace BookStore.Core.Contracts
 		Task AddCopiesToOrderAsync(Guid bookId, string userId);
 
 		Task AddNewBookToOrderAsync(Guid bookId, string userId);
+
+        Task<IEnumerable<OrderViewModel>> GetUserOrdersAsync(string userId);
     }
 }

@@ -13,6 +13,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IPublisherService, PublisherService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IWarehouseService, WarehouseService>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(DeletableEntityRepository<>));

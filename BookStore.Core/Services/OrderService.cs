@@ -1,4 +1,5 @@
 ﻿using BookStore.Core.Contracts;
+using BookStore.Core.Models.Order;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,8 @@ namespace BookStore.Core.Services
 			var order = new Order
 			{
 				CustomerId = userId,
-				OrderStatus = "Accepted"
+				OrderStatus = "Accepted",
+				OrderDate = DateTime.UtcNow,
             };
 
 			order.BookOrders.Add(new BookOrder
@@ -88,5 +90,22 @@ namespace BookStore.Core.Services
 
             await orderRepository.SaveChangesAsync();
         }
+
+		public async Task<IEnumerable<OrderViewModel>> GetUserOrdersAsync(string userId)
+		{
+			return await orderRepository
+				.AllAsNoTracking()
+				.Include(o => o.BookOrders)
+				.ThenInclude(o => o.Book)
+				.Where(o => o.CustomerId == userId)
+				.Select(o => new OrderViewModel
+				{
+					Title = o.BookOrders.Select(bo => bo.Book.Title).First(),
+					Price = o.BookOrders.Select(bo => bo.Book.Price).First(),
+					ImageUrl = o.BookOrders.Select(bo => bo.Book.ImageUrl).First(),
+					Copies = o.BookOrders.Select(bo => bo.Copies).First()
+				})
+				.ToListAsync();
+		}
 	}
 }

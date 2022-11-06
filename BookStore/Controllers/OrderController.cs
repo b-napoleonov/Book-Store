@@ -39,11 +39,18 @@ namespace BookStore.Controllers
 
                 return RedirectToAction("Index", "Book");
             }
-            catch (Exception)
+            catch (ArgumentException ae)
             {
-
-                throw;
+                return View("Error404");
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Cart()
+        {
+            var model = await orderService.GetUserOrdersAsync(GetCurrentUserId());
+
+            return View(model);
         }
     }
 }
