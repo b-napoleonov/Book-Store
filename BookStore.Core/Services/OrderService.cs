@@ -9,15 +9,36 @@ namespace BookStore.Core.Services
 	public class OrderService : IOrderService
 	{
 		private readonly IDeletableEntityRepository<Order> orderRepository;
+		private readonly IBookService bookService;
+		private readonly IUserService userService;
 
-		public OrderService(IDeletableEntityRepository<Order> _orderRepository)
+		public OrderService(
+			IDeletableEntityRepository<Order> _orderRepository,
+			IBookService _bookService,
+			IUserService _userService)
 		{
 			orderRepository = _orderRepository;
+			bookService = _bookService;
+			userService = _userService;
 		}
 
 		public async Task AddNewOrderAsync(Guid bookId, string userId)
 		{
-			var order = new Order
+            var book = await bookService.GetBookByIdAsync(bookId);
+
+            if (book == null)
+            {
+                throw new ArgumentException("Invalid Book.");
+            }
+
+            var user = await userService.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid User.");
+            }
+
+            var order = new Order
 			{
 				CustomerId = userId,
 				OrderStatus = "Accepted",
@@ -36,7 +57,21 @@ namespace BookStore.Core.Services
 
 		public async Task AddCopiesToOrderAsync(Guid bookId, string userId)
 		{
-			var bookOrder = await orderRepository
+            var book = await bookService.GetBookByIdAsync(bookId);
+
+            if (book == null)
+            {
+                throw new ArgumentException("Invalid Book.");
+            }
+
+            var user = await userService.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid User.");
+            }
+
+            var bookOrder = await orderRepository
 				.All()
 				.Include(o => o.BookOrders)
 				.Where(o => o.CustomerId == userId)
@@ -71,7 +106,21 @@ namespace BookStore.Core.Services
 
 		public async Task AddNewBookToOrderAsync(Guid bookId, string userId)
 		{
-			var customerOrder = await orderRepository
+            var book = await bookService.GetBookByIdAsync(bookId);
+
+            if (book == null)
+            {
+                throw new ArgumentException("Invalid Book.");
+            }
+
+            var user = await userService.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid User.");
+            }
+
+            var customerOrder = await orderRepository
 				.All()
 				.Where(o => o.CustomerId == userId)
 				.FirstOrDefaultAsync();
@@ -93,7 +142,14 @@ namespace BookStore.Core.Services
 
 		public async Task<IEnumerable<OrderViewModel>> GetUserOrdersAsync(string userId)
 		{
-			return await orderRepository
+            var user = await userService.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid User.");
+            }
+
+            return await orderRepository
 				.AllAsNoTracking()
 				.Include(o => o.BookOrders)
 				.ThenInclude(o => o.Book)

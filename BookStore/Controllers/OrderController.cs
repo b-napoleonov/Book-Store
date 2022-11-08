@@ -33,9 +33,9 @@ namespace BookStore.Controllers
                     return RedirectToAction("Index", "Book");
                 }
 
-                TempData[MessageConstant.SuccessMessage] = "Book added to your cart.";
-
                 await orderService.AddNewOrderAsync(bookId, GetCurrentUserId());
+
+                TempData[MessageConstant.SuccessMessage] = "Book added to your cart.";
 
                 return RedirectToAction("Index", "Book");
             }

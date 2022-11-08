@@ -72,6 +72,7 @@ namespace BookStore.Core.Services
                 .Include(b => b.Publisher)
                 .Include(b => b.Categories)
                 .ThenInclude(b => b.Category)
+                .Include(b => b.Reviews)
                 .Where(x => x.Id == bookId)
                 .FirstOrDefaultAsync();
 
@@ -92,6 +93,7 @@ namespace BookStore.Core.Services
                 Author = book.Author.Name,
                 Publisher = book.Publisher.Name,
                 Categories = book.Categories.Select(c => c.Category.Name).ToList(),
+                Reviews = book.Reviews.Select(r => r.UserReview)
             };
         }
 
@@ -198,6 +200,21 @@ namespace BookStore.Core.Services
             }
 
             return models;
+        }
+
+        public async Task<Book> GetBookByIdAsync(Guid bookId)
+        {
+            var book = await bookRepository
+                .AllAsNoTracking()
+                .Where(b => b.Id == bookId)
+                .FirstOrDefaultAsync();
+
+            if (book == null)
+            {
+                throw new ArgumentException("Invalid Book Id");
+            }
+
+            return book;
         }
     }
 }

@@ -28,5 +28,20 @@ namespace BookStore.Core.Services
 
 			return currentUser.Orders.Count;
 		}
+
+		public async Task<ApplicationUser> GetUserByIdAsync(string userId)
+		{
+			var user = await userRepository
+				.AllAsNoTracking()
+				.Where(u => u.Id == userId)
+				.FirstOrDefaultAsync();
+
+			if (user == null)
+			{
+				throw new ArgumentException("Invalid User Id");
+			}
+
+			return user;
+		}
 	}
 }

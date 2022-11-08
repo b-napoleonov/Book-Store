@@ -26,5 +26,7 @@
         public string Publisher { get; set; } = null!;
 
         public IEnumerable<string> Categories { get; set; } = null!;
+
+        public IEnumerable<string> Reviews { get; set; } = null!;
     }
 }
