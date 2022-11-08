@@ -22,7 +22,7 @@ namespace BookStore.Core.Services
 			userService = _userService;
 		}
 
-		public async Task AddReviewAsync(AddReviewViewModel model, Guid bookId, string userId)
+		public async Task AddReviewAsync(ReviewViewModel model, Guid bookId, string userId)
 		{
 			var book = await bookService.GetBookByIdAsync(bookId);
 
@@ -49,11 +49,47 @@ namespace BookStore.Core.Services
 			await reviewRepository.SaveChangesAsync();
 		}
 
+		public async Task DeleteReviewAsync(int reviewId, string userId)
+		{
+			var review = await reviewRepository
+				.All()
+				.Where(r => r.Id == reviewId)
+				.FirstOrDefaultAsync();
+
+			if (review == null)
+			{
+				throw new ArgumentException("Invalid Review Id.");
+			}
+
+			if (review.UserId != userId)
+			{
+                throw new ArgumentException("You are not the review owner.");
+            }
+
+			reviewRepository.Delete(review);
+			await reviewRepository.SaveChangesAsync();
+		}
+
 		public async Task<IEnumerable<Review>> GetAllReviewsAsync()
 		{
 			return await reviewRepository
 				.AllAsNoTracking()
 				.ToListAsync();
+		}
+
+		public async Task<Review> GetReviewByIdAsync(int reviewId)
+		{
+			var review = await reviewRepository
+				.AllAsNoTracking()
+				.Where(r => r.Id == reviewId)
+				.FirstOrDefaultAsync();
+
+			if (review == null)
+			{
+                throw new ArgumentException("Invalid review Id.");
+            }
+
+			return review;
 		}
 
 		public async Task<IEnumerable<Review>> GetUserReviewsAsync(string userId)
@@ -70,5 +106,29 @@ namespace BookStore.Core.Services
 				.Where(r => r.UserId == userId)
 				.ToListAsync();
 		}
+
+		public async Task<Review> UpdateReviewAsync(ReviewViewModel model, int reviewId, string userId)
+		{
+            var review = await reviewRepository
+                .All()
+                .Where(r => r.Id == reviewId)
+                .FirstOrDefaultAsync();
+
+            if (review == null)
+            {
+                throw new ArgumentException("Invalid Review Id.");
+            }
+
+            if (review.UserId != userId)
+            {
+                throw new ArgumentException("You are not the review owner.");
+            }
+
+            review.UserReview = model.UserReview;
+
+			await reviewRepository.SaveChangesAsync();
+
+			return review;
+        }
 	}
 }

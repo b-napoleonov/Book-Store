@@ -9,6 +9,12 @@ namespace BookStore.Core.Contracts
 
 		Task<IEnumerable<Review>> GetAllReviewsAsync();
 
-		Task AddReviewAsync(AddReviewViewModel model, Guid bookId, string userId);
+		Task<Review> GetReviewByIdAsync(int reviewId);
+
+		Task AddReviewAsync(ReviewViewModel model, Guid bookId, string userId);
+
+		Task DeleteReviewAsync(int reviewId, string userId);
+
+		Task<Review> UpdateReviewAsync(ReviewViewModel model, int reviewId, string userId);
 	}
 }

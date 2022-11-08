@@ -18,12 +18,19 @@
 				<p class="mb-0">Price: @book.Price</p>
 			</div>
 
+			<div>
 			<a type="button" class="fs-6 btn btn-success mb-3 p-2" asp-controller="Order" asp-action="Order" asp-route-bookId="@book.Id">
+				<i class="fas fa-cart-plus"></i>
 				<span>Order</span>
 			</a>
+			</div>
 		</div>
 	}
 </div>
+
+@section Styles {
+	<link href="~/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" asp-append-version="true">
+}
 
 @*<a asp-action="Details" asp-route-bookId="@book.Id">
 	<span>Book Details</span>
