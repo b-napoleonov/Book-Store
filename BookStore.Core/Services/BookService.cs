@@ -73,6 +73,7 @@ namespace BookStore.Core.Services
                 .Include(b => b.Categories)
                 .ThenInclude(b => b.Category)
                 .Include(b => b.Reviews)
+                .ThenInclude(b => b.User)
                 .Where(x => x.Id == bookId)
                 .FirstOrDefaultAsync();
 
@@ -93,7 +94,13 @@ namespace BookStore.Core.Services
                 Author = book.Author.Name,
                 Publisher = book.Publisher.Name,
                 Categories = book.Categories.Select(c => c.Category.Name).ToList(),
-                Reviews = book.Reviews.Select(r => r.UserReview)
+                Reviews = book.Reviews.Select(r => new Models.Review.DetailsReviewViewModel
+                {
+                    ReviewId = book.Reviews.Select(r => r.Id).FirstOrDefault(),
+                    OwnerId = book.Reviews.Select(r => r.UserId).FirstOrDefault(),
+                    UserReview = book.Reviews.Select(r => r.UserReview).FirstOrDefault(),
+                    UserEmail = book.Reviews.Select(r => r.User.Email).FirstOrDefault()
+                })
             };
         }
 

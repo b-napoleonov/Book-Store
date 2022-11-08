@@ -1,4 +1,6 @@
-﻿namespace BookStore.Core.Models.Book
+﻿using BookStore.Core.Models.Review;
+
+namespace BookStore.Core.Models.Book
 {
     public class DetailsBookViewModel
     {
@@ -27,6 +29,6 @@
 
         public IEnumerable<string> Categories { get; set; } = null!;
 
-        public IEnumerable<string> Reviews { get; set; } = null!;
+        public IEnumerable<DetailsReviewViewModel> Reviews { get; set; } = null!;
     }
 }

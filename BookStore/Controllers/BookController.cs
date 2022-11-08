@@ -46,6 +46,10 @@ namespace BookStore.Controllers
             {
                 var model = await bookService.GetBookAsync(bookId);
 
+                string userId = GetCurrentUserId();
+
+                ViewData["UserId"] = userId;
+
                 return View(model);
             }
             catch (ArgumentException ae)

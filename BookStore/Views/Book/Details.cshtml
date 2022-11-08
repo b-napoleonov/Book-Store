@@ -104,7 +104,21 @@
 
 								@foreach (var review in Model.Reviews)
 								{
-									<span>@review</span>
+									<div class="card" style="width: 18rem;">
+										<div class="card-body">
+											<h5 class="card-title">@review.UserEmail</h5>
+											<p class="card-text">@review.UserReview</p>
+											@if (review.OwnerId == (string)ViewData["UserId"])
+											{
+												<a type="button" class="fs-6 btn btn-warning mb-3 p-2" asp-controller="Review" asp-action="Edit" asp-route-bookId="@review.ReviewId">
+													<span>Edit Review</span>
+												</a>
+												<a type="button" class="fs-6 btn btn-danger mb-3 p-2" asp-controller="Review" asp-action="Delete" asp-route-bookId="@review.ReviewId">
+													<span>Delete Review</span>
+												</a>
+											}
+										</div>
+									</div>
 									<br>
 								}
 
