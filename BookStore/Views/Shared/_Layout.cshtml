@@ -37,9 +37,20 @@
 							</li>
 						}
 					</ul>
-					<a type="button" class="btn btn-warning position-relative" asp-controller="Order" asp-action="Cart">
-						Orders <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge bg-danger">69</span>
-					</a>
+					@if (User?.Identity?.IsAuthenticated ?? false)
+					{
+						@await Component.InvokeAsync(typeof(OrderCountViewComponent));
+						@*@await Component.InvokeAsync(nameof(OrderCountViewComponent));*@
+					}
+					else
+					{
+						<a type="button" class="btn btn-warning position-relative" asp-controller="Order" asp-action="Cart">
+							Orders 
+						</a>
+					}
+					@*<a type="button" class="btn btn-warning position-relative" asp-controller="Order" asp-action="Cart">
+					Orders <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge bg-danger">69</span>
+					</a>*@
 					<partial name="_LoginPartial" />
 				</div>
 			</div>

@@ -5,43 +5,47 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Core.Services
 {
-	public class UserService : IUserService
-	{
-		private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
+    public class UserService : IUserService
+    {
+        private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
-		public UserService(IDeletableEntityRepository<ApplicationUser> _userRepository)
-		{
-			userRepository = _userRepository;
-		}
+        public UserService(IDeletableEntityRepository<ApplicationUser> _userRepository)
+        {
+            userRepository = _userRepository;
+        }
 
-		public async Task<int> GetOrdersCountAsync(string userId)
-		{
-			var currentUser = await userRepository
-				.AllAsNoTracking()
-				.Where(u => u.Id == userId)
-				.FirstOrDefaultAsync();
+        public async Task<int> GetOrdersCountAsync(string userId)
+        {
+            var currentUser = await userRepository
+                .AllAsNoTracking()
+                .Include(x => x.Orders)
+                .ThenInclude(u => u.BookOrders)
+                .Where(u => u.Id == userId)
+                .FirstOrDefaultAsync();
 
-			if (currentUser == null)
-			{
+            if (currentUser == null)
+            {
                 throw new ArgumentException("Invalid user.");
             }
 
-			return currentUser.Orders.Count;
-		}
+            var booksOrdered = currentUser.Orders.Select(o => o.BookOrders.Sum(bo => bo.Copies)).Sum();
 
-		public async Task<ApplicationUser> GetUserByIdAsync(string userId)
-		{
-			var user = await userRepository
-				.AllAsNoTracking()
-				.Where(u => u.Id == userId)
-				.FirstOrDefaultAsync();
+            return booksOrdered;
+        }
 
-			if (user == null)
-			{
-				throw new ArgumentException("Invalid User Id");
-			}
+        public async Task<ApplicationUser> GetUserByIdAsync(string userId)
+        {
+            var user = await userRepository
+                .AllAsNoTracking()
+                .Where(u => u.Id == userId)
+                .FirstOrDefaultAsync();
 
-			return user;
-		}
-	}
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid User Id");
+            }
+
+            return user;
+        }
+    }
 }

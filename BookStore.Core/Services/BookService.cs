@@ -94,7 +94,8 @@ namespace BookStore.Core.Services
                 Author = book.Author.Name,
                 Publisher = book.Publisher.Name,
                 Categories = book.Categories.Select(c => c.Category.Name).ToList(),
-                Reviews = book.Reviews.Select(r => new Models.Review.DetailsReviewViewModel
+                //TODO: Add method to review service to generate DetailsReviewViewModel
+                Reviews = book.Reviews.Where(r => r.IsDeleted == false).Select(r => new Models.Review.DetailsReviewViewModel
                 {
                     ReviewId = book.Reviews.Select(r => r.Id).FirstOrDefault(),
                     OwnerId = book.Reviews.Select(r => r.UserId).FirstOrDefault(),

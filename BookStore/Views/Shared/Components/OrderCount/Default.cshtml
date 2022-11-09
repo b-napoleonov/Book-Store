@@ -1,0 +1,5 @@
+﻿@model OrderCountViewModel
+
+<a type="button" class="btn btn-warning position-relative" asp-controller="Order" asp-action="Cart">
+	Orders <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge bg-danger">@Model.OrderCount</span>
+</a>

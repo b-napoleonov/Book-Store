@@ -110,12 +110,12 @@
 											<p class="card-text">@review.UserReview</p>
 											@if (review.OwnerId == (string)ViewData["UserId"])
 											{
-												<a type="button" class="fs-6 btn btn-warning mb-3 p-2" asp-controller="Review" asp-action="Edit" asp-route-bookId="@review.ReviewId">
+												<a type="button" class="fs-6 btn btn-warning mb-3 p-2" asp-controller="Review" asp-action="Edit" asp-route-reviewId="@review.ReviewId">
 													<span>Edit Review</span>
 												</a>
-												<a type="button" class="fs-6 btn btn-danger mb-3 p-2" asp-controller="Review" asp-action="Delete" asp-route-bookId="@review.ReviewId">
-													<span>Delete Review</span>
-												</a>
+												<form class="input-group-sm" asp-controller="Review" asp-action="Delete" asp-route-reviewId="@review.ReviewId">
+													<input type="submit" value="Delete" class="fs-6 btn btn-danger mb-3 p-2" />
+												</form>
 											}
 										</div>
 									</div>
