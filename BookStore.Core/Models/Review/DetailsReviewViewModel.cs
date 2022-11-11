@@ -4,7 +4,7 @@
 	{
 		public int ReviewId { get; set; }
 
-        public string OwnerId { get; set; }
+        public string OwnerId { get; set; } = null!;
 
         public string UserReview { get; set; } = null!;
 

@@ -15,5 +15,7 @@ namespace BookStore.Core.Contracts
 		Task AddNewBookToOrderAsync(Guid bookId, string userId);
 
         Task<IEnumerable<OrderViewModel>> GetUserOrdersAsync(string userId);
+
+		Task RemoveUserOrdersAsync(Guid bookId, string userId);
     }
 }

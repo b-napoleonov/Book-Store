@@ -153,15 +153,54 @@ namespace BookStore.Core.Services
 				.AllAsNoTracking()
 				.Include(o => o.BookOrders)
 				.ThenInclude(o => o.Book)
+				.ThenInclude(o => o.Author)
 				.Where(o => o.CustomerId == userId)
 				.Select(o => new OrderViewModel
 				{
+					BookId = o.BookOrders.Select(bo => bo.BookId).First(),
 					Title = o.BookOrders.Select(bo => bo.Book.Title).First(),
+					Author = o.BookOrders.Select(bo => bo.Book.Author.Name).First(),
 					Price = o.BookOrders.Select(bo => bo.Book.Price).First(),
 					ImageUrl = o.BookOrders.Select(bo => bo.Book.ImageUrl).First(),
 					Copies = o.BookOrders.Select(bo => bo.Copies).First()
 				})
 				.ToListAsync();
 		}
+
+		public async Task RemoveUserOrdersAsync(Guid bookId, string userId)
+		{
+            var book = await bookService.GetBookByIdAsync(bookId);
+
+            if (book == null)
+            {
+                throw new ArgumentException("Invalid Book.");
+            }
+
+            var user = await userService.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid User.");
+            }
+
+            var bookOrder = await orderRepository
+                .All()
+				.Include(o => o.BookOrders)
+                .Where(o => o.CustomerId == userId)
+				.SelectMany(o => o.BookOrders)
+                .FirstOrDefaultAsync();
+
+            if (bookOrder == null)
+            {
+                throw new ArgumentException("Invalid order.");
+            }
+
+            if (bookOrder.Copies > 0)
+			{
+                bookOrder.Copies--;
+			}
+
+			await orderRepository.SaveChangesAsync();
+        }
 	}
 }

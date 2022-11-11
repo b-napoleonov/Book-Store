@@ -1,0 +1,60 @@
+﻿@model IEnumerable<OrderViewModel>
+
+@{
+	ViewBag.Title = "Cart";
+}
+
+<div class="text-center row">
+	@foreach (var order in Model)
+	{
+		<div class="card mb-3" style="max-width: 540px;">
+			<div class="row g-0">
+				<div class="col-md-4">
+					<img class="img-thumbnail img-fluid" src=@order.ImageUrl alt="...">
+				</div>
+				<div class="col-md-8">
+					<div class="card-body">
+						<h5 class="card-title">@order.Title</h5>
+						<p class="card-text"><small class="text-muted">@order.Author</small></p>
+						<p id="price" class="card-text">Price: @order.Price</p>
+						<div class="container">
+							<div class="row">
+								<div class="col">
+									<a type="button" class="position-relative" asp-controller="Order" asp-action="Remove" asp-route-bookId="@order.BookId">
+										<i class="fas fa-arrow-left"></i>
+									</a>
+								</div>
+								<div id="copies" class="col">
+									@order.Copies
+								</div>
+								<div class="col">
+									<a type="button" class="position-relative" asp-controller="Order" asp-action="Order" asp-route-bookId="@order.BookId">
+										<i class="fas fa-arrow-right"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+<div class="table table-striped">
+	<table class="table caption-top">
+		<thead>
+			<tr>
+				<th scope="col">Total:</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td id="total">Mark</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+@section Scripts{
+
+}

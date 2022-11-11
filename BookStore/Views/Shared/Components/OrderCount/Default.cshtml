@@ -1,5 +1,10 @@
 ﻿@model OrderCountViewModel
 
-<a type="button" class="btn btn-warning position-relative" asp-controller="Order" asp-action="Cart">
-	Orders <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge bg-danger">@Model.OrderCount</span>
+<a type="button" class="position-relative" asp-controller="Order" asp-action="Cart">
+	<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge bg-danger">@Model.OrderCount</span>
+	<i class="fas fa-shopping-cart"></i>
 </a>
+
+@*<a type="button" class="btn btn-warning position-relative" asp-controller="Order" asp-action="Cart">
+	Orders <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge bg-danger">@Model.OrderCount</span>
+</a>*@

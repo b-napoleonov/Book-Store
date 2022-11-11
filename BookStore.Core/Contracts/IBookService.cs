@@ -18,5 +18,7 @@ namespace BookStore.Core.Contracts
         Task<IEnumerable<AllBooksViewModel>> GetBooksByPublisherAsync(string publisherName);
 
         Task<Book> GetBookByIdAsync(Guid bookId);
+
+        Task<double> GetBookRating(Guid bookId);
     }
 }

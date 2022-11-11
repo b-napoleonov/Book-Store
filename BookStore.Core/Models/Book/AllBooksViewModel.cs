@@ -11,5 +11,7 @@
         public string Author { get; set; } = null!;
 
         public decimal Price { get; set; }
+
+        public double Rating { get; set; }
     }
 }

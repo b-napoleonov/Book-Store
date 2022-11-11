@@ -21,6 +21,8 @@ namespace BookStore.Core.Models.Book
 
         public int Pages { get; set; }
 
+        public double Rating { get; set; }
+
         public string ImageUrl { get; set; } = null!;
 
         public string Author { get; set; } = null!;

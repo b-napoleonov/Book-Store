@@ -52,7 +52,9 @@ namespace BookStore.Core.Services
 
         public async Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync()
         {
-            return await bookRepository.AllAsNoTracking()
+            return await bookRepository
+                .AllAsNoTracking()
+                .Include(b => b.Ratings)
                 .Select(b => new AllBooksViewModel
                 {
                     Id = b.Id,
@@ -60,6 +62,7 @@ namespace BookStore.Core.Services
                     ImageUrl = b.ImageUrl,
                     Author = b.Author.Name,
                     Price = b.Price,
+                    Rating = b.Ratings.Average(r => r.UserRating)
                 })
                 .ToListAsync();
         }
@@ -74,6 +77,7 @@ namespace BookStore.Core.Services
                 .ThenInclude(b => b.Category)
                 .Include(b => b.Reviews)
                 .ThenInclude(b => b.User)
+                .Include(b => b.Ratings)
                 .Where(x => x.Id == bookId)
                 .FirstOrDefaultAsync();
 
@@ -90,6 +94,7 @@ namespace BookStore.Core.Services
                 Year = book.Year,
                 Price = book.Price,
                 Pages = book.Pages,
+                Rating = book.Ratings.Average(r => r.UserRating),
                 ImageUrl = book.ImageUrl,
                 Author = book.Author.Name,
                 Publisher = book.Publisher.Name,
@@ -113,6 +118,7 @@ namespace BookStore.Core.Services
                 .ThenInclude(cb => cb.Category)
                 .Include(b => b.Author)
                 .Include(b => b.Publisher)
+                .Include(b => b.Ratings)
                 .Where(b => b.Categories.Select(cb => cb.Category.Name == categoryName).FirstOrDefault())
                 .ToListAsync();
 
@@ -127,6 +133,7 @@ namespace BookStore.Core.Services
                     ImageUrl = book.ImageUrl,
                     Author = book.Author.Name,
                     Price = book.Price,
+                    Rating = book.Ratings.Average(r => r.UserRating)
                 };
 
                 models.Add(model);
@@ -148,6 +155,7 @@ namespace BookStore.Core.Services
                 .ThenInclude(cb => cb.Category)
                 .Include(b => b.Author)
                 .Include(b => b.Publisher)
+                .Include(b => b.Ratings)
                 .Where(b => b.Author.Name == authorName)
                 .ToListAsync();
 
@@ -162,6 +170,7 @@ namespace BookStore.Core.Services
                     ImageUrl = book.ImageUrl,
                     Author = book.Author.Name,
                     Price = book.Price,
+                    Rating = book.Ratings.Average(r => r.UserRating)
                 };
 
                 models.Add(model);
@@ -183,6 +192,7 @@ namespace BookStore.Core.Services
                 .ThenInclude(cb => cb.Category)
                 .Include(b => b.Author)
                 .Include(b => b.Publisher)
+                .Include(b => b.Ratings)
                 .Where(b => b.Publisher.Name == publisherName)
                 .ToListAsync();
 
@@ -197,6 +207,7 @@ namespace BookStore.Core.Services
                     ImageUrl = book.ImageUrl,
                     Author = book.Author.Name,
                     Price = book.Price,
+                    Rating = book.Ratings.Average(r => r.UserRating)
                 };
 
                 models.Add(model);
@@ -223,6 +234,22 @@ namespace BookStore.Core.Services
             }
 
             return book;
+        }
+
+        public async Task<double> GetBookRating(Guid bookId)
+        {
+            var book = await bookRepository
+                .AllAsNoTracking()
+                .Include(b => b.Ratings)
+                .Where(b => b.Id == bookId)
+                .FirstOrDefaultAsync();
+
+            if (book == null)
+            {
+                throw new ArgumentException("Invalid Book Id");
+            }
+
+            return book.Ratings.Average(r => r.UserRating);
         }
     }
 }

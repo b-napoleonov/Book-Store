@@ -22,7 +22,7 @@ namespace BookStore.Infrastructure.Models
         public ApplicationUser User { get; set; } = null!;
 
         [Required]
-        public int UserRating { get; set; }
+        public double UserRating { get; set; }
 
         public bool IsDeleted { get; set; }
 

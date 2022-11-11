@@ -45,6 +45,24 @@ namespace BookStore.Controllers
             }
         }
 
+        public async Task<IActionResult> Remove(Guid bookId)
+        {
+            try
+            {
+                string userId = GetCurrentUserId();
+
+                await orderService.RemoveUserOrdersAsync(bookId, userId);
+
+                TempData[MessageConstant.WarningMessage] = "Order removed successfully.";
+
+                return RedirectToAction(nameof(Cart));
+            }
+            catch (Exception)
+            {
+                return View("Error404");
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> Cart()
         {

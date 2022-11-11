@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="~/BookStore.styles.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/lib/toastr/toastr.min.css" />
 	<link rel="stylesheet" href="~/css/adminlte.min.css" />
+	<link href="~/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" asp-append-version="true">
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	@await RenderSectionAsync("Styles", required: false)
 </head>
@@ -39,18 +40,15 @@
 					</ul>
 					@if (User?.Identity?.IsAuthenticated ?? false)
 					{
-						@await Component.InvokeAsync(typeof(OrderCountViewComponent));
-						@*@await Component.InvokeAsync(nameof(OrderCountViewComponent));*@
+						<vc:order-count>
+						</vc:order-count>
 					}
 					else
 					{
-						<a type="button" class="btn btn-warning position-relative" asp-controller="Order" asp-action="Cart">
-							Orders 
+						<a type="button" class="position-relative" asp-controller="Order" asp-action="Cart">
+							<i class="fas fa-shopping-cart"></i>
 						</a>
 					}
-					@*<a type="button" class="btn btn-warning position-relative" asp-controller="Order" asp-action="Cart">
-					Orders <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge bg-danger">69</span>
-					</a>*@
 					<partial name="_LoginPartial" />
 				</div>
 			</div>
