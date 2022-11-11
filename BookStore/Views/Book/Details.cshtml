@@ -26,7 +26,7 @@
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
-										<h3 class="card-title">Responsive Hover Table</h3>
+										<h3 class="card-title">Details</h3>
 
 									</div>
 									<!-- /.card-header -->
@@ -76,7 +76,7 @@
 
 						<div class="bg-gray py-2 px-3 mt-4">
 							<h2 class="mb-0">
-								@Model.Price
+								@Model.Price.ToString("f2")
 							</h2>
 
 						</div>
@@ -94,6 +94,7 @@
 						<div class="nav nav-tabs" id="product-tab" role="tablist">
 							<a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
 							<a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Reviews</a>
+							<a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Rating</a>
 						</div>
 					</nav>
 					<div class="tab-content p-3" id="nav-tabContent">
@@ -122,11 +123,11 @@
 									<br>
 								}
 
-							</div>
+								<a type="button" class="fs-6 btn btn-success mb-3 p-2" asp-controller="Review" asp-action="Add" asp-route-bookId="@Model.Id">
+									<span>Add Review</span>
+								</a>
 
-							<a type="button" class="fs-6 btn btn-success mb-3 p-2" asp-controller="Review" asp-action="Add" asp-route-bookId="@Model.Id">
-								<span>Add Review</span>
-							</a>
+							</div>
 						}
 						else
 						{
@@ -136,6 +137,81 @@
 								</a>
 							</div>
 						}
+						<div class="tab-pane fade active show" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab">
+							<h2>Book Rating</h2>
+							<span class="fa fa-star @(Model.Rating >= 1 ? "checked" : string.Empty)"></span>
+							<span class="fa fa-star @(Model.Rating >= 2 ? "checked" : string.Empty)"></span>
+							<span class="fa fa-star @(Model.Rating >= 3 ? "checked" : string.Empty)"></span>
+							<span class="fa fa-star @(Model.Rating >= 4 ? "checked" : string.Empty)"></span>
+							<span class="fa fa-star @(Model.Rating >= 5 ? "checked" : string.Empty)"></span>
+							<p>@Model.Rating average based on @Model.RatingsCount ratings.</p>
+							<hr style="border:3px solid #f1f1f1">
+
+							@if (Model.RatingsCount != 0)
+							{
+								<div class="row">
+									<div class="side">
+										<div>5 star</div>
+									</div>
+									<div class="middle">
+										<div class="progress">
+											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.FiveStarRating / Model.RatingsCount * 100)%" aria-valuenow=@Model.FiveStarRating aria-valuemin="0" aria-valuemax=@Model.RatingsCount></div>
+										</div>
+									</div>
+									<div class="side right">
+										<div>@Model.FiveStarRating</div>
+									</div>
+									<div class="side">
+										<div>4 star</div>
+									</div>
+									<div class="middle">
+										<div class="progress">
+											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.FourStarRating / Model.RatingsCount * 100)%" aria-valuenow=@Model.FourStarRating aria-valuemin="0" aria-valuemax=@Model.RatingsCount></div>
+										</div>
+									</div>
+									<div class="side right">
+										<div>@Model.FourStarRating</div>
+									</div>
+									<div class="side">
+										<div>3 star</div>
+									</div>
+									<div class="middle">
+										<div class="progress">
+											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.ThreeStarRating / Model.RatingsCount * 100)%" aria-valuenow=@Model.ThreeStarRating aria-valuemin="0" aria-valuemax=@Model.RatingsCount></div>
+										</div>
+									</div>
+									<div class="side right">
+										<div>@Model.ThreeStarRating</div>
+									</div>
+									<div class="side">
+										<div>2 star</div>
+									</div>
+									<div class="middle">
+										<div class="progress">
+											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.TwoStarRating / Model.RatingsCount * 100)%" aria-valuenow=@Model.TwoStarRating aria-valuemin="0" aria-valuemax=@Model.RatingsCount></div>
+										</div>
+									</div>
+									<div class="side right">
+										<div>@Model.TwoStarRating</div>
+									</div>
+									<div class="side">
+										<div>1 star</div>
+									</div>
+									<div class="middle">
+										<div class="progress">
+											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.OneStarRating / Model.RatingsCount * 100)%" aria-valuenow=@Model.OneStarRating aria-valuemin="0" aria-valuemax=@Model.RatingsCount></div>
+										</div>
+									</div>
+									<div class="side right">
+										<div>@Model.OneStarRating</div>
+									</div>
+								</div>
+								<hr style="border:3px solid #f1f1f1">
+							}
+							<a type="button" class="fs-6 btn btn-success mb-3 p-2" asp-controller="Rating" asp-action="Add" asp-route-bookId="@Model.Id">
+								<span>Add Rating</span>
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -149,6 +225,8 @@
 @section Styles {
 	<link href="~/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" asp-append-version="true">
 	<link href="~/css/adminlte.min.css" rel="stylesheet" asp-append-version="true">
+	<link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 }
 
 	@section Scripts{

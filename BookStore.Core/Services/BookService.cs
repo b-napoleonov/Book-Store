@@ -62,7 +62,7 @@ namespace BookStore.Core.Services
                     ImageUrl = b.ImageUrl,
                     Author = b.Author.Name,
                     Price = b.Price,
-                    Rating = b.Ratings.Average(r => r.UserRating)
+                    Rating = b.Ratings.Count > 0 ? b.Ratings.Average(r => r.UserRating) : 0
                 })
                 .ToListAsync();
         }
@@ -94,7 +94,13 @@ namespace BookStore.Core.Services
                 Year = book.Year,
                 Price = book.Price,
                 Pages = book.Pages,
-                Rating = book.Ratings.Average(r => r.UserRating),
+                Rating = book.Ratings.Count > 0 ? book.Ratings.Average(r => r.UserRating) : 0,
+                FiveStarRating = book.Ratings.Count(r => r.UserRating == 5),
+                FourStarRating = book.Ratings.Count(r => r.UserRating >= 4 && r.UserRating < 5),
+                ThreeStarRating = book.Ratings.Count(r => r.UserRating >= 3 && r.UserRating < 4),
+                TwoStarRating = book.Ratings.Count(r => r.UserRating >= 2 && r.UserRating < 3),
+                OneStarRating = book.Ratings.Count(r => r.UserRating >= 1 && r.UserRating < 2),
+                RatingsCount = book.Ratings.Count,
                 ImageUrl = book.ImageUrl,
                 Author = book.Author.Name,
                 Publisher = book.Publisher.Name,
@@ -133,7 +139,7 @@ namespace BookStore.Core.Services
                     ImageUrl = book.ImageUrl,
                     Author = book.Author.Name,
                     Price = book.Price,
-                    Rating = book.Ratings.Average(r => r.UserRating)
+                    Rating = book.Ratings.Count > 0 ? book.Ratings.Average(r => r.UserRating) : 0,
                 };
 
                 models.Add(model);
@@ -170,7 +176,7 @@ namespace BookStore.Core.Services
                     ImageUrl = book.ImageUrl,
                     Author = book.Author.Name,
                     Price = book.Price,
-                    Rating = book.Ratings.Average(r => r.UserRating)
+                    Rating = book.Ratings.Count > 0 ? book.Ratings.Average(r => r.UserRating) : 0,
                 };
 
                 models.Add(model);
@@ -207,7 +213,7 @@ namespace BookStore.Core.Services
                     ImageUrl = book.ImageUrl,
                     Author = book.Author.Name,
                     Price = book.Price,
-                    Rating = book.Ratings.Average(r => r.UserRating)
+                    Rating = book.Ratings.Count > 0 ? book.Ratings.Average(r => r.UserRating) : 0,
                 };
 
                 models.Add(model);

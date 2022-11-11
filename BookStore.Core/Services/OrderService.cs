@@ -149,25 +149,34 @@ namespace BookStore.Core.Services
                 throw new ArgumentException("Invalid User.");
             }
 
-            return await orderRepository
+			var customerOrders = await orderRepository
 				.AllAsNoTracking()
 				.Include(o => o.BookOrders)
 				.ThenInclude(o => o.Book)
 				.ThenInclude(o => o.Author)
 				.Where(o => o.CustomerId == userId)
-				.Select(o => new OrderViewModel
-				{
-					BookId = o.BookOrders.Select(bo => bo.BookId).First(),
-					Title = o.BookOrders.Select(bo => bo.Book.Title).First(),
-					Author = o.BookOrders.Select(bo => bo.Book.Author.Name).First(),
-					Price = o.BookOrders.Select(bo => bo.Book.Price).First(),
-					ImageUrl = o.BookOrders.Select(bo => bo.Book.ImageUrl).First(),
-					Copies = o.BookOrders.Select(bo => bo.Copies).First()
-				})
+				.SelectMany(o => o.BookOrders)
 				.ToListAsync();
-		}
 
-		public async Task RemoveUserOrdersAsync(Guid bookId, string userId)
+			var result = new List<OrderViewModel>();
+
+			foreach (var order in customerOrders)
+			{
+				result.Add(new OrderViewModel
+				{
+					BookId = order.BookId,
+					Title = order.Book.Title,
+					Author = order.Book.Author.Name,
+					Price = order.Book.Price,
+					ImageUrl = order.Book.ImageUrl,
+					Copies = order.Copies
+				});
+			}
+
+			return result;
+        }
+
+        public async Task RemoveUserOrdersAsync(Guid bookId, string userId)
 		{
             var book = await bookService.GetBookByIdAsync(bookId);
 
@@ -188,6 +197,7 @@ namespace BookStore.Core.Services
 				.Include(o => o.BookOrders)
                 .Where(o => o.CustomerId == userId)
 				.SelectMany(o => o.BookOrders)
+				.Where(bo => bo.BookId == bookId)
                 .FirstOrDefaultAsync();
 
             if (bookOrder == null)

@@ -16,7 +16,7 @@
 					<div class="card-body">
 						<h5 class="card-title">@order.Title</h5>
 						<p class="card-text"><small class="text-muted">@order.Author</small></p>
-						<p id="price" class="card-text">Price: @order.Price</p>
+						<p id="price" class="card-text">Price: @order.Price.ToString("F2")</p>
 						<div class="container">
 							<div class="row">
 								<div class="col">
@@ -55,6 +55,12 @@
 	</table>
 </div>
 
-@section Scripts{
+@*<script>
+		window.onload = function() {
+			let prices = document.getElementById("price");
 
-}
+			for (let price of prices){
+
+			}
+		};
+</script>*@
