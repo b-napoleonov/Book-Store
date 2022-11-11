@@ -16,7 +16,7 @@
 					<div class="card-body">
 						<h5 class="card-title">@order.Title</h5>
 						<p class="card-text"><small class="text-muted">@order.Author</small></p>
-						<p id="price" class="card-text">Price: @order.Price.ToString("F2")</p>
+						<p name="price" class="card-text">Price: @order.Price.ToString("F2")</p>
 						<div class="container">
 							<div class="row">
 								<div class="col">
@@ -24,7 +24,7 @@
 										<i class="fas fa-arrow-left"></i>
 									</a>
 								</div>
-								<div id="copies" class="col">
+								<div name="copies" class="col">
 									@order.Copies
 								</div>
 								<div class="col">
@@ -40,7 +40,7 @@
 		</div>
 	}
 </div>
-<div class="table table-striped">
+@*<div class="table table-striped">
 	<table class="table caption-top">
 		<thead>
 			<tr>
@@ -49,18 +49,49 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td id="total">Mark</td>
+				<td id="total"></td>
 			</tr>
 		</tbody>
 	</table>
+</div>*@
+
+<div class="col-25">
+	<div class="container">
+		<h4>
+			Cart
+			<span class="price" style="color:black">
+				<i class="fa fa-shopping-cart"></i>
+				<b>@Model.Count()</b>
+			</span>
+		</h4>
+		<p>Total: <span class="price" style="color:black"><b id="total">0</b></span></p>
+	</div>
 </div>
+<style>
+		.col-25 {
+		-ms-flex: 25%; /* IE10 */
+		flex: 25%;
+	}
 
-@*<script>
-		window.onload = function() {
-			let prices = document.getElementById("price");
+	span.price {
+		float: right;
+		color: grey;
+	}
+</style>
+<script>
+	window.onload = function () {
+		let div = document.getElementsByClassName('card-body');
 
-			for (let price of prices){
+		let total = 0;
 
-			}
-		};
-</script>*@
+		for (let element of div) {
+			let price = Number.parseInt(element.children[2].innerText.split(': ')[1]);
+			let copies = Number.parseInt(element.children[3].innerText);
+
+			total += price * copies;
+		}
+
+		let totalElement = document.getElementById('total');
+		totalElement.innerText = total + "$";
+	};
+</script>
