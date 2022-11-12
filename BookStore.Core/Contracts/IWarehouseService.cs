@@ -1,9 +1,9 @@
-﻿using BookStore.Infrastructure.Models;
+﻿using BookStore.Core.Models.Book;
 
 namespace BookStore.Core.Contracts
 {
     public interface IWarehouseService
     {
-        Task<IEnumerable<Warehouse>> GetAllWarehousesAsync();
+        Task<IEnumerable<BookWarehouseViewModel>> GetAllWarehousesAsync();
     }
 }

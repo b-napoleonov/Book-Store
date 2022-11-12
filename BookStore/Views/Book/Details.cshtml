@@ -139,15 +139,15 @@
 						}
 						<div class="tab-pane fade active show" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab">
 							<h2>Book Rating</h2>
-							<span class="fa fa-star @(Model.Rating >= 1 ? "checked" : string.Empty)"></span>
-							<span class="fa fa-star @(Model.Rating >= 2 ? "checked" : string.Empty)"></span>
-							<span class="fa fa-star @(Model.Rating >= 3 ? "checked" : string.Empty)"></span>
-							<span class="fa fa-star @(Model.Rating >= 4 ? "checked" : string.Empty)"></span>
-							<span class="fa fa-star @(Model.Rating >= 5 ? "checked" : string.Empty)"></span>
-							<p>@Model.Rating average based on @Model.RatingsCount ratings.</p>
+							<span class="fa fa-star @(Model.Ratings.Rating >= 1 ? "checked" : string.Empty)"></span>
+							<span class="fa fa-star @(Model.Ratings.Rating >= 2 ? "checked" : string.Empty)"></span>
+							<span class="fa fa-star @(Model.Ratings.Rating >= 3 ? "checked" : string.Empty)"></span>
+							<span class="fa fa-star @(Model.Ratings.Rating >= 4 ? "checked" : string.Empty)"></span>
+							<span class="fa fa-star @(Model.Ratings.Rating >= 5 ? "checked" : string.Empty)"></span>
+							<p>@Model.Ratings.Rating average based on @Model.Ratings.RatingsCount ratings.</p>
 							<hr style="border:3px solid #f1f1f1">
 
-							@if (Model.RatingsCount != 0)
+							@if (Model.Ratings.RatingsCount != 0)
 							{
 								<div class="row">
 									<div class="side">
@@ -155,55 +155,55 @@
 									</div>
 									<div class="middle">
 										<div class="progress">
-											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.FiveStarRating / Model.RatingsCount * 100)%" aria-valuenow=@Model.FiveStarRating aria-valuemin="0" aria-valuemax=@Model.RatingsCount></div>
+											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.Ratings.FiveStarRating / Model.Ratings.RatingsCount * 100)%" aria-valuenow=@Model.Ratings.FiveStarRating aria-valuemin="0" aria-valuemax=@Model.Ratings.RatingsCount></div>
 										</div>
 									</div>
 									<div class="side right">
-										<div>@Model.FiveStarRating</div>
+										<div>@Model.Ratings.FiveStarRating</div>
 									</div>
 									<div class="side">
 										<div>4 star</div>
 									</div>
 									<div class="middle">
 										<div class="progress">
-											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.FourStarRating / Model.RatingsCount * 100)%" aria-valuenow=@Model.FourStarRating aria-valuemin="0" aria-valuemax=@Model.RatingsCount></div>
+											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.Ratings.FourStarRating / Model.Ratings.RatingsCount * 100)%" aria-valuenow=@Model.Ratings.FourStarRating aria-valuemin="0" aria-valuemax=@Model.Ratings.RatingsCount></div>
 										</div>
 									</div>
 									<div class="side right">
-										<div>@Model.FourStarRating</div>
+										<div>@Model.Ratings.FourStarRating</div>
 									</div>
 									<div class="side">
 										<div>3 star</div>
 									</div>
 									<div class="middle">
 										<div class="progress">
-											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.ThreeStarRating / Model.RatingsCount * 100)%" aria-valuenow=@Model.ThreeStarRating aria-valuemin="0" aria-valuemax=@Model.RatingsCount></div>
+											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.Ratings.ThreeStarRating / Model.Ratings.RatingsCount * 100)%" aria-valuenow=@Model.Ratings.ThreeStarRating aria-valuemin="0" aria-valuemax=@Model.Ratings.RatingsCount></div>
 										</div>
 									</div>
 									<div class="side right">
-										<div>@Model.ThreeStarRating</div>
+										<div>@Model.Ratings.ThreeStarRating</div>
 									</div>
 									<div class="side">
 										<div>2 star</div>
 									</div>
 									<div class="middle">
 										<div class="progress">
-											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.TwoStarRating / Model.RatingsCount * 100)%" aria-valuenow=@Model.TwoStarRating aria-valuemin="0" aria-valuemax=@Model.RatingsCount></div>
+											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.Ratings.TwoStarRating / Model.Ratings.RatingsCount * 100)%" aria-valuenow=@Model.Ratings.TwoStarRating aria-valuemin="0" aria-valuemax=@Model.Ratings.RatingsCount></div>
 										</div>
 									</div>
 									<div class="side right">
-										<div>@Model.TwoStarRating</div>
+										<div>@Model.Ratings.TwoStarRating</div>
 									</div>
 									<div class="side">
 										<div>1 star</div>
 									</div>
 									<div class="middle">
 										<div class="progress">
-											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.OneStarRating / Model.RatingsCount * 100)%" aria-valuenow=@Model.OneStarRating aria-valuemin="0" aria-valuemax=@Model.RatingsCount></div>
+											<div class="progress-bar bg-success" role="progressbar" style="width: @(Model.Ratings.OneStarRating / Model.Ratings.RatingsCount * 100)%" aria-valuenow=@Model.Ratings.OneStarRating aria-valuemin="0" aria-valuemax=@Model.Ratings.RatingsCount></div>
 										</div>
 									</div>
 									<div class="side right">
-										<div>@Model.OneStarRating</div>
+										<div>@Model.Ratings.OneStarRating</div>
 									</div>
 								</div>
 								<hr style="border:3px solid #f1f1f1">

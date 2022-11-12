@@ -1,5 +1,7 @@
 ﻿using BookStore.Core.Contracts;
 using BookStore.Core.Models.Book;
+using BookStore.Core.Models.Rating;
+using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
@@ -75,9 +77,6 @@ namespace BookStore.Core.Services
                 .Include(b => b.Publisher)
                 .Include(b => b.Categories)
                 .ThenInclude(b => b.Category)
-                .Include(b => b.Reviews)
-                .ThenInclude(b => b.User)
-                .Include(b => b.Ratings)
                 .Where(x => x.Id == bookId)
                 .FirstOrDefaultAsync();
 
@@ -94,25 +93,10 @@ namespace BookStore.Core.Services
                 Year = book.Year,
                 Price = book.Price,
                 Pages = book.Pages,
-                Rating = book.Ratings.Count > 0 ? book.Ratings.Average(r => r.UserRating) : 0,
-                FiveStarRating = book.Ratings.Count(r => r.UserRating == 5),
-                FourStarRating = book.Ratings.Count(r => r.UserRating >= 4 && r.UserRating < 5),
-                ThreeStarRating = book.Ratings.Count(r => r.UserRating >= 3 && r.UserRating < 4),
-                TwoStarRating = book.Ratings.Count(r => r.UserRating >= 2 && r.UserRating < 3),
-                OneStarRating = book.Ratings.Count(r => r.UserRating >= 1 && r.UserRating < 2),
-                RatingsCount = book.Ratings.Count,
                 ImageUrl = book.ImageUrl,
                 Author = book.Author.Name,
                 Publisher = book.Publisher.Name,
-                Categories = book.Categories.Select(c => c.Category.Name).ToList(),
-                //TODO: Add method to review service to generate DetailsReviewViewModel
-                Reviews = book.Reviews.Where(r => r.IsDeleted == false).Select(r => new Models.Review.DetailsReviewViewModel
-                {
-                    ReviewId = book.Reviews.Select(r => r.Id).FirstOrDefault(),
-                    OwnerId = book.Reviews.Select(r => r.UserId).FirstOrDefault(),
-                    UserReview = book.Reviews.Select(r => r.UserReview).FirstOrDefault(),
-                    UserEmail = book.Reviews.Select(r => r.User.Email).FirstOrDefault()
-                })
+                Categories = book.Categories.Select(c => c.Category.Name).ToList()
             };
         }
 
@@ -202,6 +186,11 @@ namespace BookStore.Core.Services
                 .Where(b => b.Publisher.Name == publisherName)
                 .ToListAsync();
 
+            if (books.Count <= 0)
+            {
+                throw new ArgumentException("Publisher not found");
+            }
+
             var models = new List<AllBooksViewModel>();
 
             foreach (var book in books)
@@ -217,11 +206,6 @@ namespace BookStore.Core.Services
                 };
 
                 models.Add(model);
-            }
-
-            if (books.Count <= 0)
-            {
-                throw new ArgumentException("Publisher not found");
             }
 
             return models;
@@ -256,6 +240,65 @@ namespace BookStore.Core.Services
             }
 
             return book.Ratings.Average(r => r.UserRating);
+        }
+
+        public async Task<IEnumerable<DetailsReviewViewModel>> GetBookReviewsAsync(Guid bookId)
+        {
+            var book = await bookRepository
+                .AllAsNoTracking()
+                .Include(b => b.Reviews)
+                .ThenInclude(b => b.User)
+                .Where(b => b.Id == bookId)
+                .FirstOrDefaultAsync();
+
+            if (book == null)
+            {
+                throw new ArgumentException("Invalid Book Id");
+            }
+
+            var reviews = new List<DetailsReviewViewModel>();
+
+            foreach (var review in book.Reviews.Where(r => r.IsDeleted == false))
+            {
+                var model = new DetailsReviewViewModel
+                {
+                    ReviewId = review.Id,
+                    OwnerId = review.UserId,
+                    UserReview = review.UserReview,
+                    UserEmail = review.User.Email
+                };
+
+                reviews.Add(model);
+            }
+
+            return reviews;
+        }
+
+        public async Task<DetailsRatingViewModel> GetBookRatingAsync(Guid bookId)
+        {
+            var book = await bookRepository
+                .AllAsNoTracking()
+                .Include(b => b.Ratings)
+                .Where(b => b.Id == bookId)
+                .FirstOrDefaultAsync();
+
+            if (book == null)
+            {
+                throw new ArgumentException("Invalid Book Id");
+            }
+
+            var rating = new DetailsRatingViewModel
+            {
+                Rating = book.Ratings.Count > 0 ? book.Ratings.Average(r => r.UserRating) : 0,
+                FiveStarRating = book.Ratings.Count(r => r.UserRating == 5),
+                FourStarRating = book.Ratings.Count(r => r.UserRating >= 4 && r.UserRating < 5),
+                ThreeStarRating = book.Ratings.Count(r => r.UserRating >= 3 && r.UserRating < 4),
+                TwoStarRating = book.Ratings.Count(r => r.UserRating >= 2 && r.UserRating < 3),
+                OneStarRating = book.Ratings.Count(r => r.UserRating >= 1 && r.UserRating < 2),
+                RatingsCount = book.Ratings.Count,
+            };
+
+            return rating;
         }
     }
 }

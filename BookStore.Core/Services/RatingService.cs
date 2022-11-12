@@ -22,7 +22,7 @@ namespace BookStore.Core.Services
             bookService = _bookService;
         }
 
-        public async Task AddRating(RatingViewModel model, Guid bookId, string userId)
+        public async Task AddRating(AddRatingViewModel model, Guid bookId, string userId)
         {
             var book = await bookService.GetBookByIdAsync(bookId);
 

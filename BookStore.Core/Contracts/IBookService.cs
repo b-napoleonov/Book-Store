@@ -1,4 +1,6 @@
 ﻿using BookStore.Core.Models.Book;
+using BookStore.Core.Models.Rating;
+using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Models;
 
 namespace BookStore.Core.Contracts
@@ -20,5 +22,9 @@ namespace BookStore.Core.Contracts
         Task<Book> GetBookByIdAsync(Guid bookId);
 
         Task<double> GetBookRating(Guid bookId);
+
+        Task<IEnumerable<DetailsReviewViewModel>> GetBookReviewsAsync(Guid bookId);
+
+        Task<DetailsRatingViewModel> GetBookRatingAsync(Guid bookId);
     }
 }

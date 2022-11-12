@@ -10,6 +10,7 @@ namespace BookStore.Infrastructure.Models
             this.WarehousesBooks = new HashSet<WarehouseBook>();
         }
 
+        [Key]
         public int Id { get; set; }
 
         [Required]

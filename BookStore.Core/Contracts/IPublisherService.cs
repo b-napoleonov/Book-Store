@@ -1,9 +1,9 @@
-﻿using BookStore.Infrastructure.Models;
+﻿using BookStore.Core.Models.Book;
 
 namespace BookStore.Core.Contracts
 {
     public interface IPublisherService
     {
-        Task<IEnumerable<Publisher>> GetAllPublishersAsync();
+        Task<IEnumerable<BookPublisherViewModel>> GetAllPublishersAsync();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace BookStore.Core.Models.Rating
 {
-	public class RatingViewModel
+	public class AddRatingViewModel
 	{
         [Required]
         [Range(1, 5)]

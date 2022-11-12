@@ -1,4 +1,5 @@
-﻿using BookStore.Core.Models.Review;
+﻿using BookStore.Core.Models.Rating;
+using BookStore.Core.Models.Review;
 
 namespace BookStore.Core.Models.Book
 {
@@ -7,6 +8,8 @@ namespace BookStore.Core.Models.Book
         public DetailsBookViewModel()
         {
             this.Categories = new List<string>();
+            this.Reviews = new List<DetailsReviewViewModel>();
+            this.Ratings = new DetailsRatingViewModel();
         }
 
         public Guid Id { get; set; }
@@ -21,20 +24,6 @@ namespace BookStore.Core.Models.Book
 
         public int Pages { get; set; }
 
-        public double Rating { get; set; }
-
-        public int FiveStarRating { get; set; }
-
-        public int FourStarRating { get; set; }
-
-        public int ThreeStarRating { get; set; }
-
-        public int TwoStarRating { get; set; }
-
-        public int OneStarRating { get; set; }
-
-        public int RatingsCount { get; set; }
-
         public string ImageUrl { get; set; } = null!;
 
         public string Author { get; set; } = null!;
@@ -43,6 +32,8 @@ namespace BookStore.Core.Models.Book
 
         public IEnumerable<string> Categories { get; set; } = null!;
 
-        public IEnumerable<DetailsReviewViewModel> Reviews { get; set; } = null!;
+        public IEnumerable<DetailsReviewViewModel> Reviews { get; set; }
+
+        public DetailsRatingViewModel Ratings { get; set; }
     }
 }

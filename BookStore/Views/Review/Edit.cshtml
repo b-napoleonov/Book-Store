@@ -1,0 +1,26 @@
+﻿@model ReviewViewModel
+
+@{
+	ViewBag.Title = "Book Details";
+}
+
+<div class="row">
+	<div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+		<form asp-action="Edit" method="post">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="UserReview"></label>
+				<input asp-for="UserReview" class="form-control">
+				<span asp-validation-for="UserReview" class="small text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<input class="btn btn-primary" type="submit" value="Edit" />
+			</div>
+			<input type="hidden" name="reviewId" value=@ViewData["ReviewId"]>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

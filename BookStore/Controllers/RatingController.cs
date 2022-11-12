@@ -16,7 +16,7 @@ namespace BookStore.Controllers
 		[HttpGet]
 		public IActionResult Add(Guid bookId)
 		{
-			var model = new RatingViewModel();
+			var model = new AddRatingViewModel();
 
             ViewData["BookId"] = bookId;
 
@@ -24,7 +24,7 @@ namespace BookStore.Controllers
 		}
 
         [HttpPost]
-        public async Task<IActionResult> Add(RatingViewModel model, Guid bookId)
+        public async Task<IActionResult> Add(AddRatingViewModel model, Guid bookId)
         {
             if (!ModelState.IsValid)
             {

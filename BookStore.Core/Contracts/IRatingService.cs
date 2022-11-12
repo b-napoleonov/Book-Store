@@ -4,6 +4,6 @@ namespace BookStore.Core.Contracts
 {
 	public interface IRatingService
 	{
-		Task AddRating(RatingViewModel model, Guid bookId, string userId);
+		Task AddRating(AddRatingViewModel model, Guid bookId, string userId);
 	}
 }

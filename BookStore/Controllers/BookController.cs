@@ -44,11 +44,13 @@ namespace BookStore.Controllers
         {
             try
             {
-                var model = await bookService.GetBookAsync(bookId);
-
                 string userId = GetCurrentUserId();
 
                 ViewData["UserId"] = userId;
+
+                var model = await bookService.GetBookAsync(bookId);
+                model.Reviews = await bookService.GetBookReviewsAsync(bookId);
+                model.Ratings = await bookService.GetBookRatingAsync(bookId);
 
                 return View(model);
             }

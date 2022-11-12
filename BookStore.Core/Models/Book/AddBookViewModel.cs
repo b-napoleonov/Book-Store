@@ -1,5 +1,4 @@
 ﻿using BookStore.Core.CustomAttributes;
-using BookStore.Infrastructure.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.Book
@@ -8,10 +7,10 @@ namespace BookStore.Core.Models.Book
     {
         public AddBookViewModel()
         {
-            this.Authors = new List<Author>();
-            this.Publishers = new List<Publisher>();
-            this.Categories = new List<Category>();
-            this.Warehouses = new List<Warehouse>();
+            this.Authors = new List<BookAuthorViewModel>();
+            this.Publishers = new List<BookPublisherViewModel>();
+            this.Categories = new List<BookCategoryViewModel>();
+            this.Warehouses = new List<BookWarehouseViewModel>();
         }
 
         [Required]
@@ -39,22 +38,27 @@ namespace BookStore.Core.Models.Book
         public int Pages { get; set; }
 
         [Required]
+        [Display(Name = "Image URL")]
         public string ImageUrl { get; set; } = null!;
 
+        [Display(Name = "Author")]
         public int AuthorId { get; set; }
 
-        public IEnumerable<Author> Authors { get; set; } = null!;
+        public IEnumerable<BookAuthorViewModel> Authors { get; set; }
 
+        [Display(Name = "Publisher")]
         public int PublisherId { get; set; }
 
-        public IEnumerable<Publisher> Publishers { get; set; } = null!;
+        public IEnumerable<BookPublisherViewModel> Publishers { get; set; }
 
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
-        public IEnumerable<Category> Categories { get; set; } = null!;
+        public IEnumerable<BookCategoryViewModel> Categories { get; set; }
 
+        [Display(Name = "Warehouse")]
         public int WarehouseId { get; set; }
 
-        public IEnumerable<Warehouse> Warehouses { get; set; } = null!;
+        public IEnumerable<BookWarehouseViewModel> Warehouses { get; set; }
     }
 }

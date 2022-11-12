@@ -1,5 +1,6 @@
 using BookStore.Infrastructure;
 using BookStore.Infrastructure.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore
@@ -35,6 +36,11 @@ namespace BookStore
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddApplicationServices();
+
+            builder.Services.AddMvc(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
 
             var app = builder.Build();
 

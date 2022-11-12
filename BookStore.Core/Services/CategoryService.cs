@@ -1,4 +1,5 @@
 ﻿using BookStore.Core.Contracts;
+using BookStore.Core.Models.Book;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +15,17 @@ namespace BookStore.Core.Services
             categoryRepository = _categoryRepository;
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+        public async Task<IEnumerable<BookCategoryViewModel>> GetAllCategoriesAsync()
         {
-            return await categoryRepository.AllAsNoTracking().ToListAsync();
+            return await categoryRepository
+                .AllAsNoTracking()
+                .OrderBy(c => c.Name)
+                .Select(c => new BookCategoryViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
         }
     }
 }

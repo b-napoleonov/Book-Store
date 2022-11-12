@@ -3,6 +3,7 @@ using BookStore.Core.Contracts;
 using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace BookStore.Controllers
 {
@@ -62,6 +63,8 @@ namespace BookStore.Controllers
                 {
                     UserReview = review.UserReview
                 };
+
+                ViewData["ReviewId"] = reviewId;
 
                 return View(model);
             }
