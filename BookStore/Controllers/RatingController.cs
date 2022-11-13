@@ -37,7 +37,7 @@ namespace BookStore.Controllers
 
 				await ratingService.AddRating(model, bookId, userId);
 
-				return RedirectToAction("Details", "Book", new { bookId = bookId });
+				return RedirectToAction(nameof(BookController.Details), "Book", new { bookId = bookId });
 			}
 			catch (Exception)
 			{

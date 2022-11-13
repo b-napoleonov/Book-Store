@@ -30,17 +30,12 @@ namespace BookStore.Infrastructure
 
         public DbSet<Order> Orders { get; set; } = null!;
 
-        public DbSet<Warehouse> Warehouses { get; set; } = null!;
-
-        public DbSet<WarehouseBook> WarehouseBooks { get; set; } = null!;
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
             builder.ApplyConfiguration(new BookOrderConfiguration());
             builder.ApplyConfiguration(new CategoryBookConfiguration());
             builder.ApplyConfiguration(new RatingConfiguration());
-            builder.ApplyConfiguration(new WarehouseBookConfiguration());
 
             base.OnModelCreating(builder);
         }

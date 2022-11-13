@@ -79,36 +79,21 @@
 				<span asp-validation-for="CategoryId" class="text-danger"></span>
 			</div>
 			<div class="mb-3">
-				<label asp-for="@Model.WarehouseId" class="form-label">Warehouse</label>
-				<select asp-for="@Model.WarehouseId" class="form-control">
-					@foreach (var warehouse in Model.Warehouses)
-					{
-						<option value="@warehouse.Id">@warehouse.Name</option>
-					}
-				</select>
-				<span asp-validation-for="WarehouseId" class="text-danger"></span>
-			</div>
-			<div class="mb-3">
 				<input class="btn btn-primary" type="submit" value="Add" />
 			</div>
 		</form>
 	</div>
 </div>
 
-@section Styles{
+@*@section Styles{
 	<link href="~/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" asp-append-version="true">
 	<link href="~/css/adminlte.min.css" rel="stylesheet" asp-append-version="true">
 	<link href="~/plugins/select2/css/select2.min.css" rel="stylesheet" />
 	<link href="~/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />
 	<link href="~/plugins/dropzone/min/dropzone.min.css" rel="stylesheet" />
 	<link href="~/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css" rel="stylesheet" />
-}
+}*@
 
 	@section Scripts {
 	<partial name="_ValidationScriptsPartial" />
-	<script src="~/plugins/jquery.min.js" asp-append-version="true"></script>
-	<script src="~/plugins/bootstrap.bundle.min.js" asp-append-version="true"></script>
-	<script src="~/js/adminlte.min.js" asp-append-version="true"></script>
-	<script src="~/plugins/select2/js/select2.full.min.js"></script>
-	<script src="~/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
 }

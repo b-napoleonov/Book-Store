@@ -8,7 +8,7 @@
 	{
 		<div class="card col-4" style="width: 20rem; ">
 			<a type="button" class="fs-6 mb-3 p-2" asp-action="Details" asp-route-bookId="@book.Id">
-				<img class="card-img-top" style="width: 18rem;"
+				<img class="card-img-top" style="width: 15rem;"
 				 src="@book.ImageUrl" alt="Book Image">
 			</a>
 			<div class="card-body">
@@ -19,10 +19,10 @@
 			</div>
 
 			<div>
-			<a type="button" class="fs-6 btn btn-success mb-3 p-2" asp-controller="Order" asp-action="Order" asp-route-bookId="@book.Id">
-				<i class="fas fa-cart-plus"></i>
-				<span>Order</span>
-			</a>
+				<a type="button" class="fs-6 btn btn-success mb-3 p-2" asp-controller="Order" asp-action="Order" asp-route-bookId="@book.Id">
+					<i class="fas fa-cart-plus"></i>
+					<span>Order</span>
+				</a>
 			</div>
 		</div>
 	}
@@ -32,6 +32,6 @@
 	<link href="~/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" asp-append-version="true">
 }
 
-@*<a asp-action="Details" asp-route-bookId="@book.Id">
+	@*<a asp-action="Details" asp-route-bookId="@book.Id">
 	<span>Book Details</span>
 </a>*@

@@ -1,24 +1,29 @@
-﻿using BookStore.Core.Models.User;
+﻿using BookStore.Core.Contracts;
+using BookStore.Core.Models.User;
 using BookStore.Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BookStore.Controllers
 {
     public class UserController : BaseController
     {
-        private const string ActionName = "Index";
         private const string ControllerName = "Book";
 
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserService userService;
 
-        public UserController(SignInManager<ApplicationUser> _signInManager,
-            UserManager<ApplicationUser> _userManager)
+        public UserController(
+            SignInManager<ApplicationUser> _signInManager,
+            UserManager<ApplicationUser> _userManager,
+            IUserService _userService)
         {
             this.signInManager = _signInManager;
             this.userManager = _userManager;
+            userService = _userService;
         }
 
         [HttpGet]
@@ -27,7 +32,7 @@ namespace BookStore.Controllers
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction(ActionName, ControllerName);
+                return RedirectToAction(nameof(BookController.Index), ControllerName);
             }
 
             var model = new LoginViewModel();
@@ -52,7 +57,7 @@ namespace BookStore.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction(ActionName, ControllerName);
+                    return RedirectToAction(nameof(BookController.Index), ControllerName);
                 }
             }
 
@@ -67,7 +72,7 @@ namespace BookStore.Controllers
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction(ActionName, ControllerName);
+                return RedirectToAction(nameof(BookController.Index), ControllerName);
             }
 
             var model = new RegisterViewModel();
@@ -109,7 +114,15 @@ namespace BookStore.Controllers
         {
             await signInManager.SignOutAsync();
 
-            return RedirectToAction(ActionName, ControllerName);
+            return RedirectToAction(nameof(BookController.Index), ControllerName);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var model = await userService.GetUserProfileDataAsync(GetCurrentUserId());
+
+            return View(model);
         }
     }
 }

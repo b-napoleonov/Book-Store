@@ -40,7 +40,7 @@ namespace BookStore.Controllers
 
                 TempData[MessageConstant.SuccessMessage] = "Review added successfully.";
 
-                return RedirectToAction("Details", "Book", new {bookId = bookId });
+                return RedirectToAction(nameof(BookController.Details), "Book", new {bookId = bookId });
             }
             catch (Exception)
             {
@@ -57,8 +57,6 @@ namespace BookStore.Controllers
             {
                 Review review = await reviewService.GetReviewByIdAsync(reviewId);
 
-                string currentUserId = GetCurrentUserId();
-
                 ReviewViewModel model = new ReviewViewModel
                 {
                     UserReview = review.UserReview
@@ -68,9 +66,11 @@ namespace BookStore.Controllers
 
                 return View(model);
             }
-            catch (Exception)
+            catch (ArgumentException ae)
             {
-                return View("Error404");
+                TempData[MessageConstant.ErrorMessage] = ae.Message;
+
+                return RedirectToAction(nameof(BookController.Index));
             }
         }
 
@@ -85,7 +85,7 @@ namespace BookStore.Controllers
 
                 TempData[MessageConstant.SuccessMessage] = "Review updated successfully.";
 
-                return RedirectToAction("Index", "Book");
+                return RedirectToAction(nameof(BookController.Index), "Book");
             }
             catch (Exception)
             {
@@ -106,11 +106,13 @@ namespace BookStore.Controllers
 
                 TempData[MessageConstant.SuccessMessage] = "Review deleted successfully.";
 
-                return RedirectToAction("Index", "Book");
+                return RedirectToAction(nameof(BookController.Index), "Book");
             }
-            catch (Exception)
+            catch (ArgumentException ae)
             {
-                return View("Error404");
+                TempData[MessageConstant.ErrorMessage] = ae.Message;
+
+                return RedirectToAction(nameof(BookController.Index));
             }
         }
     }

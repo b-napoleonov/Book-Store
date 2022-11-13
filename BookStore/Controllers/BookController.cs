@@ -1,5 +1,7 @@
-﻿using BookStore.Core.Contracts;
+﻿using BookStore.Core.Constants;
+using BookStore.Core.Contracts;
 using BookStore.Core.Models.Book;
+using BookStore.Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,20 +13,17 @@ namespace BookStore.Controllers
         private readonly IAuthorService authorService;
         private readonly ICategoryService categoryService;
         private readonly IPublisherService publisherService;
-        private readonly IWarehouseService warehouseService;
 
         public BookController(
             IBookService _bookService,
             IAuthorService _authorService,
             ICategoryService _categoryService,
-            IPublisherService _publisherService,
-            IWarehouseService _warehouseService)
+            IPublisherService _publisherService)
         {
             bookService = _bookService;
             authorService = _authorService;
             categoryService = _categoryService;
             publisherService = _publisherService;
-            warehouseService = _warehouseService;
         }
 
         [HttpGet]
@@ -56,7 +55,9 @@ namespace BookStore.Controllers
             }
             catch (ArgumentException ae)
             {
-                return View("Error404");
+                TempData[MessageConstant.ErrorMessage] = ae.Message;
+
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -69,7 +70,6 @@ namespace BookStore.Controllers
                 Authors = await authorService.GetAllAuthorsAsync(),
                 Categories = await categoryService.GetAllCategoriesAsync(),
                 Publishers = await publisherService.GetAllPublishersAsync(),
-                Warehouses = await warehouseService.GetAllWarehousesAsync(),
             };
 
             return View(model);
@@ -110,7 +110,9 @@ namespace BookStore.Controllers
             }
             catch (ArgumentException ae)
             {
-                return View("Error404");
+                TempData[MessageConstant.ErrorMessage] = ae.Message;
+
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -127,7 +129,9 @@ namespace BookStore.Controllers
             }
             catch (ArgumentException ae)
             {
-                return View("Error404");
+                TempData[MessageConstant.ErrorMessage] = ae.Message;
+
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -144,7 +148,9 @@ namespace BookStore.Controllers
             }
             catch (ArgumentException ae)
             {
-                return View("Error404");
+                TempData[MessageConstant.ErrorMessage] = ae.Message;
+
+                return RedirectToAction(nameof(Index));
             }
         }
     }

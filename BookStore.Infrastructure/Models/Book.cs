@@ -11,7 +11,6 @@ namespace BookStore.Infrastructure.Models
         public Book()
         {
             this.Id = Guid.NewGuid();
-            this.WarehouseBooks = new HashSet<WarehouseBook>();
             this.Categories = new HashSet<CategoryBook>();
             this.Ratings = new HashSet<Rating>();
             this.Reviews = new HashSet<Review>();
@@ -36,7 +35,6 @@ namespace BookStore.Infrastructure.Models
         [Required]
         public int Year { get; set; }
 
-        //TODO: Try adding migration for that
         [Required]
         [Column(TypeName = "money")]
         [Precision(18, 2)]
@@ -47,6 +45,9 @@ namespace BookStore.Infrastructure.Models
 
         [Required]
         public string ImageUrl { get; set; } = null!;
+
+        [Required]
+        public int Quantity { get; set; }
 
         [Required]
         public int AuthorId { get; set; }
@@ -65,8 +66,6 @@ namespace BookStore.Infrastructure.Models
         public DateTime? DeletedOn { get; set; }
 
         public ICollection<CategoryBook> Categories { get; set; }
-
-        public ICollection<WarehouseBook> WarehouseBooks { get; set; }
 
         public ICollection<Rating> Ratings { get; set; }
 

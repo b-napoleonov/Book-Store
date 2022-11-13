@@ -10,11 +10,10 @@ namespace BookStore.Core.Models.Book
             this.Authors = new List<BookAuthorViewModel>();
             this.Publishers = new List<BookPublisherViewModel>();
             this.Categories = new List<BookCategoryViewModel>();
-            this.Warehouses = new List<BookWarehouseViewModel>();
         }
 
         [Required]
-        [StringLength(13, MinimumLength = 13, ErrorMessage = "{0} must be between exactly {1} characters.")]
+        [StringLength(13, MinimumLength = 13, ErrorMessage = "{0} must be between {2} and {1} characters.")]
         public string ISBN { get; set; } = null!;
 
         [Required]
@@ -30,12 +29,16 @@ namespace BookStore.Core.Models.Book
         public int Year { get; set; }
 
         [Required]
-        [Range(typeof(decimal), "0.0", "500.0", ConvertValueInInvariantCulture = true, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [Range(typeof(decimal), "0.0", "500.0", ConvertValueInInvariantCulture = true, ErrorMessage = "{0} must be between {2} and {1}.")]
         public decimal Price { get; set; }
 
         [Required]
-        [Range(0, 9999, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [Range(0, 9999, ErrorMessage = "{0} must be between {2} and {1}.")]
         public int Pages { get; set; }
+
+        [Required]
+        [Range(1, 999, ErrorMessage = "{0} must be between {2} and {1}.")]
+        public int Quantity { get; set; }
 
         [Required]
         [Display(Name = "Image URL")]
@@ -55,10 +58,5 @@ namespace BookStore.Core.Models.Book
         public int CategoryId { get; set; }
 
         public IEnumerable<BookCategoryViewModel> Categories { get; set; }
-
-        [Display(Name = "Warehouse")]
-        public int WarehouseId { get; set; }
-
-        public IEnumerable<BookWarehouseViewModel> Warehouses { get; set; }
     }
 }

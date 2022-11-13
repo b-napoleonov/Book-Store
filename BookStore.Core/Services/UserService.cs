@@ -1,4 +1,5 @@
 ﻿using BookStore.Core.Contracts;
+using BookStore.Core.Models.User;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,29 @@ namespace BookStore.Core.Services
             }
 
             return user;
+        }
+
+        public async Task<UserProfileViewModel> GetUserProfileDataAsync(string userId)
+        {
+            var user = await userRepository
+                .AllAsNoTracking()
+                .Where(u => u.Id == userId)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid User Id");
+            }
+
+            var model = new UserProfileViewModel
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+
+            return model;
         }
     }
 }

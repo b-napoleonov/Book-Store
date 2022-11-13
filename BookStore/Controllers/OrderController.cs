@@ -30,18 +30,20 @@ namespace BookStore.Controllers
 
                     TempData[MessageConstant.SuccessMessage] = "Book added to your cart.";
 
-                    return RedirectToAction("Index", "Book");
+                    return RedirectToAction(nameof(Cart));
                 }
 
                 await orderService.AddNewOrderAsync(bookId, GetCurrentUserId());
 
                 TempData[MessageConstant.SuccessMessage] = "Book added to your cart.";
 
-                return RedirectToAction("Index", "Book");
+                return RedirectToAction(nameof(Cart));
             }
             catch (ArgumentException ae)
             {
-                return View("Error404");
+                TempData[MessageConstant.ErrorMessage] = ae.Message;
+
+                return RedirectToAction(nameof(Order));
             }
         }
 
@@ -57,9 +59,11 @@ namespace BookStore.Controllers
 
                 return RedirectToAction(nameof(Cart));
             }
-            catch (Exception)
+            catch (ArgumentException ae)
             {
-                return View("Error404");
+                TempData[MessageConstant.ErrorMessage] = ae.Message;
+
+                return RedirectToAction(nameof(Order));
             }
         }
 

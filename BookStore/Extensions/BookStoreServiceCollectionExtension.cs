@@ -16,7 +16,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IRatingService, RatingService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IWarehouseService, WarehouseService>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(DeletableEntityRepository<>));
 

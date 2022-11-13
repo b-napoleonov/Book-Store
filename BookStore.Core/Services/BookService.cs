@@ -27,6 +27,7 @@ namespace BookStore.Core.Services
                 Year = model.Year,
                 Price = model.Price,
                 Pages = model.Pages,
+                Quantity = model.Quantity,
                 ImageUrl = model.ImageUrl,
                 AuthorId = model.AuthorId,
                 PublisherId = model.PublisherId
@@ -39,14 +40,6 @@ namespace BookStore.Core.Services
             };
 
             book.Categories.Add(categoryBook);
-
-            var warehouseBook = new WarehouseBook()
-            {
-                Book = book,
-                WarehouseId = model.WarehouseId
-            };
-
-            book.WarehouseBooks.Add(warehouseBook);
 
             await bookRepository.AddAsync(book);
             await bookRepository.SaveChangesAsync();
@@ -93,6 +86,7 @@ namespace BookStore.Core.Services
                 Year = book.Year,
                 Price = book.Price,
                 Pages = book.Pages,
+                Quantity = book.Quantity,
                 ImageUrl = book.ImageUrl,
                 Author = book.Author.Name,
                 Publisher = book.Publisher.Name,
@@ -214,7 +208,7 @@ namespace BookStore.Core.Services
         public async Task<Book> GetBookByIdAsync(Guid bookId)
         {
             var book = await bookRepository
-                .AllAsNoTracking()
+                .All()
                 .Where(b => b.Id == bookId)
                 .FirstOrDefaultAsync();
 
@@ -258,7 +252,7 @@ namespace BookStore.Core.Services
 
             var reviews = new List<DetailsReviewViewModel>();
 
-            foreach (var review in book.Reviews.Where(r => r.IsDeleted == false))
+            foreach (var review in book.Reviews.Where(r => !r.IsDeleted))
             {
                 var model = new DetailsReviewViewModel
                 {
