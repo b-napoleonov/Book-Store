@@ -1,7 +1,7 @@
 ﻿using BookStore.Core.Constants;
 using BookStore.Core.Contracts;
 using BookStore.Core.Models.Book;
-using BookStore.Infrastructure.Models;
+using LearnFast.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +9,10 @@ namespace BookStore.Controllers
 {
     public class BookController : BaseController
     {
+        private const string IndexView = "All";
+        private const string UserId = "UserId";
+        private const string IndexViewTitle = "All Books";
+
         private readonly IBookService bookService;
         private readonly IAuthorService authorService;
         private readonly ICategoryService categoryService;
@@ -26,15 +30,17 @@ namespace BookStore.Controllers
             publisherService = _publisherService;
         }
 
+        public static string BookControllerName => nameof(BookController).Replace("Controller", string.Empty);
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var model = await bookService.GetAllBooksAsync();
 
-            ViewBag.Title = "All Books";
+            ViewBag.Title = IndexViewTitle;
 
-            return View("All", model);
+            return View(IndexView, model);
         }
 
         [HttpGet]
@@ -45,7 +51,7 @@ namespace BookStore.Controllers
             {
                 string userId = GetCurrentUserId();
 
-                ViewData["UserId"] = userId;
+                ViewData[UserId] = userId;
 
                 var model = await bookService.GetBookAsync(bookId);
                 model.Reviews = await bookService.GetBookReviewsAsync(bookId);
@@ -95,10 +101,17 @@ namespace BookStore.Controllers
             }
             catch (Exception)
             {
-                ModelState.AddModelError(string.Empty, "Something went wrong");
+                ModelState.AddModelError(string.Empty, GlobalExceptions.Exception);
 
                 return View(model);
             }
+        }
+
+        public async Task<IActionResult> Remove(Guid bookId)
+        {
+            await bookService.RemoveBook(bookId);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -111,7 +124,7 @@ namespace BookStore.Controllers
 
                 ViewBag.Title = authorName.ToUpper();
 
-                return View("All", model);
+                return View(IndexView, model);
             }
             catch (ArgumentException ae)
             {
@@ -131,7 +144,7 @@ namespace BookStore.Controllers
 
                 ViewBag.Title = publisherName.ToUpper();
 
-                return View("All", model);
+                return View(IndexView, model);
             }
             catch (ArgumentException ae)
             {
@@ -151,7 +164,7 @@ namespace BookStore.Controllers
 
                 ViewBag.Title = categoryName.ToUpper();
 
-                return View("All", model);
+                return View(IndexView, model);
             }
             catch (ArgumentException ae)
             {

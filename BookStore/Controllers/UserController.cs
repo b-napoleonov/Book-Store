@@ -1,17 +1,15 @@
 ﻿using BookStore.Core.Contracts;
 using BookStore.Core.Models.User;
 using BookStore.Infrastructure.Models;
+using LearnFast.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace BookStore.Controllers
 {
     public class UserController : BaseController
     {
-        private const string ControllerName = "Book";
-
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserService userService;
@@ -32,7 +30,7 @@ namespace BookStore.Controllers
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction(nameof(BookController.Index), ControllerName);
+                return RedirectToAction(nameof(BookController.Index), BookController.BookControllerName);
             }
 
             var model = new LoginViewModel();
@@ -57,11 +55,11 @@ namespace BookStore.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction(nameof(BookController.Index), ControllerName);
+                    return RedirectToAction(nameof(BookController.Index), BookController.BookControllerName);
                 }
             }
 
-            ModelState.AddModelError(string.Empty, "Invalid Login!");
+            ModelState.AddModelError(string.Empty, GlobalExceptions.InvalidLogin);
 
             return View(model);
         }
@@ -72,7 +70,7 @@ namespace BookStore.Controllers
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction(nameof(BookController.Index), ControllerName);
+                return RedirectToAction(nameof(BookController.Index), BookController.BookControllerName);
             }
 
             var model = new RegisterViewModel();
@@ -114,7 +112,7 @@ namespace BookStore.Controllers
         {
             await signInManager.SignOutAsync();
 
-            return RedirectToAction(nameof(BookController.Index), ControllerName);
+            return RedirectToAction(nameof(BookController.Index), BookController.BookControllerName);
         }
 
         [HttpGet]

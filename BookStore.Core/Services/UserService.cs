@@ -2,6 +2,7 @@
 using BookStore.Core.Models.User;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
+using LearnFast.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Core.Services
@@ -26,7 +27,7 @@ namespace BookStore.Core.Services
 
             if (currentUser == null)
             {
-                throw new ArgumentException("Invalid user.");
+                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             var booksOrdered = currentUser.Orders.Select(o => o.BookOrders.Sum(bo => bo.Copies)).Sum();
@@ -43,7 +44,7 @@ namespace BookStore.Core.Services
 
             if (user == null)
             {
-                throw new ArgumentException("Invalid User Id");
+                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             return user;
@@ -58,7 +59,7 @@ namespace BookStore.Core.Services
 
             if (user == null)
             {
-                throw new ArgumentException("Invalid User Id");
+                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             var model = new UserProfileViewModel

@@ -1,21 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
-using static BookStore.Core.Constants.UserConstants;
+﻿using LearnFast.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.User
 {
     public class RegisterViewModel
     {
         [Required]
-        [StringLength(UserNameMaxLenght, MinimumLength = UserNameMinLenght, ErrorMessage = "Your {0} must be between {2} and {1} characters.")]
+        [StringLength(GlobalConstants.UserNameMaxLenght, MinimumLength = GlobalConstants.UserNameMinLenght, ErrorMessage = GlobalExceptions.StringFieldsErrorMessage)]
         public string UserName { get; set; } = null!;
 
         [Required]
         [EmailAddress]
-        [StringLength(EmailMaxLenght, MinimumLength = EmailMinLenght, ErrorMessage = "Your {0} must be between {2} and {1} characters.")]
+        [StringLength(GlobalConstants.EmailMaxLenght, MinimumLength = GlobalConstants.EmailMinLenght, ErrorMessage = GlobalExceptions.StringFieldsErrorMessage)]
         public string Email { get; set; } = null!;
 
         [Required]
-        [StringLength(PasswordMaxLenght, MinimumLength = PasswordMinLenght, ErrorMessage = "Your {0} must be between {2} and {1} characters.")]
+        [StringLength(GlobalConstants.PasswordMaxLenght, MinimumLength = GlobalConstants.PasswordMinLenght, ErrorMessage = GlobalExceptions.StringFieldsErrorMessage)]
         [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
 

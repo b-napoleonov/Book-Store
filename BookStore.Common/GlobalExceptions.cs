@@ -2,28 +2,32 @@
 {
     public static class GlobalExceptions
     {
-        public const string LanguageNullExceptionMessage = "This language is not exist!";
+        public const string Exception = "Something went wrong.";
 
-        public const string CategoryNullExceptionMessage = "This category is not exist!";
+        public const string InvalidLogin = "Invalid Login!";
 
-        public const string CourseIsNotExistExceptionMessage = "This course is not exist!";
+        public const string InvalidBookId = "Invalid Book Id.";
 
-        public const string VideoIsNotExistExceptionMessage = "This video is not exist!";
+        public const string CategoryNotFound = "Category not found.";
 
-        public const string DoesNotOwnThisCourseExceptionMessage = "You do not own this course!";
+        public const string AuthrorNotFound = "Author not found.";
 
-        public const string DoesNotExistReviews = "Not have reviews yet.";
+        public const string PublisherNotFound = "Publisher not found.";
 
-        public const string DoesNotExistReview = "This review is not exist!";
+        public const string InsufficientQuantity = "Insufficient quantity.";
 
-        public const string LimitOfSelectedReviews = "Limit of the selected reviews is 5";
+        public const string InvalidUser = "Invalid User.";
 
-        public const string UserNotExists = "This user not exists!";
+        public const string InvalidOrder = "Invalid order.";
 
-        public const string UserNotHasPermission = "This user doesn't has permission";
+        public const string InvalidRating = "Invalid Rating.";
 
-        public const string InvalidUsername = "Invalid username";
+        public const string InvalidReviewId = "Invalid Review Id.";
 
-        public const string ConfirmedPasswordNotMatch = "The password and confirmation password do not match.";
+        public const string NotReviewOwner = "You are not the review owner.";
+
+        public const string StringFieldsErrorMessage = "{0} must be between {1} and {2} characters.";
+
+        public const string NumberFieldsErrorMessage = "{0} must be between {1} and {2}.";
     }
 }

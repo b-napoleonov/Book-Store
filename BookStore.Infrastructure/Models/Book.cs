@@ -1,4 +1,5 @@
 ﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
+using LearnFast.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +9,10 @@ namespace BookStore.Infrastructure.Models
 {
     public class Book : IDeletableEntity
     {
+        private const string MoneyTypeName = "money";
+        private const int PricePrecision = 18;
+        private const int PriceScale = 2;
+
         public Book()
         {
             this.Id = Guid.NewGuid();
@@ -21,23 +26,23 @@ namespace BookStore.Infrastructure.Models
         public Guid Id { get; set; }
 
         [Required]
-        [MaxLength(13)]
+        [MaxLength(GlobalConstants.ISBNMaxLength)]
         public string ISBN { get; set; } = null!;
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(GlobalConstants.TitleMaxLength)]
         public string Title { get; set; } = null!;
 
         [Required]
-        [MaxLength(500)]
+        [MaxLength(GlobalConstants.DescriptionMaxLength)]
         public string Description { get; set; } = null!;
 
         [Required]
         public int Year { get; set; }
 
         [Required]
-        [Column(TypeName = "money")]
-        [Precision(18, 2)]
+        [Column(TypeName = MoneyTypeName)]
+        [Precision(PricePrecision, PriceScale)]
         public decimal Price { get; set; }
 
         [Required]

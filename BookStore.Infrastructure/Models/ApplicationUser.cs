@@ -1,4 +1,5 @@
 ﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
+using LearnFast.Common;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,10 +15,10 @@ namespace BookStore.Infrastructure.Models
             this.Orders = new HashSet<Order>();
         }
 
-        [MaxLength(50)]
+        [MaxLength(GlobalConstants.UserFirstNameMaxLength)]
         public string? FirstName { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(GlobalConstants.UserLastNameMaxLength)]
         public string? LastName { get; set; }
 
         public bool IsDeleted { get; set; }

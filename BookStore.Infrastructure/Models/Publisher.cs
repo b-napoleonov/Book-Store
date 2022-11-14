@@ -1,4 +1,5 @@
 ﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
+using LearnFast.Common;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Infrastructure.Models
@@ -14,19 +15,19 @@ namespace BookStore.Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(GlobalConstants.PublisherNameMaxLength)]
         public string Name { get; set; } = null!;
 
         [Required]
-        [MaxLength(15)]
+        [MaxLength(GlobalConstants.PublisherPhoneMaxLength)]
         public string Phone { get; set; } = null!;
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(GlobalConstants.PublisherEmailMaxLength)]
         public string Email { get; set; } = null!;
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(GlobalConstants.PublisherURLMaxLength)]
         public string URL { get; set; } = null!;
 
         public bool IsDeleted { get; set; }

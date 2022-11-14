@@ -15,6 +15,8 @@ namespace BookStore.BaseControllers
             _logger = logger;
         }
 
+        public static string HomeControllerName => nameof(HomeController).Replace("Controller", string.Empty);
+
         [AllowAnonymous]
         public IActionResult Index()
         {

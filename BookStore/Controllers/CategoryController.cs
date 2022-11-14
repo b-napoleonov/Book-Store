@@ -1,6 +1,7 @@
 ﻿using BookStore.BaseControllers;
 using BookStore.Core.Contracts;
 using BookStore.Core.Models.Category;
+using LearnFast.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
@@ -35,11 +36,11 @@ namespace BookStore.Controllers
                 await categoryService.AddCategoryAsync(model);
 
                 //TODO: Think of more meaningful redirect
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(HomeController.Index), HomeController.HomeControllerName);
             }
             catch (Exception)
             {
-                ModelState.AddModelError(string.Empty, "Something went wrong");
+                ModelState.AddModelError(string.Empty, GlobalExceptions.Exception);
 
                 return View(model);
             }

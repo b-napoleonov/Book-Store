@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LearnFast.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.Rating
 {
 	public class AddRatingViewModel
 	{
         [Required]
-        [Range(1, 5)]
+        [Range(GlobalConstants.RatingMinRange, GlobalConstants.RatingMaxRange, ErrorMessage = GlobalExceptions.NumberFieldsErrorMessage)]
         public int UserRating { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using BookStore.Core.Models.Rating;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
+using LearnFast.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Core.Services
@@ -28,14 +29,14 @@ namespace BookStore.Core.Services
 
             if (book == null)
             {
-                throw new ArgumentException("Invalid Book.");
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
             }
 
             var user = await userService.GetUserByIdAsync(userId);
 
             if (user == null)
             {
-                throw new ArgumentException("Invalid User.");
+                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             var ratingExists = await ratingRepository.AllAsNoTracking().AnyAsync(r => r.UserId == userId && r.BookId == bookId);
@@ -49,7 +50,7 @@ namespace BookStore.Core.Services
 
                 if (existingRating == null)
                 {
-                    throw new ArgumentException("Invalid Rating.");
+                    throw new ArgumentException(GlobalExceptions.InvalidRating);
                 }
 
                 existingRating.UserRating = model.UserRating;

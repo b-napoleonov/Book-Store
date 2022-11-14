@@ -1,12 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LearnFast.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.Review
 {
 	public class ReviewViewModel
 	{
+        private const string ReviewDisplayName = "Review";
+
         [Required]
-        [StringLength(500, MinimumLength = 10, ErrorMessage = "{0} must be between {2} and {1} characters.")]
-        [Display(Name = "Review")]
+        [StringLength(GlobalConstants.ReviewMaxLength, MinimumLength = GlobalConstants.ReviewMinLength, ErrorMessage = GlobalExceptions.StringFieldsErrorMessage)]
+        [Display(Name = ReviewDisplayName)]
         public string UserReview { get; set; } = null!;
     }
 }

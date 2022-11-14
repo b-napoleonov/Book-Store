@@ -26,5 +26,7 @@ namespace BookStore.Core.Contracts
         Task<IEnumerable<DetailsReviewViewModel>> GetBookReviewsAsync(Guid bookId);
 
         Task<DetailsRatingViewModel> GetBookRatingAsync(Guid bookId);
+
+        Task RemoveBook(Guid bookId);
     }
 }

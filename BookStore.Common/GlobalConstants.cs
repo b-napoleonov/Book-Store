@@ -2,82 +2,63 @@
 {
     public static class GlobalConstants
     {
-        public const string SystemName = "LearnFast";
+        public const string BookOrderdSuccessfully = "Book added to your cart.";
 
-        public const string SystemMobileNumber = "+359 88 333 1111";
+        public const string OrderRemovedSuccessfully = "Order removed successfully.";
 
-        public const string SystemEmail = "learnfast@gmail.com";
+        public const string ReviewAddedSuccessfully = "Review added successfully.";
 
-        public const string SystemGitHub = "https://github.com/p3trovbg";
+        public const string ReviewUpdatedSuccessfully = "Review updated successfully.";
 
-        public const string SystemLinkedIn = "https://www.linkedin.com/in/p3trov/";
+        public const string ReviewDeletedSuccessfully = "Review deleted successfully.";
 
-        public const string SystemAddress = "\"Dimitar Dobrovich\", 8801 Sliven Center, Sliven";
+        public const int ISBNMaxLength = 13;
+        public const int ISBNMinLength = 13;
 
-        public const string EmailSender = "p3trovsit@gmail.com";
+        public const int TitleMaxLength = 100;
+        public const int TitleMinLength = 2;
 
-        public const string EmailTaker = "georgi1204g@gmail.com";
+        public const int DescriptionMaxLength = 500;
+        public const int DescriptionMinLength = 10;
 
-        public const string SuccessfullySendMessage = "You sent successfully the message!";
+        public const int CurrentYearValue = 1900;
 
-        public const string AdministratorRoleName = "Administrator";
+        public const string PriceMaxRange = "0.0";
+        public const string PriceMinRange = "500.0";
 
-        public const string AdministrationAreaName = "Administration";
+        public const int PagesMaxRange = 9999;
+        public const int PagesMinRange = 10;
 
-        public const string CourseTitleLabel = "Course title";
-        
-        public const string UploadImageLabel = "Upload label";
+        public const int QuantityMaxRange = 999;
+        public const int QuantityMinRange = 1;
 
-        public const string IsFreeLabel = "Is free";
+        public const int CategoryNameMaxLength = 50;
+        public const int CategoryNameMinLength = 5;
 
-        public const string CountryLabel = "Country";
+        public const int RatingMaxRange = 5;
+        public const int RatingMinRange = 1;
 
-        public const string BiographyLabel = "Biography";
+        public const int ReviewMaxLength = 500;
+        public const int ReviewMinLength = 10;
 
-        public const string WebsiteLabel = "Website";
+        public const int UserNameMaxLenght = 20;
+        public const int UserNameMinLenght = 5;
 
-        public const string ImagesFolderName = "images";
+        public const int EmailMaxLenght = 60;
+        public const int EmailMinLenght = 10;
 
-        public const string VideoFolderName = "videos";
+        public const int PasswordMaxLenght = 20;
+        public const int PasswordMinLenght = 5;
 
-        public const int MaxReviewRange = 6;
+        public const int UserFirstNameMaxLength = 50;
 
-        public const int MinReviewRange = 1;
+        public const int UserLastNameMaxLength = 50;
 
-        public const int MaxReviewContentLength = 500;
+        public const int AuthorNameMaxLength = 70;
 
-        public const int MinReviewContentLength = 5;
-
-        public const string MinCoursePrice = "0";
-
-        public const string MaxCoursePrice = "3000";
-
-        public const int MaxCourseDescriptionLength = 10_000;
-
-        public const int MinCourseDescriptionLength = 50;
-
-        public const int MaxCourseRequirmentsLength = 10_000;
-
-        public const int MinCourseRequirmentsLength = 50;
-
-        public const int MaxCourseTitleLength = 300;
-
-        public const int MinCourseTitleLength = 5;
-
-        public const int MaxConctactMessage = 500;
-
-        public const int MinConctactMessage = 10;
-
-        public const int MaxBiographyLength = 500;
-
-        public const int MaxWebsiteLength = 100;
-
-        public const int MinWebsiteLength = 3;
-
-        public const int MinVideoTitle = 5;
-
-        public const int MaxVideoTitle = 150;
-
-        public const int MaxVideoDescription = 200;
+        public const int PublisherNameMaxLength = 100;
+        public const int PublisherPhoneMaxLength = 15;
+        public const int PublisherEmailMaxLength = 50;
+        public const int PublisherURLMaxLength = 50;
     }
 }

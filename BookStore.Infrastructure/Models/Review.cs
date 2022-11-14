@@ -1,4 +1,5 @@
 ﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
+using LearnFast.Common;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,7 +22,7 @@ namespace BookStore.Infrastructure.Models
         public ApplicationUser User { get; set; } = null!;
 
         [Required]
-        [MaxLength(500)]
+        [MaxLength(GlobalConstants.ReviewMaxLength)]
         public string UserReview { get; set; } = null!;
 
         public bool IsDeleted { get; set; }

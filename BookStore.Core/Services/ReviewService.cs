@@ -2,6 +2,7 @@
 using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
+using LearnFast.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Core.Services
@@ -28,14 +29,14 @@ namespace BookStore.Core.Services
 
 			if (book == null)
 			{
-                throw new ArgumentException("Invalid Book.");
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
             }
 
 			var user = await userService.GetUserByIdAsync(userId);
 
 			if (user == null)
 			{
-                throw new ArgumentException("Invalid User.");
+                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
 			var review = new Review
@@ -58,12 +59,12 @@ namespace BookStore.Core.Services
 
 			if (review == null)
 			{
-				throw new ArgumentException("Invalid Review Id.");
+				throw new ArgumentException(GlobalExceptions.InvalidReviewId);
 			}
 
 			if (review.UserId != userId)
 			{
-                throw new ArgumentException("You are not the review owner.");
+                throw new ArgumentException(GlobalExceptions.NotReviewOwner);
             }
 
 			reviewRepository.Delete(review);
@@ -86,7 +87,7 @@ namespace BookStore.Core.Services
 
 			if (review == null)
 			{
-                throw new ArgumentException("Invalid review Id.");
+                throw new ArgumentException(GlobalExceptions.InvalidReviewId);
             }
 
 			return review;
@@ -98,7 +99,7 @@ namespace BookStore.Core.Services
 
             if (user == null)
             {
-                throw new ArgumentException("Invalid User.");
+                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             return await reviewRepository
@@ -116,12 +117,12 @@ namespace BookStore.Core.Services
 
             if (review == null)
             {
-                throw new ArgumentException("Invalid Review Id.");
+                throw new ArgumentException(GlobalExceptions.InvalidReviewId);
             }
 
             if (review.UserId != userId)
             {
-                throw new ArgumentException("You are not the review owner.");
+                throw new ArgumentException(GlobalExceptions.NotReviewOwner);
             }
 
             review.UserReview = model.UserReview;

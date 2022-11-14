@@ -4,6 +4,7 @@ using BookStore.Core.Models.Rating;
 using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
+using LearnFast.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Core.Services
@@ -78,7 +79,7 @@ namespace BookStore.Core.Services
 
             if (book == null)
             {
-                throw new ArgumentException("Invalid Book ID");
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
             }
 
             return new DetailsBookViewModel()
@@ -128,7 +129,7 @@ namespace BookStore.Core.Services
 
             if (books.Count <= 0)
             {
-                throw new ArgumentException("Category not found");
+                throw new ArgumentException(GlobalExceptions.CategoryNotFound);
             }
 
             return models;
@@ -165,7 +166,7 @@ namespace BookStore.Core.Services
 
             if (books.Count <= 0)
             {
-                throw new ArgumentException("Author not found");
+                throw new ArgumentException(GlobalExceptions.AuthrorNotFound);
             }
 
             return models;
@@ -185,7 +186,7 @@ namespace BookStore.Core.Services
 
             if (books.Count <= 0)
             {
-                throw new ArgumentException("Publisher not found");
+                throw new ArgumentException(GlobalExceptions.PublisherNotFound);
             }
 
             var models = new List<AllBooksViewModel>();
@@ -217,7 +218,7 @@ namespace BookStore.Core.Services
 
             if (book == null)
             {
-                throw new ArgumentException("Invalid Book Id");
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
             }
 
             return book;
@@ -233,7 +234,7 @@ namespace BookStore.Core.Services
 
             if (book == null)
             {
-                throw new ArgumentException("Invalid Book Id");
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
             }
 
             return book.Ratings.Average(r => r.UserRating);
@@ -250,7 +251,7 @@ namespace BookStore.Core.Services
 
             if (book == null)
             {
-                throw new ArgumentException("Invalid Book Id");
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
             }
 
             var reviews = new List<DetailsReviewViewModel>();
@@ -281,7 +282,7 @@ namespace BookStore.Core.Services
 
             if (book == null)
             {
-                throw new ArgumentException("Invalid Book Id");
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
             }
 
             var rating = new DetailsRatingViewModel
@@ -296,6 +297,22 @@ namespace BookStore.Core.Services
             };
 
             return rating;
+        }
+
+        public async Task RemoveBook(Guid bookId)
+        {
+            var book = await bookRepository
+                .AllAsNoTracking()
+                .Where(b => b.Id == bookId)
+                .FirstOrDefaultAsync();
+
+            if (book == null)
+            {
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
+            }
+
+            bookRepository.Delete(book);
+            await bookRepository.SaveChangesAsync();
         }
     }
 }

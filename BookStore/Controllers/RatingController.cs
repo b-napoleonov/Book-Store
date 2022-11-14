@@ -1,11 +1,14 @@
 ﻿using BookStore.Core.Contracts;
 using BookStore.Core.Models.Rating;
+using LearnFast.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
 {
 	public class RatingController : BaseController
 	{
+		private const string BookId = "BookId";
+
 		private readonly IRatingService ratingService;
 
 		public RatingController(IRatingService _ratingService)
@@ -18,7 +21,7 @@ namespace BookStore.Controllers
 		{
 			var model = new AddRatingViewModel();
 
-            ViewData["BookId"] = bookId;
+            ViewData[BookId] = bookId;
 
             return View(model);
 		}
@@ -37,11 +40,11 @@ namespace BookStore.Controllers
 
 				await ratingService.AddRating(model, bookId, userId);
 
-				return RedirectToAction(nameof(BookController.Details), "Book", new { bookId = bookId });
+				return RedirectToAction(nameof(BookController.Details), BookController.BookControllerName, new { bookId = bookId });
 			}
 			catch (Exception)
 			{
-                ModelState.AddModelError(string.Empty, "Something went wrong");
+                ModelState.AddModelError(string.Empty, GlobalExceptions.Exception);
 
                 return View(model);
             }

@@ -1,5 +1,6 @@
 ﻿using BookStore.Core.Constants;
 using BookStore.Core.Contracts;
+using LearnFast.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
@@ -28,14 +29,14 @@ namespace BookStore.Controllers
                         await orderService.AddNewBookToOrderAsync(bookId, GetCurrentUserId());
                     }
 
-                    TempData[MessageConstant.SuccessMessage] = "Book added to your cart.";
+                    TempData[MessageConstant.SuccessMessage] = GlobalConstants.BookOrderdSuccessfully;
 
                     return RedirectToAction(nameof(Cart));
                 }
 
                 await orderService.AddNewOrderAsync(bookId, GetCurrentUserId());
 
-                TempData[MessageConstant.SuccessMessage] = "Book added to your cart.";
+                TempData[MessageConstant.SuccessMessage] = GlobalConstants.BookOrderdSuccessfully;
 
                 return RedirectToAction(nameof(Cart));
             }
@@ -55,7 +56,7 @@ namespace BookStore.Controllers
 
                 await orderService.RemoveUserOrdersAsync(bookId, userId);
 
-                TempData[MessageConstant.WarningMessage] = "Order removed successfully.";
+                TempData[MessageConstant.WarningMessage] = GlobalConstants.OrderRemovedSuccessfully;
 
                 return RedirectToAction(nameof(Cart));
             }

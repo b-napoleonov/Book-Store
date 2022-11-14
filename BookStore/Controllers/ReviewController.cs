@@ -2,6 +2,7 @@
 using BookStore.Core.Contracts;
 using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Models;
+using LearnFast.Common;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -9,6 +10,9 @@ namespace BookStore.Controllers
 {
     public class ReviewController : BaseController
     {
+        private const string BookId = "BookId";
+        private const string ReviewId = "ReviewId";
+
         private readonly IReviewService reviewService;
 
         public ReviewController(IReviewService _reviewService)
@@ -21,7 +25,7 @@ namespace BookStore.Controllers
         {
             var model = new ReviewViewModel();
 
-            ViewData["BookId"] = bookId;
+            ViewData[BookId] = bookId;
 
             return View(model);
         }
@@ -38,13 +42,13 @@ namespace BookStore.Controllers
             {
                 await reviewService.AddReviewAsync(model, bookId, GetCurrentUserId());
 
-                TempData[MessageConstant.SuccessMessage] = "Review added successfully.";
+                TempData[MessageConstant.SuccessMessage] = GlobalConstants.ReviewAddedSuccessfully;
 
-                return RedirectToAction(nameof(BookController.Details), "Book", new {bookId = bookId });
+                return RedirectToAction(nameof(BookController.Details), BookController.BookControllerName, new {bookId = bookId });
             }
             catch (Exception)
             {
-                ModelState.AddModelError(string.Empty, "Something went wrong");
+                ModelState.AddModelError(string.Empty, GlobalExceptions.Exception);
 
                 return View(model);
             }
@@ -62,7 +66,7 @@ namespace BookStore.Controllers
                     UserReview = review.UserReview
                 };
 
-                ViewData["ReviewId"] = reviewId;
+                ViewData[ReviewId] = reviewId;
 
                 return View(model);
             }
@@ -83,13 +87,13 @@ namespace BookStore.Controllers
 
                 await reviewService.UpdateReviewAsync(model, reviewId, userId);
 
-                TempData[MessageConstant.SuccessMessage] = "Review updated successfully.";
+                TempData[MessageConstant.SuccessMessage] = GlobalConstants.ReviewUpdatedSuccessfully;
 
-                return RedirectToAction(nameof(BookController.Index), "Book");
+                return RedirectToAction(nameof(BookController.Index), BookController.BookControllerName);
             }
             catch (Exception)
             {
-                ModelState.AddModelError(string.Empty, "Something went wrong");
+                ModelState.AddModelError(string.Empty, GlobalExceptions.Exception);
 
                 return View(model);
             }
@@ -104,9 +108,9 @@ namespace BookStore.Controllers
 
                 await reviewService.DeleteReviewAsync(reviewId, userId);
 
-                TempData[MessageConstant.SuccessMessage] = "Review deleted successfully.";
+                TempData[MessageConstant.SuccessMessage] = GlobalConstants.ReviewDeletedSuccessfully;
 
-                return RedirectToAction(nameof(BookController.Index), "Book");
+                return RedirectToAction(nameof(BookController.Index), BookController.BookControllerName);
             }
             catch (ArgumentException ae)
             {

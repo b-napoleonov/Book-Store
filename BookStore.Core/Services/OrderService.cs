@@ -2,6 +2,7 @@
 using BookStore.Core.Models.Order;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
+using LearnFast.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Core.Services
@@ -28,19 +29,19 @@ namespace BookStore.Core.Services
 
             if (book == null)
             {
-                throw new ArgumentException("Invalid Book.");
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
             }
 
             if (book.Quantity < 1)
             {
-                throw new ArgumentException("Insufficient quantity");
+                throw new ArgumentException(GlobalExceptions.InsufficientQuantity);
             }
 
             var user = await userService.GetUserByIdAsync(userId);
 
             if (user == null)
             {
-                throw new ArgumentException("Invalid User.");
+                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             var order = new Order
@@ -68,19 +69,19 @@ namespace BookStore.Core.Services
 
             if (book == null)
             {
-                throw new ArgumentException("Invalid Book.");
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
             }
 
             if (book.Quantity < 1)
             {
-                throw new ArgumentException("Insufficient quantity");
+                throw new ArgumentException(GlobalExceptions.InsufficientQuantity);
             }
 
             var user = await userService.GetUserByIdAsync(userId);
 
             if (user == null)
             {
-                throw new ArgumentException("Invalid User.");
+                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             var bookOrder = await orderRepository
@@ -93,7 +94,7 @@ namespace BookStore.Core.Services
 
             if (bookOrder == null)
             {
-                throw new ArgumentException("Invalid order.");
+                throw new ArgumentException(GlobalExceptions.InvalidOrder);
             }
 
             bookOrder.Copies++;
@@ -122,19 +123,19 @@ namespace BookStore.Core.Services
 
             if (book == null)
             {
-                throw new ArgumentException("Invalid Book.");
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
             }
 
             if (book.Quantity < 1)
             {
-                throw new ArgumentException("Insufficient quantity");
+                throw new ArgumentException(GlobalExceptions.InsufficientQuantity);
             }
 
             var user = await userService.GetUserByIdAsync(userId);
 
             if (user == null)
             {
-                throw new ArgumentException("Invalid User.");
+                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             var customerOrder = await orderRepository
@@ -144,7 +145,7 @@ namespace BookStore.Core.Services
 
             if (customerOrder == null)
             {
-                throw new ArgumentException("Invalid order.");
+                throw new ArgumentException(GlobalExceptions.InvalidOrder);
             }
 
             customerOrder.BookOrders.Add(new BookOrder
@@ -165,7 +166,7 @@ namespace BookStore.Core.Services
 
             if (user == null)
             {
-                throw new ArgumentException("Invalid User.");
+                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             var customerOrders = await orderRepository
@@ -204,14 +205,14 @@ namespace BookStore.Core.Services
 
             if (book == null)
             {
-                throw new ArgumentException("Invalid Book.");
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
             }
 
             var user = await userService.GetUserByIdAsync(userId);
 
             if (user == null)
             {
-                throw new ArgumentException("Invalid User.");
+                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             var bookOrder = await orderRepository
@@ -224,7 +225,7 @@ namespace BookStore.Core.Services
 
             if (bookOrder == null)
             {
-                throw new ArgumentException("Invalid order.");
+                throw new ArgumentException(GlobalExceptions.InvalidOrder);
             }
 
             if (bookOrder.Copies > 0)
