@@ -80,6 +80,10 @@ namespace BookStore.Controllers
         {
             if (!ModelState.IsValid)
             {
+                model.Authors = await authorService.GetAllAuthorsAsync();
+                model.Categories = await categoryService.GetAllCategoriesAsync();
+                model.Publishers = await publisherService.GetAllPublishersAsync();
+
                 return View(model);
             }
 
@@ -98,6 +102,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Author(string authorName)
         {
             try
@@ -117,6 +122,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Publisher(string publisherName)
         {
             try
@@ -136,6 +142,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Category(string categoryName)
         {
             try

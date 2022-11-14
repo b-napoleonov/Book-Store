@@ -32,7 +32,7 @@ namespace BookStore.Core.Models.Book
 
         public string Publisher { get; set; } = null!;
 
-        public IEnumerable<string> Categories { get; set; } = null!;
+        public IEnumerable<string> Categories { get; set; }
 
         public IEnumerable<DetailsReviewViewModel> Reviews { get; set; }
 

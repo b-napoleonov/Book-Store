@@ -31,7 +31,7 @@
 									</div>
 									<!-- /.card-header -->
 									<div class="card-body">
-										<table class="table table-bordered">
+										<table class="table table-bordered table-responsive">
 											<thead>
 												<tr>
 													<th>Year</th>
@@ -55,14 +55,14 @@
 															<span>@Model.Publisher</span>
 														</a>
 													</td>
-													@foreach (var category in Model.Categories)
-													{
-														<td>
+													<td>
+														@foreach (var category in Model.Categories)
+														{
 															<a class="link-primary" asp-action="Category" asp-route-categoryName="@category">
 																<span>@(string.Join(", ", category))</span>
 															</a>
-														</td>
-													}
+														}
+													</td>
 												</tr>
 											</tbody>
 										</table>

@@ -42,6 +42,11 @@
 				<span asp-validation-for="Pages" class="text-danger"></span>
 			</div>
 			<div class="mb-3">
+				<label asp-for="@Model.Quantity" class="form-label">Quantity</label>
+				<input asp-for="@Model.Quantity" class="form-control" aria-required="true" />
+				<span asp-validation-for="Quantity" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
 				<label asp-for="@Model.ImageUrl" class="form-label">Image URL</label>
 				<input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
 				<span asp-validation-for="ImageUrl" class="text-danger"></span>
@@ -66,17 +71,20 @@
 				</select>
 				<span asp-validation-for="PublisherId" class="text-danger"></span>
 			</div>
-			<div class="mb-3">
+			<div class="mb-3 row">
 				<div class="form-group">
-					<label asp-for="@Model.CategoryId" class="form-label">Category</label>
-					<select asp-for="@Model.CategoryId" class="select2" multiple="multiple" data-placeholder="Select Category" style="width: 100%;">
+					<label asp-for="@Model.CategoryIds" class="form-label">Category</label>
+					<select asp-for="@Model.CategoryIds" id="inputState" class="form-select" multiple="multiple" data-placeholder="Select Category" style="width: 100%;">
 						@foreach (var category in Model.Categories)
 						{
 							<option value="@category.Id">@category.Name</option>
 						}
 					</select>
+					<a type="button" class="btn btn-outline-primary" asp-controller="Category" asp-action="Add">
+						<span>Add Category</span>
+					</a>
 				</div>
-				<span asp-validation-for="CategoryId" class="text-danger"></span>
+				<span asp-validation-for="CategoryIds" class="text-danger"></span>
 			</div>
 			<div class="mb-3">
 				<input class="btn btn-primary" type="submit" value="Add" />
@@ -94,6 +102,6 @@
 	<link href="~/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css" rel="stylesheet" />
 }*@
 
-	@section Scripts {
+@section Scripts {
 	<partial name="_ValidationScriptsPartial" />
 }

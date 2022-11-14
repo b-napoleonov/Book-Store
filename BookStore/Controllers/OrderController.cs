@@ -43,7 +43,7 @@ namespace BookStore.Controllers
             {
                 TempData[MessageConstant.ErrorMessage] = ae.Message;
 
-                return RedirectToAction(nameof(Order));
+                return RedirectToAction(nameof(Cart));
             }
         }
 

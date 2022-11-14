@@ -33,13 +33,16 @@ namespace BookStore.Core.Services
                 PublisherId = model.PublisherId
             };
 
-            var categoryBook = new CategoryBook()
+            foreach (var categoryId in model.CategoryIds)
             {
-                Book = book,
-                CategoryId = model.CategoryId,
-            };
+                var categoryBook = new CategoryBook()
+                {
+                    Book = book,
+                    CategoryId = categoryId,
+                };
 
-            book.Categories.Add(categoryBook);
+                book.Categories.Add(categoryBook);
+            }
 
             await bookRepository.AddAsync(book);
             await bookRepository.SaveChangesAsync();

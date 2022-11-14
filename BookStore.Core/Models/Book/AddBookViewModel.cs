@@ -13,15 +13,15 @@ namespace BookStore.Core.Models.Book
         }
 
         [Required]
-        [StringLength(13, MinimumLength = 13, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [StringLength(13, MinimumLength = 13, ErrorMessage = "{0} must be between {1} and {2} characters.")]
         public string ISBN { get; set; } = null!;
 
         [Required]
-        [StringLength(100, MinimumLength = 2, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "{0} must be between {1} and {2} characters.")]
         public string Title { get; set; } = null!;
 
         [Required]
-        [StringLength(500, MinimumLength = 10, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [StringLength(500, MinimumLength = 10, ErrorMessage = "{0} must be between {1} and {2} characters.")]
         public string Description { get; set; } = null!;
 
         [Required]
@@ -29,15 +29,15 @@ namespace BookStore.Core.Models.Book
         public int Year { get; set; }
 
         [Required]
-        [Range(typeof(decimal), "0.0", "500.0", ConvertValueInInvariantCulture = true, ErrorMessage = "{0} must be between {2} and {1}.")]
+        [Range(typeof(decimal), "0.0", "500.0", ConvertValueInInvariantCulture = true, ErrorMessage = "{0} must be between {1} and {2}.")]
         public decimal Price { get; set; }
 
         [Required]
-        [Range(0, 9999, ErrorMessage = "{0} must be between {2} and {1}.")]
+        [Range(0, 9999, ErrorMessage = "{0} must be between {1} and {2}.")]
         public int Pages { get; set; }
 
         [Required]
-        [Range(1, 999, ErrorMessage = "{0} must be between {2} and {1}.")]
+        [Range(1, 999, ErrorMessage = "{0} must be between {1} and {2}.")]
         public int Quantity { get; set; }
 
         [Required]
@@ -55,7 +55,7 @@ namespace BookStore.Core.Models.Book
         public IEnumerable<BookPublisherViewModel> Publishers { get; set; }
 
         [Display(Name = "Category")]
-        public int CategoryId { get; set; }
+        public IEnumerable<int> CategoryIds { get; set; }
 
         public IEnumerable<BookCategoryViewModel> Categories { get; set; }
     }
