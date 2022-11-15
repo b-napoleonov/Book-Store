@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace BookStore.Areas.Administration.Controllers
 {
-    //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class BaseController : Controller
     {
         protected string GetCurrentUserId()

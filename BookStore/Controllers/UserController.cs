@@ -1,4 +1,5 @@
 ﻿using BookStore.Common;
+using BookStore.Core.Constants;
 using BookStore.Core.Contracts;
 using BookStore.Core.Models.User;
 using BookStore.Infrastructure.Models;
@@ -24,9 +25,11 @@ namespace BookStore.Controllers
             userService = _userService;
         }
 
+        public static string UserControllerName => nameof(UserController).Replace("Controller", string.Empty);
+
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
@@ -34,6 +37,8 @@ namespace BookStore.Controllers
             }
 
             var model = new LoginViewModel();
+
+            model.ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             return View(model);
         }
@@ -121,6 +126,49 @@ namespace BookStore.Controllers
             var model = await userService.GetUserProfileDataAsync(GetCurrentUserId());
 
             return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult ExternalLogin(string provider, string? returnUrl = null)
+        {
+            // Request a redirect to the external login provider.
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), UserControllerName, new { returnUrl });
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+            if (remoteError != null)
+            {
+                TempData[MessageConstant.ErrorMessage] = $"Error from external provider: {remoteError}";
+
+                return RedirectToAction(nameof(Login), new { ReturnUrl = returnUrl });
+            }
+            var info = await signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Error loading external login information.";
+                return RedirectToAction(nameof(Login), new { ReturnUrl = returnUrl });
+            }
+
+            // Sign in the user with this external login provider if the user already has a login.
+            var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            if (result.Succeeded)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            if (result.IsLockedOut)
+            {
+                return RedirectToPage("./Lockout");
+            }
+            else
+            {
+                return RedirectToAction(nameof(Register));
+            }
         }
     }
 }

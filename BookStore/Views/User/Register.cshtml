@@ -1,45 +1,60 @@
 ﻿@model RegisterViewModel
 
 @{
-    ViewData["Title"] = "Register";
+	ViewData["Title"] = "Register";
 }
 
-<h1 class="text-center">@ViewData["Title"]</h1>
+<div class="position-absolute top-50 start-50 translate-middle">
+	<div class="card">
+		<div class="card-body">
+			<p class="login-box-msg">Register a new account</p>
 
-
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form id="registerForm" method="post">
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="text-center mb-3">
-                <label asp-for="@Model.UserName">Username</label>
-                <input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.UserName" />
-                <span asp-validation-for="@Model.UserName" class="text-danger"></span>
-            </div>
-            <div class="text-center mb-3">
-                <label asp-for="@Model.Email">Email</label>
-                <input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.Email" />
-                <span asp-validation-for="@Model.Email" class="text-danger"></span>
-            </div>
-            <div class="text-center mb-3">
-                <label asp-for="@Model.Password">Password</label>
-                <input class="form-control" type="password" autocomplete="new-password" aria-required="true" asp-for="@Model.Password" />
-                <span asp-validation-for="@Model.Password" class="text-danger"></span>
-            </div>
-            <div class="text-center mb-3">
-                <label asp-for="@Model.ConfirmPassword">Confirm Password</label>
-                <input class="form-control" type="password" autocomplete="new-password" aria-required="true" asp-for="@Model.ConfirmPassword" />
-                <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="text-center">
-                <button id="registerSubmit" type="submit" class="btn btn-primary">Register</button>
-            </div>
-        </form>
-    </div>
+			<form id="registerForm" method="post">
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+				<div class="input-group mb-3">
+					<input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.UserName" placeholder="Username" />
+					<span asp-validation-for="@Model.UserName" class="text-danger"></span>
+					<div class="input-group-append">
+						<div class="input-group-text">
+							<span class="fas fa-user"></span>
+						</div>
+					</div>
+				</div>
+				<div class="input-group mb-3">
+					<input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.Email" placeholder="Email" />
+					<span asp-validation-for="@Model.Email" class="text-danger"></span>
+					<div class="input-group-append">
+						<div class="input-group-text">
+							<span class="fas fa-envelope"></span>
+						</div>
+					</div>
+				</div>
+				<div class="input-group mb-3">
+					<input class="form-control" type="password" autocomplete="new-password" aria-required="true" asp-for="@Model.Password" placeholder="Password" />
+					<span asp-validation-for="@Model.Password" class="text-danger"></span>
+					<div class="input-group-append">
+						<div class="input-group-text">
+							<span class="fas fa-lock"></span>
+						</div>
+					</div>
+				</div>
+				<div class="input-group mb-3">
+					<input class="form-control" type="password" autocomplete="new-password" aria-required="true" asp-for="@Model.ConfirmPassword" placeholder="Confirm Password" />
+					<span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+					<div class="input-group-append">
+						<div class="input-group-text">
+							<span class="fas fa-lock"></span>
+						</div>
+					</div>
+				</div>
+				<div class="text-center">
+					<button id="registerSubmit" type="submit" class="btn btn-primary">Register</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+	<partial name="_ValidationScriptsPartial" />
 }
-

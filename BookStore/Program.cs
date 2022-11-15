@@ -3,6 +3,7 @@ using BookStore.Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BookStore
 {
@@ -51,6 +52,13 @@ namespace BookStore
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
+            builder.Services.AddAuthentication()
+                .AddFacebook(options =>
+                {
+                    options.AppId = builder.Configuration.GetValue<string>("Authentication:Facebook:AppId");
+                    options.AppSecret = builder.Configuration.GetValue<string>("Authentication:Facebook:AppSecret");
+                });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -65,6 +73,16 @@ namespace BookStore
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = "/Home/NotFoundError";
+                    await next();
+                }
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

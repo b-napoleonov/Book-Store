@@ -34,5 +34,12 @@ namespace BookStore.BaseControllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult NotFoundError()
+        {
+            return View("Error404");
+        }
     }
 }
