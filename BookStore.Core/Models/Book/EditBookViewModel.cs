@@ -4,20 +4,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.Book
 {
-    public class AddBookViewModel
+    public class EditBookViewModel
     {
         private const string ImageURLDisplayName = "Image URL";
         private const string AuthorDisplayName = "Author";
         private const string PublisherDisplayName = "Publisher";
         private const string CategoryDisplayName = "Category";
 
-        public AddBookViewModel()
+        public EditBookViewModel()
         {
             this.Authors = new List<BookAuthorViewModel>();
             this.Publishers = new List<BookPublisherViewModel>();
             this.Categories = new List<BookCategoryViewModel>();
             this.CategoryIds = new List<int>();
         }
+
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(GlobalConstants.ISBNMaxLength, MinimumLength = GlobalConstants.ISBNMinLength, ErrorMessage = GlobalExceptions.StringFieldsErrorMessage)]

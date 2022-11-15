@@ -1,7 +1,5 @@
 ﻿using BookStore.Core.Constants;
 using BookStore.Core.Contracts;
-using BookStore.Core.Models.Book;
-using LearnFast.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,20 +12,10 @@ namespace BookStore.Controllers
         private const string IndexViewTitle = "All Books";
 
         private readonly IBookService bookService;
-        private readonly IAuthorService authorService;
-        private readonly ICategoryService categoryService;
-        private readonly IPublisherService publisherService;
 
-        public BookController(
-            IBookService _bookService,
-            IAuthorService _authorService,
-            ICategoryService _categoryService,
-            IPublisherService _publisherService)
+        public BookController(IBookService _bookService)
         {
             bookService = _bookService;
-            authorService = _authorService;
-            categoryService = _categoryService;
-            publisherService = _publisherService;
         }
 
         public static string BookControllerName => nameof(BookController).Replace("Controller", string.Empty);
@@ -65,53 +53,6 @@ namespace BookStore.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-        }
-
-        //TODO: Implement administrator who can add books from here
-        [HttpGet]
-        public async Task<IActionResult> Add()
-        {
-            var model = new AddBookViewModel()
-            {
-                Authors = await authorService.GetAllAuthorsAsync(),
-                Categories = await categoryService.GetAllCategoriesAsync(),
-                Publishers = await publisherService.GetAllPublishersAsync(),
-            };
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(AddBookViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                model.Authors = await authorService.GetAllAuthorsAsync();
-                model.Categories = await categoryService.GetAllCategoriesAsync();
-                model.Publishers = await publisherService.GetAllPublishersAsync();
-
-                return View(model);
-            }
-
-            try
-            {
-                await bookService.AddBookAsync(model);
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError(string.Empty, GlobalExceptions.Exception);
-
-                return View(model);
-            }
-        }
-
-        public async Task<IActionResult> Remove(Guid bookId)
-        {
-            await bookService.RemoveBook(bookId);
-
-            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]

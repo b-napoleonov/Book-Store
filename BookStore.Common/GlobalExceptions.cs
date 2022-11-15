@@ -1,4 +1,4 @@
-﻿namespace LearnFast.Common
+﻿namespace BookStore.Common
 {
     public static class GlobalExceptions
     {

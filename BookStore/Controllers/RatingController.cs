@@ -1,6 +1,6 @@
-﻿using BookStore.Core.Contracts;
+﻿using BookStore.Common;
+using BookStore.Core.Contracts;
 using BookStore.Core.Models.Rating;
-using LearnFast.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers

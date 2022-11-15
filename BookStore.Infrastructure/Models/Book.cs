@@ -1,5 +1,5 @@
-﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
-using LearnFast.Common;
+﻿using BookStore.Common;
+using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;

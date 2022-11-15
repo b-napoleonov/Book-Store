@@ -1,10 +1,10 @@
-﻿using BookStore.Core.Contracts;
+﻿using BookStore.Common;
+using BookStore.Core.Contracts;
 using BookStore.Core.Models.Book;
 using BookStore.Core.Models.Rating;
 using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
-using LearnFast.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Core.Services
@@ -313,6 +313,75 @@ namespace BookStore.Core.Services
 
             bookRepository.Delete(book);
             await bookRepository.SaveChangesAsync();
+        }
+
+        public async Task EditBookAsync(EditBookViewModel model, Guid bookId)
+        {
+            var book = await bookRepository
+                .All()
+                .Include(b => b.Categories)
+                .Where(b => b.Id == bookId)
+                .FirstOrDefaultAsync();
+
+            if (book == null)
+            {
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
+            }
+
+            book.ISBN = model.ISBN;
+            book.Title = model.Title;
+            book.Description = model.Description;
+            book.Year = model.Year;
+            book.Price = model.Price;
+            book.Pages = model.Pages;
+            book.Quantity = model.Quantity;
+            book.ImageUrl = model.ImageUrl;
+            book.AuthorId = model.AuthorId;
+            book.PublisherId = model.PublisherId;
+
+            foreach (var category in book.Categories)
+            {
+                book.Categories.Remove(category);
+            }
+
+            foreach (var categoryId in model.CategoryIds)
+            {
+                var categoryBook = new CategoryBook()
+                {
+                    BookId = bookId,
+                    CategoryId = categoryId,
+                };
+
+                book.Categories.Add(categoryBook);
+            }
+
+            await bookRepository.SaveChangesAsync();
+        }
+
+        public async Task<EditBookViewModel> GetBookDataForEditAsync(Guid bookId)
+        {
+            var book = await bookRepository
+                .AllAsNoTracking()
+                .Where(b => b.Id == bookId)
+                .FirstOrDefaultAsync();
+
+            if (book == null)
+            {
+                throw new ArgumentException(GlobalExceptions.InvalidBookId);
+            }
+
+            return new EditBookViewModel
+            {
+                Id = book.Id,
+                ISBN = book.ISBN,
+                Title = book.Title,
+                Description = book.Description,
+                Year = book.Year,
+                Price = book.Price,
+                Pages = book.Pages,
+                Quantity = book.Quantity,
+                ImageUrl = book.ImageUrl,
+            };
         }
     }
 }

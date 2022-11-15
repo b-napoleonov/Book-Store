@@ -1,8 +1,8 @@
-﻿using BookStore.Core.Constants;
+﻿using BookStore.Common;
+using BookStore.Core.Constants;
 using BookStore.Core.Contracts;
 using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Models;
-using LearnFast.Common;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -99,7 +99,6 @@ namespace BookStore.Controllers
             }
         }
 
-        [HttpPost]
         public async Task<IActionResult> Delete(int reviewId)
         {
             try

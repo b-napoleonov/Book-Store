@@ -1,5 +1,5 @@
-﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
-using LearnFast.Common;
+﻿using BookStore.Common;
+using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

@@ -1,0 +1,108 @@
+﻿@model EditBookViewModel
+
+@{
+	ViewBag.Title = "Add Book";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+	<div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+		<form asp-action="Edit" method="post">
+			<div class="mb-3">
+				<label asp-for="@Model.ISBN" class="form-label">ISBN</label>
+				<input asp-for="@Model.ISBN" class="form-control" aria-required="true" />
+				<span asp-validation-for="ISBN" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.Title" class="form-label">Title</label>
+				<input asp-for="@Model.Title" class="form-control" aria-required="true" />
+				<span asp-validation-for="Title" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.Description" class="form-label">Description</label>
+				<input asp-for="@Model.Description" class="form-control" aria-required="true" />
+				<span asp-validation-for="Description" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.Year" class="form-label">Year</label>
+				<input asp-for="@Model.Year" class="form-control" aria-required="true" />
+				<span asp-validation-for="Year" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.Price" class="form-label">Price</label>
+				<input asp-for="@Model.Price" class="form-control" aria-required="true" />
+				<span asp-validation-for="Price" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.Pages" class="form-label">Pages</label>
+				<input asp-for="@Model.Pages" class="form-control" aria-required="true" />
+				<span asp-validation-for="Pages" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.Quantity" class="form-label">Quantity</label>
+				<input asp-for="@Model.Quantity" class="form-control" aria-required="true" />
+				<span asp-validation-for="Quantity" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.ImageUrl" class="form-label">Image URL</label>
+				<input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
+				<span asp-validation-for="ImageUrl" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.AuthorId" class="form-label">Author</label>
+				<select asp-for="@Model.AuthorId" class="form-control">
+					@foreach (var author in Model.Authors)
+					{
+						<option value="@author.Id">@author.Name</option>
+					}
+				</select>
+				<span asp-validation-for="AuthorId" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.PublisherId" class="form-label">Publisher</label>
+				<select asp-for="@Model.PublisherId" class="form-control">
+					@foreach (var publisher in Model.Publishers)
+					{
+						<option value="@publisher.Id">@publisher.Name</option>
+					}
+				</select>
+				<span asp-validation-for="PublisherId" class="text-danger"></span>
+			</div>
+			<div class="mb-3 row">
+				<div class="form-group">
+					<label asp-for="@Model.CategoryIds" class="form-label">Category</label>
+					<select asp-for="@Model.CategoryIds" id="inputState" class="form-select" multiple="multiple" data-placeholder="Select Category" style="width: 100%;">
+						@foreach (var category in Model.Categories)
+						{
+							<option value="@category.Id">@category.Name</option>
+						}
+					</select>
+					<a type="button" class="btn btn-outline-primary" asp-controller="Category" asp-action="Add">
+						<span>Add Category</span>
+					</a>
+				</div>
+				<span asp-validation-for="CategoryIds" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<input class="btn btn-primary" type="submit" value="Edit" />
+			</div>
+			<input type="hidden" name="bookId" value=@Model.Id>
+		</form>
+	</div>
+</div>
+
+@*@section Styles{
+	<link href="~/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" asp-append-version="true">
+	<link href="~/css/adminlte.min.css" rel="stylesheet" asp-append-version="true">
+	<link href="~/plugins/select2/css/select2.min.css" rel="stylesheet" />
+	<link href="~/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />
+	<link href="~/plugins/dropzone/min/dropzone.min.css" rel="stylesheet" />
+	<link href="~/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css" rel="stylesheet" />
+}*@
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

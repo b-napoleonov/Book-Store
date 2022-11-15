@@ -37,6 +37,12 @@
 								<a class="nav-link text-dark" asp-controller="Book" asp-action="Index">Books</a>
 							</li>
 						}
+						@if (User?.IsInRole("Administrator") ?? false)
+						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="Administration" asp-controller="Book" asp-action="Add">Add Book</a>
+							</li>
+						}
 					</ul>
 					@if (User?.Identity?.IsAuthenticated ?? false)
 					{

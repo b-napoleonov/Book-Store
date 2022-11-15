@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="HtmlSanitizer" Version="8.0.601" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="6.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.8" />
@@ -20,6 +21,12 @@
   <ItemGroup>
     <ProjectReference Include="..\BookStore.Common\BookStore.Common.csproj" />
     <ProjectReference Include="..\BookStore.Core\BookStore.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Administration\Data\" />
+    <Folder Include="Areas\Administration\Models\" />
+    <Folder Include="Areas\Administration\Views\" />
   </ItemGroup>
 
 </Project>

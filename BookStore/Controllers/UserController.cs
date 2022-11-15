@@ -1,7 +1,7 @@
-﻿using BookStore.Core.Contracts;
+﻿using BookStore.Common;
+using BookStore.Core.Contracts;
 using BookStore.Core.Models.User;
 using BookStore.Infrastructure.Models;
-using LearnFast.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

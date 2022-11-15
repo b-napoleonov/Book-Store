@@ -1,5 +1,5 @@
-﻿using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
-using LearnFast.Common;
+﻿using BookStore.Common;
+using BookStore.Infrastructure.Common.SoftDeleteBaseClass;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Infrastructure.Models

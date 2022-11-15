@@ -1,7 +1,9 @@
-﻿namespace LearnFast.Common
+﻿namespace BookStore.Common
 {
     public static class GlobalConstants
     {
+        public const string AdministratorRoleName = "Administrator";
+
         public const string BookOrderdSuccessfully = "Book added to your cart.";
 
         public const string OrderRemovedSuccessfully = "Order removed successfully.";
@@ -11,6 +13,10 @@
         public const string ReviewUpdatedSuccessfully = "Review updated successfully.";
 
         public const string ReviewDeletedSuccessfully = "Review deleted successfully.";
+
+        public const string BookDeletedSuccessfully = "Book deleted successfully";
+
+        public const string BookEditedSuccessfully = "Book edited successfully";
 
         public const int ISBNMaxLength = 13;
         public const int ISBNMinLength = 13;
@@ -23,8 +29,8 @@
 
         public const int CurrentYearValue = 1900;
 
-        public const string PriceMaxRange = "0.0";
-        public const string PriceMinRange = "500.0";
+        public const string PriceMinRange = "0.0";
+        public const string PriceMaxRange = "500.0";
 
         public const int PagesMaxRange = 9999;
         public const int PagesMinRange = 10;

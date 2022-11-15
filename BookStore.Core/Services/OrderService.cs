@@ -1,8 +1,8 @@
-﻿using BookStore.Core.Contracts;
+﻿using BookStore.Common;
+using BookStore.Core.Contracts;
 using BookStore.Core.Models.Order;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
-using LearnFast.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Core.Services

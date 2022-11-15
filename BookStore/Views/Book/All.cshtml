@@ -18,11 +18,22 @@
 				<p class="mb-0">Price: @book.Price.ToString("f2")</p>
 			</div>
 
-			<div>
+			<div class="d-grid gap-2 d-md-block">
 				<a type="button" class="fs-6 btn btn-success mb-3 p-2" asp-controller="Order" asp-action="Order" asp-route-bookId="@book.Id">
 					<i class="fas fa-cart-plus"></i>
 					<span>Order</span>
 				</a>
+				@if (User?.IsInRole("Administrator") ?? false)
+				{
+					<a type="button" class="btn btn-warning mb-3 p-2" asp-area="Administration" asp-controller="Book" asp-action="Edit" asp-route-bookId="@book.Id">
+						<i class="fas fa-edit"></i>
+						<span>Edit</span>
+					</a>
+					<a type="button" class="btn btn-danger mb-3 p-2" asp-area="Administration" asp-controller="Book" asp-action="Remove" asp-route-bookId="@book.Id">
+						<i class="fas fa-trash"></i>
+						<span>Delete</span>
+					</a>
+				}
 			</div>
 		</div>
 	}

@@ -1,4 +1,4 @@
-﻿using LearnFast.Common;
+﻿using BookStore.Common;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.User

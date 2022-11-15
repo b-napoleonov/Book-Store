@@ -28,5 +28,9 @@ namespace BookStore.Core.Contracts
         Task<DetailsRatingViewModel> GetBookRatingAsync(Guid bookId);
 
         Task RemoveBook(Guid bookId);
+
+        Task<EditBookViewModel> GetBookDataForEditAsync(Guid bookId);
+
+        Task EditBookAsync(EditBookViewModel model, Guid bookId);
     }
 }
