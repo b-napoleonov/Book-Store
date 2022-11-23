@@ -1,6 +1,6 @@
 ﻿@model OrderCountViewModel
 
-<a type="button" class="position-relative" asp-controller="Order" asp-action="Cart">
+<a type="button" class="position-relative" asp-area="" asp-controller="Order" asp-action="Cart">
 	<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge bg-danger">@Model.OrderCount</span>
 	<i class="fas fa-shopping-cart"></i>
 </a>

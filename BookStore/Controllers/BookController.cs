@@ -43,7 +43,7 @@ namespace BookStore.Controllers
 
                 var model = await bookService.GetBookAsync(bookId);
                 model.Reviews = await bookService.GetBookReviewsAsync(bookId);
-                model.Ratings = await bookService.GetBookRatingAsync(bookId);
+                model.Ratings = await bookService.GetBookRatingDetailsAsync(bookId);
 
                 return View(model);
             }

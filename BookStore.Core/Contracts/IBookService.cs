@@ -25,12 +25,14 @@ namespace BookStore.Core.Contracts
 
         Task<IEnumerable<DetailsReviewViewModel>> GetBookReviewsAsync(Guid bookId);
 
-        Task<DetailsRatingViewModel> GetBookRatingAsync(Guid bookId);
+        Task<DetailsRatingViewModel> GetBookRatingDetailsAsync(Guid bookId);
 
         Task RemoveBook(Guid bookId);
 
         Task<EditBookViewModel> GetBookDataForEditAsync(Guid bookId);
 
         Task EditBookAsync(EditBookViewModel model, Guid bookId);
+
+        Task<IEnumerable<HomeBookViewModel>> GetLastThreeBooksAsync();
     }
 }

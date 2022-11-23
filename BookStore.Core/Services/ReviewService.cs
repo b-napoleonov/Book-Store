@@ -25,21 +25,17 @@ namespace BookStore.Core.Services
 
 		public async Task AddReviewAsync(ReviewViewModel model, Guid bookId, string userId)
 		{
-			var book = await bookService.GetBookByIdAsync(bookId);
-
-			if (book == null)
-			{
-                throw new ArgumentException(GlobalExceptions.InvalidBookId);
+            try
+            {
+                var book = await bookService.GetBookByIdAsync(bookId);
+                var user = await userService.GetUserByIdAsync(userId);
+            }
+            catch (ArgumentException ae)
+            {
+                throw new ArgumentException(ae.Message);
             }
 
-			var user = await userService.GetUserByIdAsync(userId);
-
-			if (user == null)
-			{
-                throw new ArgumentException(GlobalExceptions.InvalidUser);
-            }
-
-			var review = new Review
+            var review = new Review
 			{
 				BookId = bookId,
 				UserId = userId,
@@ -95,11 +91,13 @@ namespace BookStore.Core.Services
 
 		public async Task<IEnumerable<Review>> GetUserReviewsAsync(string userId)
 		{
-            var user = await userService.GetUserByIdAsync(userId);
-
-            if (user == null)
+            try
+			{
+                var user = await userService.GetUserByIdAsync(userId);
+            }
+            catch (ArgumentException ae)
             {
-                throw new ArgumentException(GlobalExceptions.InvalidUser);
+                throw new ArgumentException(ae.Message);
             }
 
             return await reviewRepository

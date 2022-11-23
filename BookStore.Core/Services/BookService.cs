@@ -54,6 +54,7 @@ namespace BookStore.Core.Services
             return await bookRepository
                 .AllAsNoTracking()
                 .Include(b => b.Ratings)
+                .OrderBy(b => b.Title)
                 .Select(b => new AllBooksViewModel
                 {
                     Id = b.Id,
@@ -272,7 +273,7 @@ namespace BookStore.Core.Services
             return reviews;
         }
 
-        public async Task<DetailsRatingViewModel> GetBookRatingAsync(Guid bookId)
+        public async Task<DetailsRatingViewModel> GetBookRatingDetailsAsync(Guid bookId)
         {
             var book = await bookRepository
                 .AllAsNoTracking()
@@ -302,7 +303,7 @@ namespace BookStore.Core.Services
         public async Task RemoveBook(Guid bookId)
         {
             var book = await bookRepository
-                .AllAsNoTracking()
+                .All()
                 .Where(b => b.Id == bookId)
                 .FirstOrDefaultAsync();
 
@@ -339,10 +340,13 @@ namespace BookStore.Core.Services
             book.AuthorId = model.AuthorId;
             book.PublisherId = model.PublisherId;
 
-            foreach (var category in book.Categories)
-            {
-                book.Categories.Remove(category);
-            }
+            //foreach (var category in book.Categories)
+            //{
+            //    book.Categories.Remove(category);
+            //}
+
+            //Works with clear, throws error with foreach
+            book.Categories.Clear();
 
             foreach (var categoryId in model.CategoryIds)
             {
@@ -354,6 +358,8 @@ namespace BookStore.Core.Services
 
                 book.Categories.Add(categoryBook);
             }
+
+            bookRepository.Update(book);
 
             await bookRepository.SaveChangesAsync();
         }
@@ -382,6 +388,28 @@ namespace BookStore.Core.Services
                 Quantity = book.Quantity,
                 ImageUrl = book.ImageUrl,
             };
+        }
+
+        public async Task<IEnumerable<HomeBookViewModel>> GetLastThreeBooksAsync()
+        {
+            var books = await bookRepository
+                .AllAsNoTracking()
+                .OrderBy(b => b.Title)
+                .Take(3)
+                .ToListAsync();
+
+            var model = new List<HomeBookViewModel>();
+
+            foreach (var book in books)
+            {
+                model.Add(new HomeBookViewModel
+                {
+                    Title = book.Title,
+                    ImageUrl = book.ImageUrl
+                });
+            }
+
+            return model;
         }
     }
 }

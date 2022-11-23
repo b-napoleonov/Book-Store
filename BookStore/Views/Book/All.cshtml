@@ -7,7 +7,7 @@
 	@foreach (var book in Model)
 	{
 		<div class="card col-4" style="width: 20rem; ">
-			<a type="button" class="fs-6 mb-3 p-2" asp-action="Details" asp-route-bookId="@book.Id">
+			<a type="button" class="fs-6 mb-3 p-2" asp-area="" asp-action="Details" asp-route-bookId="@book.Id">
 				<img class="card-img-top" style="width: 15rem;"
 				 src="@book.ImageUrl" alt="Book Image">
 			</a>
@@ -19,7 +19,7 @@
 			</div>
 
 			<div class="d-grid gap-2 d-md-block">
-				<a type="button" class="fs-6 btn btn-success mb-3 p-2" asp-controller="Order" asp-action="Order" asp-route-bookId="@book.Id">
+				<a type="button" class="fs-6 btn btn-success mb-3 p-2" asp-area="" asp-controller="Order" asp-action="Order" asp-route-bookId="@book.Id">
 					<i class="fas fa-cart-plus"></i>
 					<span>Order</span>
 				</a>

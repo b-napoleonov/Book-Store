@@ -26,15 +26,15 @@
 				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 					<ul class="navbar-nav flex-grow-1">
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 						</li>
 						@if (User?.Identity?.IsAuthenticated ?? false)
 						{
 							<li class="nav-item">
-								<a class="nav-link text-dark" asp-controller="Book" asp-action="Index">Books</a>
+								<a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">Books</a>
 							</li>
 						}
 						@if (User?.IsInRole("Administrator") ?? false)
@@ -51,7 +51,7 @@
 					}
 					else
 					{
-						<a type="button" class="position-relative" asp-controller="Order" asp-action="Cart">
+						<a type="button" class="position-relative" asp-area="" asp-controller="Order" asp-action="Cart">
 							<i class="fas fa-shopping-cart"></i>
 						</a>
 					}
@@ -68,7 +68,8 @@
 
 	<footer class="border-top footer text-muted">
 		<div class="container">
-			&copy; 2022 - BookStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+			&copy; 2022 - BookStore  ->  <a type="button" class="btn btn-outline-info" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+			<a type="button" class="btn btn-outline-info" asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
 		</div>
 	</footer>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

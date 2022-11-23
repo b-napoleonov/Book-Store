@@ -25,23 +25,21 @@ namespace BookStore.Core.Services
 
         public async Task AddNewOrderAsync(Guid bookId, string userId)
         {
-            var book = await bookService.GetBookByIdAsync(bookId);
+            Book book = null;
 
-            if (book == null)
+            try
             {
-                throw new ArgumentException(GlobalExceptions.InvalidBookId);
+                book = await bookService.GetBookByIdAsync(bookId);
+                var user = await userService.GetUserByIdAsync(userId);
+            }
+            catch (ArgumentException ae)
+            {
+                throw new ArgumentException(ae.Message);
             }
 
             if (book.Quantity < 1)
             {
                 throw new ArgumentException(GlobalExceptions.InsufficientQuantity);
-            }
-
-            var user = await userService.GetUserByIdAsync(userId);
-
-            if (user == null)
-            {
-                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             var order = new Order
@@ -65,23 +63,21 @@ namespace BookStore.Core.Services
 
         public async Task AddCopiesToOrderAsync(Guid bookId, string userId)
         {
-            var book = await bookService.GetBookByIdAsync(bookId);
+            Book book = null;
 
-            if (book == null)
+            try
             {
-                throw new ArgumentException(GlobalExceptions.InvalidBookId);
+                book = await bookService.GetBookByIdAsync(bookId);
+                var user = await userService.GetUserByIdAsync(userId);
+            }
+            catch (ArgumentException ae)
+            {
+                throw new ArgumentException(ae.Message);
             }
 
             if (book.Quantity < 1)
             {
                 throw new ArgumentException(GlobalExceptions.InsufficientQuantity);
-            }
-
-            var user = await userService.GetUserByIdAsync(userId);
-
-            if (user == null)
-            {
-                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             var bookOrder = await orderRepository
@@ -119,23 +115,21 @@ namespace BookStore.Core.Services
 
         public async Task AddNewBookToOrderAsync(Guid bookId, string userId)
         {
-            var book = await bookService.GetBookByIdAsync(bookId);
+            Book book = null;
 
-            if (book == null)
+            try
             {
-                throw new ArgumentException(GlobalExceptions.InvalidBookId);
+                book = await bookService.GetBookByIdAsync(bookId);
+                var user = await userService.GetUserByIdAsync(userId);
+            }
+            catch (ArgumentException ae)
+            {
+                throw new ArgumentException(ae.Message);
             }
 
             if (book.Quantity < 1)
             {
                 throw new ArgumentException(GlobalExceptions.InsufficientQuantity);
-            }
-
-            var user = await userService.GetUserByIdAsync(userId);
-
-            if (user == null)
-            {
-                throw new ArgumentException(GlobalExceptions.InvalidUser);
             }
 
             var customerOrder = await orderRepository
@@ -162,11 +156,13 @@ namespace BookStore.Core.Services
 
         public async Task<IEnumerable<OrderViewModel>> GetUserOrdersAsync(string userId)
         {
-            var user = await userService.GetUserByIdAsync(userId);
-
-            if (user == null)
+            try
             {
-                throw new ArgumentException(GlobalExceptions.InvalidUser);
+                var user = await userService.GetUserByIdAsync(userId);
+            }
+            catch (ArgumentException ae)
+            {
+                throw new ArgumentException(ae.Message);
             }
 
             var customerOrders = await orderRepository
@@ -201,18 +197,16 @@ namespace BookStore.Core.Services
 
         public async Task RemoveUserOrdersAsync(Guid bookId, string userId)
         {
-            var book = await bookService.GetBookByIdAsync(bookId);
+            Book book = null;
 
-            if (book == null)
+            try
             {
-                throw new ArgumentException(GlobalExceptions.InvalidBookId);
+                book = await bookService.GetBookByIdAsync(bookId);
+                var user = await userService.GetUserByIdAsync(userId);
             }
-
-            var user = await userService.GetUserByIdAsync(userId);
-
-            if (user == null)
+            catch (ArgumentException ae)
             {
-                throw new ArgumentException(GlobalExceptions.InvalidUser);
+                throw new ArgumentException(ae.Message);
             }
 
             var bookOrder = await orderRepository

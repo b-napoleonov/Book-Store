@@ -20,7 +20,7 @@
 						<div class="container">
 							<div class="row">
 								<div class="col">
-									<a type="button" class="position-relative" asp-controller="Order" asp-action="Remove" asp-route-bookId="@order.BookId">
+									<a type="button" class="position-relative" asp-area="" asp-controller="Order" asp-action="Remove" asp-route-bookId="@order.BookId">
 										<i class="fas fa-arrow-left"></i>
 									</a>
 								</div>
@@ -28,7 +28,7 @@
 									@order.Copies
 								</div>
 								<div class="col">
-									<a type="button" class="position-relative" asp-controller="Order" asp-action="Order" asp-route-bookId="@order.BookId">
+									<a type="button" class="position-relative" asp-area="" asp-controller="Order" asp-action="Order" asp-route-bookId="@order.BookId">
 										<i class="fas fa-arrow-right"></i>
 									</a>
 								</div>
@@ -64,7 +64,7 @@
 		color: grey;
 	}
 </style>
-<script>
+<script type="text/javascript">
 	window.onload = function () {
 		let div = document.getElementsByClassName('card-body');
 

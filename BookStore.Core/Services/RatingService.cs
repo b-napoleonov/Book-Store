@@ -25,19 +25,28 @@ namespace BookStore.Core.Services
 
         public async Task AddRating(AddRatingViewModel model, Guid bookId, string userId)
         {
-            var book = await bookService.GetBookByIdAsync(bookId);
-
-            if (book == null)
+            try
             {
-                throw new ArgumentException(GlobalExceptions.InvalidBookId);
+                var book = await bookService.GetBookByIdAsync(bookId);
+                var user = await userService.GetUserByIdAsync(userId);
             }
-
-            var user = await userService.GetUserByIdAsync(userId);
-
-            if (user == null)
+            catch (ArgumentException ae)
             {
-                throw new ArgumentException(GlobalExceptions.InvalidUser);
+                throw new ArgumentException(ae.Message);
             }
+            //var book = await bookService.GetBookByIdAsync(bookId);
+
+            //if (book == null)
+            //{
+            //    throw new ArgumentException(GlobalExceptions.InvalidBookId);
+            //}
+
+            //var user = await userService.GetUserByIdAsync(userId);
+
+            //if (user == null)
+            //{
+            //    throw new ArgumentException(GlobalExceptions.InvalidUser);
+            //}
 
             var ratingExists = await ratingRepository.AllAsNoTracking().AnyAsync(r => r.UserId == userId && r.BookId == bookId);
 
