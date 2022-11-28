@@ -1,4 +1,5 @@
 ﻿using BookStore.Core.Contracts;
+using BookStore.Core.Exceptions;
 using BookStore.Core.Services;
 using BookStore.Infrastructure.Common.Repositories;
 
@@ -16,6 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IRatingService, RatingService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IGuard, Guard>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(DeletableEntityRepository<>));
 

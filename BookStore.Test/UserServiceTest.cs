@@ -6,6 +6,8 @@ using BookStore.Core.Services;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Newtonsoft.Json;
 
 namespace BookStore.Test
@@ -25,18 +27,12 @@ namespace BookStore.Test
                 .AddSingleton(sp => dbContext.CreateContext())
                 .AddSingleton<IDeletableEntityRepository<ApplicationUser>, DeletableEntityRepository<ApplicationUser>>()
                 .AddSingleton<IUserService, UserService>()
+                .AddSingleton<ILogger<UserService>, Logger<UserService>>()
+                .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .BuildServiceProvider();
 
             var repo = serviceProvider.GetService<IDeletableEntityRepository<ApplicationUser>>();
             await SeedDbAsync(repo);
-        }
-
-        [Test]
-        public void GetUserByIdAsyncShouldThrowExceptionWhenUserIsNotFound()
-        {
-            var service = serviceProvider.GetService<IUserService>();
-
-            Assert.CatchAsync<ArgumentException>(async () => await service.GetUserByIdAsync("RandomID"), GlobalExceptions.InvalidUser);
         }
 
         [Test]
@@ -56,6 +52,20 @@ namespace BookStore.Test
 
             Assert.That(actualUser.UserName, Is.EqualTo("Pesho"));
             Assert.That(actualUser.Email, Is.EqualTo("pesho@abv.bg"));
+        }
+
+        [Test]
+        public void GetUserByIdAsyncThrowsErrorIfDatabaseFailedToFetch()
+        {
+            var repo = new Mock<IDeletableEntityRepository<ApplicationUser>>();
+            repo.Setup(r => r.AllAsNoTracking())
+            .Throws(new ApplicationException(GlobalExceptions.DatabaseFailedToFetch));
+
+            var logger = new Mock<ILogger<UserService>>();
+
+            IUserService userService = new UserService(repo.Object, logger.Object);
+
+            Assert.ThrowsAsync<ApplicationException>(async () => await userService.GetUserByIdAsync("peshoId"), GlobalExceptions.DatabaseFailedToFetch);
         }
 
         [Test]
@@ -89,6 +99,20 @@ namespace BookStore.Test
         }
 
         [Test]
+        public void GetUserProfileDataAsyncThrowsErrorIfDatabaseFailedToFetch()
+        {
+            var repo = new Mock<IDeletableEntityRepository<ApplicationUser>>();
+            repo.Setup(r => r.AllAsNoTracking())
+            .Throws(new ApplicationException(GlobalExceptions.DatabaseFailedToFetch));
+
+            var logger = new Mock<ILogger<UserService>>();
+
+            IUserService userService = new UserService(repo.Object, logger.Object);
+
+            Assert.ThrowsAsync<ApplicationException>(async () => await userService.GetUserProfileDataAsync("peshoId"), GlobalExceptions.DatabaseFailedToFetch);
+        }
+
+        [Test]
         public void GetOrdersCountAsyncShouldThrowExceptionWhenUserIsNotFound()
         {
             var service = serviceProvider.GetService<IUserService>();
@@ -114,6 +138,20 @@ namespace BookStore.Test
 
             //TODO:Fix problem with BookOrders saving to context
             Assert.That(resultData, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void GetOrdersCountAsyncThrowsErrorIfDatabaseFailedToFetch()
+        {
+            var repo = new Mock<IDeletableEntityRepository<ApplicationUser>>();
+            repo.Setup(r => r.AllAsNoTracking())
+            .Throws(new ApplicationException(GlobalExceptions.DatabaseFailedToFetch));
+
+            var logger = new Mock<ILogger<UserService>>();
+
+            IUserService userService = new UserService(repo.Object, logger.Object);
+
+            Assert.ThrowsAsync<ApplicationException>(async () => await userService.GetOrdersCountAsync("peshoId"), GlobalExceptions.DatabaseFailedToFetch);
         }
 
         [TearDown]

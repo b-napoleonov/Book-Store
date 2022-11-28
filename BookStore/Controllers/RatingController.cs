@@ -1,6 +1,7 @@
 ﻿using BookStore.Common;
 using BookStore.Core.Contracts;
 using BookStore.Core.Models.Rating;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers

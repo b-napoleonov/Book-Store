@@ -4,6 +4,10 @@
     {
         public const string Exception = "Something went wrong.";
 
+        public const string DatabaseFailedToFetch = "Failed to fetch info from DB";
+
+        public const string DatabaseFailedToSave = "Database failed to save data";
+
         public const string InvalidLogin = "Invalid Login!";
 
         public const string InvalidBookId = "Invalid Book Id.";

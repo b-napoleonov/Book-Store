@@ -48,7 +48,7 @@ namespace BookStore.Controllers
             }
             catch (Exception)
             {
-                ModelState.AddModelError(string.Empty, GlobalExceptions.Exception);
+                TempData[MessageConstant.ErrorMessage] = GlobalExceptions.Exception;
 
                 return View(model);
             }
@@ -72,7 +72,7 @@ namespace BookStore.Controllers
             }
             catch (ArgumentException ae)
             {
-                TempData[MessageConstant.ErrorMessage] = ae.Message;
+                TempData[MessageConstant.ErrorMessage] = GlobalExceptions.Exception;
 
                 return RedirectToAction(nameof(BookController.Index));
             }
@@ -93,7 +93,7 @@ namespace BookStore.Controllers
             }
             catch (Exception)
             {
-                ModelState.AddModelError(string.Empty, GlobalExceptions.Exception);
+                TempData[MessageConstant.ErrorMessage] = GlobalExceptions.Exception;
 
                 return View(model);
             }
@@ -113,7 +113,7 @@ namespace BookStore.Controllers
             }
             catch (ArgumentException ae)
             {
-                TempData[MessageConstant.ErrorMessage] = ae.Message;
+                TempData[MessageConstant.ErrorMessage] = GlobalExceptions.Exception;
 
                 return RedirectToAction(nameof(BookController.Index));
             }

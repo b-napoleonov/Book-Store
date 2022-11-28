@@ -1,9 +1,12 @@
-﻿using BookStore.Core.Contracts;
+﻿using BookStore.Common;
+using BookStore.Core.Contracts;
 using BookStore.Core.Models.Book;
 using BookStore.Core.Services;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Newtonsoft.Json;
 
 namespace BookStore.Test
@@ -24,6 +27,8 @@ namespace BookStore.Test
                 .AddSingleton(sp => dbContext.CreateContext())
                 .AddSingleton<IDeletableEntityRepository<Category>, DeletableEntityRepository<Category>>()
                 .AddSingleton<ICategoryService, CategoryService>()
+                .AddSingleton<ILogger<CategoryService>, Logger<CategoryService>>()
+                .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .BuildServiceProvider();
 
             var repo = serviceProvider.GetService<IDeletableEntityRepository<Category>>();
@@ -45,6 +50,20 @@ namespace BookStore.Test
         }
 
         [Test]
+        public void GetAllCategoriesAsyncThrowsErrorIfDatabaseFailedToFetch()
+        {
+            var repo = new Mock<IDeletableEntityRepository<Category>>();
+            repo.Setup(r => r.AllAsNoTracking())
+            .Throws(new ApplicationException(GlobalExceptions.DatabaseFailedToFetch));
+
+            var logger = new Mock<ILogger<CategoryService>>();
+
+            ICategoryService authorService = new CategoryService(repo.Object, logger.Object);
+
+            Assert.ThrowsAsync<ApplicationException>(async () => await authorService.GetAllCategoriesAsync(), GlobalExceptions.DatabaseFailedToFetch);
+        }
+
+        [Test]
         public async Task AddCategoryShouldAddCorrectly()
         {
             var service = serviceProvider.GetService<ICategoryService>();
@@ -52,6 +71,20 @@ namespace BookStore.Test
             await service.AddCategoryAsync(new Core.Models.Category.AddCategoryViewModel { Name = "Test" });
 
             Assert.That((await service.GetAllCategoriesAsync()).Count(), Is.EqualTo(expectedCategoriesCount));
+        }
+
+        [Test]
+        public void AddCategoryThrowsErrorIfDatabaseFailedToSave()
+        {
+            var repo = new Mock<IDeletableEntityRepository<Category>>();
+            repo.Setup(r => r.SaveChangesAsync())
+            .Throws(new ApplicationException(GlobalExceptions.DatabaseFailedToSave));
+
+            var logger = new Mock<ILogger<CategoryService>>();
+
+            ICategoryService categoryService = new CategoryService(repo.Object, logger.Object);
+
+            Assert.ThrowsAsync<ApplicationException>(async () => await categoryService.AddCategoryAsync(new Core.Models.Category.AddCategoryViewModel { Name = "Test" }), GlobalExceptions.DatabaseFailedToFetch);
         }
 
         [TearDown]

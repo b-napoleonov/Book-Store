@@ -1,23 +1,33 @@
-﻿using BookStore.Core.Contracts;
+﻿using BookStore.Common;
+using BookStore.Core.Contracts;
 using BookStore.Core.Models.Book;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BookStore.Core.Services
 {
     public class PublisherService : IPublisherService
     {
         private readonly IDeletableEntityRepository<Publisher> publisherRepository;
+        private readonly ILogger<PublisherService> logger;
 
-        public PublisherService(IDeletableEntityRepository<Publisher> _publisherRepository)
+        public PublisherService(
+            IDeletableEntityRepository<Publisher> _publisherRepository,
+            ILogger<PublisherService> _logger)
         {
             publisherRepository = _publisherRepository;
+            logger = _logger;
         }
 
         public async Task<IEnumerable<BookPublisherViewModel>> GetAllPublishersAsync()
         {
-            return await publisherRepository
+            var publishers = new List<BookPublisherViewModel>();
+
+            try
+            {
+                publishers = await publisherRepository
                 .AllAsNoTracking()
                 .OrderBy(p => p.Name)
                 .Select(p => new BookPublisherViewModel
@@ -26,6 +36,15 @@ namespace BookStore.Core.Services
                     Name = p.Name
                 })
                 .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetAllPublishersAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToFetch, ex);
+            }
+
+            return publishers;
         }
     }
 }

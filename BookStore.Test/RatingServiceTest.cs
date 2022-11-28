@@ -7,6 +7,9 @@ using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
+using System.Net;
 
 namespace BookStore.Test
 {
@@ -14,8 +17,8 @@ namespace BookStore.Test
     {
         private ServiceProvider serviceProvider;
         private InMemoryDbContext dbContext;
-        private Guid bookId;
-        private string userId;
+        private Book book;
+        private ApplicationUser user;
         private int ratingId;
 
         [SetUp]
@@ -30,17 +33,23 @@ namespace BookStore.Test
                 .AddSingleton<IDeletableEntityRepository<Book>, DeletableEntityRepository<Book>>()
                 .AddSingleton<IDeletableEntityRepository<ApplicationUser>, DeletableEntityRepository<ApplicationUser>>()
                 .AddSingleton<IUserService, UserService>()
+                .AddSingleton<ILogger<UserService>, Logger<UserService>>()
+                .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .AddSingleton<IBookService, BookService>()
+                .AddSingleton<ILogger<BookService>, Logger<BookService>>()
+                .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .AddSingleton<IRatingService, RatingService>()
+                .AddSingleton<ILogger<RatingService>, Logger<RatingService>>()
+                .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .BuildServiceProvider();
 
             var ratingRepository = serviceProvider.GetService<IDeletableEntityRepository<Rating>>();
             var userRepository = serviceProvider.GetService<IDeletableEntityRepository<ApplicationUser>>();
             var bookRepository = serviceProvider.GetService<IDeletableEntityRepository<Book>>();
 
-            await SeedDbAsync(userRepository);
-            await SeedDbAsync(bookRepository);
-            await SeedDbAsync(ratingRepository, bookId, userId);
+            user = await SeedDbAsync(userRepository);
+            book = await SeedDbAsync(bookRepository);
+            await SeedDbAsync(ratingRepository, book.Id, user.Id);
         }
 
         [Test]
@@ -53,7 +62,7 @@ namespace BookStore.Test
 
             var service = serviceProvider.GetService<IRatingService>();
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await service.AddRating(model, Guid.NewGuid(), "Random user"), GlobalExceptions.InvalidBookId);
+            Assert.ThrowsAsync<NullReferenceException>(async () => await service.AddRating(model, Guid.NewGuid(), "Random user"), GlobalExceptions.InvalidBookId);
         }
 
         [Test]
@@ -66,7 +75,7 @@ namespace BookStore.Test
 
             var service = serviceProvider.GetService<IRatingService>();
 
-            Assert.DoesNotThrowAsync(async () => await service.AddRating(model, bookId, userId));
+            Assert.DoesNotThrowAsync(async () => await service.AddRating(model, book.Id, user.Id));
         }
 
         [Test]
@@ -79,7 +88,30 @@ namespace BookStore.Test
 
             var service = serviceProvider.GetService<IRatingService>();
 
-            Assert.CatchAsync<ArgumentException>(async () => await service.AddRating(model, bookId, "RandomID"), GlobalExceptions.InvalidUser);
+            Assert.CatchAsync<NullReferenceException>(async () => await service.AddRating(model, book.Id, "RandomID"), GlobalExceptions.InvalidUser);
+        }
+
+        [Test]
+        public void AddRatingThrowsErrorIfDatabaseFailedToFetch()
+        {
+            var repo = new Mock<IDeletableEntityRepository<Rating>>();
+            repo.Setup(r => r.AllAsNoTracking())
+            .Throws(new ApplicationException(GlobalExceptions.DatabaseFailedToFetch));
+
+            var logger = new Mock<ILogger<RatingService>>();
+            var bookService = new Mock<IBookService>();
+            bookService.Setup(s => s.GetBookByIdAsync(book.Id).Result)
+                .Returns(book);
+
+            var userService = new Mock<IUserService>();
+            userService.Setup(s => s.GetUserByIdAsync(user.Id).Result)
+                .Returns(user);
+
+            var model = new AddRatingViewModel();
+
+            IRatingService ratingService = new RatingService(repo.Object, userService.Object, bookService.Object, logger.Object);
+
+            Assert.ThrowsAsync<ApplicationException>(async () => await ratingService.AddRating(model, book.Id, user.Id), GlobalExceptions.DatabaseFailedToFetch);
         }
 
         [Test]
@@ -93,7 +125,7 @@ namespace BookStore.Test
             var service = serviceProvider.GetService<IRatingService>();
             var repo = serviceProvider.GetService<IDeletableEntityRepository<Rating>>();
 
-            await service.AddRating(model, bookId, "GoshoId");
+            await service.AddRating(model, book.Id, "GoshoId");
 
             Assert.That(await repo.AllAsNoTracking().CountAsync(), Is.EqualTo(2));
         }
@@ -109,7 +141,7 @@ namespace BookStore.Test
             var service = serviceProvider.GetService<IRatingService>();
             var repo = serviceProvider.GetService<IDeletableEntityRepository<Rating>>();
 
-            await service.AddRating(model, bookId, userId);
+            await service.AddRating(model, book.Id, user.Id);
 
             var actualUserRating = await repo
                 .AllAsNoTracking()
@@ -119,13 +151,40 @@ namespace BookStore.Test
             Assert.That(actualUserRating.UserRating, Is.EqualTo(model.UserRating));
         }
 
+        //[Test]
+        //public void AddRatingThrowsErrorIfDatabaseFailedToSave()
+        //{
+        //    var repo = new Mock<IDeletableEntityRepository<Rating>>();
+        //    repo.Setup(r => r.SaveChangesAsync())
+        //    .Throws(new ApplicationException(GlobalExceptions.DatabaseFailedToSave));
+
+        //    repo.Setup(r => r.AllAsNoTracking())
+        //        .Returns(true);
+               
+
+        //    var logger = new Mock<ILogger<RatingService>>();
+        //    var bookService = new Mock<IBookService>();
+        //    bookService.Setup(s => s.GetBookByIdAsync(book.Id).Result)
+        //        .Returns(book);
+
+        //    var userService = new Mock<IUserService>();
+        //    userService.Setup(s => s.GetUserByIdAsync(user.Id).Result)
+        //        .Returns(user);
+
+        //    var model = new AddRatingViewModel();
+
+        //    IRatingService ratingService = new RatingService(repo.Object, userService.Object, bookService.Object, logger.Object);
+
+        //    Assert.ThrowsAsync<ApplicationException>(async () => await ratingService.AddRating(model, book.Id, user.Id), GlobalExceptions.DatabaseFailedToSave);
+        //}
+
         [TearDown]
         public void TearDown()
         {
             dbContext.Dispose();
         }
 
-        private async Task SeedDbAsync(IDeletableEntityRepository<ApplicationUser> repo)
+        private async Task<ApplicationUser> SeedDbAsync(IDeletableEntityRepository<ApplicationUser> repo)
         {
             List<ApplicationUser> users = new List<ApplicationUser>
             {
@@ -140,7 +199,7 @@ namespace BookStore.Test
 
             await repo.SaveChangesAsync();
 
-            userId = users[0].Id;
+            return users[0];
         }
 
         private async Task SeedDbAsync(IDeletableEntityRepository<Rating> repo, Guid bookId, string userId)
@@ -158,7 +217,7 @@ namespace BookStore.Test
             ratingId = rating.Id;
         }
 
-        private async Task SeedDbAsync(IDeletableEntityRepository<Book> repo)
+        private async Task<Book> SeedDbAsync(IDeletableEntityRepository<Book> repo)
         {
             var book = new Book
             {
@@ -185,7 +244,7 @@ namespace BookStore.Test
 
             await repo.AddAsync(book);
             await repo.SaveChangesAsync();
-            bookId = book.Id;
+            return book;
         }
     }
 }

@@ -1,9 +1,12 @@
+using BookStore.Common;
 using BookStore.Core.Contracts;
 using BookStore.Core.Models.Book;
 using BookStore.Core.Services;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Newtonsoft.Json;
 
 namespace BookStore.Test
@@ -23,6 +26,8 @@ namespace BookStore.Test
                 .AddSingleton(sp => dbContext.CreateContext())
                 .AddSingleton<IDeletableEntityRepository<Author>, DeletableEntityRepository<Author>>()
                 .AddSingleton<IAuthorService, AuthorService>()
+                .AddSingleton<ILogger<AuthorService>, Logger<AuthorService>>()
+                .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .BuildServiceProvider();
 
             var repo = serviceProvider.GetService<IDeletableEntityRepository<Author>>();
@@ -41,6 +46,20 @@ namespace BookStore.Test
             var resultJson = JsonConvert.SerializeObject(resultData);
 
             Assert.That(actualJson, Is.EqualTo(resultJson));
+        }
+
+        [Test]
+        public void GetAllAuthorsAsyncThrowsErrorIfDatabaseFailedToFetch()
+        {
+            var repo = new Mock<IDeletableEntityRepository<Author>>();
+                repo.Setup(r => r.AllAsNoTracking())
+                .Throws(new ApplicationException(GlobalExceptions.DatabaseFailedToFetch));
+
+            var logger = new Mock<ILogger<AuthorService>>();
+
+            IAuthorService authorService = new AuthorService(repo.Object, logger.Object);
+
+            Assert.ThrowsAsync<ApplicationException>(async () => await authorService.GetAllAuthorsAsync(), GlobalExceptions.DatabaseFailedToFetch);
         }
 
         [TearDown]

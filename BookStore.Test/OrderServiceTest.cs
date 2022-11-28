@@ -7,6 +7,7 @@ using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Net;
 
@@ -43,8 +44,14 @@ namespace BookStore.Test
                 .AddSingleton<IDeletableEntityRepository<ApplicationUser>, DeletableEntityRepository<ApplicationUser>>()
                 .AddSingleton<IDeletableEntityRepository<BookOrder>, DeletableEntityRepository<BookOrder>>()
                 .AddSingleton<IUserService, UserService>()
+                .AddSingleton<ILogger<UserService>, Logger<UserService>>()
+                .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .AddSingleton<IBookService, BookService>()
+                .AddSingleton<ILogger<BookService>, Logger<BookService>>()
+                .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .AddSingleton<IOrderService, OrderService>()
+                .AddSingleton<ILogger<OrderService>, Logger<OrderService>>()
+                .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .BuildServiceProvider();
 
             var orderRepository = serviceProvider.GetService<IDeletableEntityRepository<Order>>();
@@ -63,7 +70,7 @@ namespace BookStore.Test
         {
             var service = serviceProvider.GetService<IOrderService>();
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await service.AddNewOrderAsync(Guid.NewGuid(), userId), GlobalExceptions.InvalidBookId);
+            Assert.ThrowsAsync<NullReferenceException>(async () => await service.AddNewOrderAsync(Guid.NewGuid(), userId), GlobalExceptions.InvalidBookId);
         }
 
         [Test]
@@ -79,7 +86,7 @@ namespace BookStore.Test
         {
             var service = serviceProvider.GetService<IOrderService>();
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await service.AddNewOrderAsync(bookId, "Random User"), GlobalExceptions.InvalidUser);
+            Assert.ThrowsAsync<NullReferenceException>(async () => await service.AddNewOrderAsync(bookId, "Random User"), GlobalExceptions.InvalidUser);
         }
 
         [Test]
@@ -134,7 +141,7 @@ namespace BookStore.Test
         {
             var service = serviceProvider.GetService<IOrderService>();
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await service.AddCopiesToOrderAsync(Guid.NewGuid(), userId), GlobalExceptions.InvalidBookId);
+            Assert.ThrowsAsync<NullReferenceException>(async () => await service.AddCopiesToOrderAsync(Guid.NewGuid(), userId), GlobalExceptions.InvalidBookId);
         }
 
         [Test]
@@ -150,7 +157,7 @@ namespace BookStore.Test
         {
             var service = serviceProvider.GetService<IOrderService>();
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await service.AddCopiesToOrderAsync(bookId, "Random User"), GlobalExceptions.InvalidUser);
+            Assert.ThrowsAsync<NullReferenceException>(async () => await service.AddCopiesToOrderAsync(bookId, "Random User"), GlobalExceptions.InvalidUser);
         }
 
         [Test]
@@ -239,7 +246,7 @@ namespace BookStore.Test
         {
             var service = serviceProvider.GetService<IOrderService>();
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await service.AddNewBookToOrderAsync(Guid.NewGuid(), userId), GlobalExceptions.InvalidBookId);
+            Assert.ThrowsAsync<NullReferenceException>(async () => await service.AddNewBookToOrderAsync(Guid.NewGuid(), userId), GlobalExceptions.InvalidBookId);
         }
 
         [Test]
@@ -255,7 +262,7 @@ namespace BookStore.Test
         {
             var service = serviceProvider.GetService<IOrderService>();
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await service.AddNewBookToOrderAsync(bookId, "Random User"), GlobalExceptions.InvalidUser);
+            Assert.ThrowsAsync<NullReferenceException>(async () => await service.AddNewBookToOrderAsync(bookId, "Random User"), GlobalExceptions.InvalidUser);
         }
 
         [Test]
@@ -310,7 +317,7 @@ namespace BookStore.Test
         {
             var service = serviceProvider.GetService<IOrderService>();
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await service.GetUserOrdersAsync("Random User"), GlobalExceptions.InvalidUser);
+            Assert.ThrowsAsync<NullReferenceException>(async () => await service.GetUserOrdersAsync("Random User"), GlobalExceptions.InvalidUser);
         }
 
         [Test]
@@ -352,7 +359,7 @@ namespace BookStore.Test
         {
             var service = serviceProvider.GetService<IOrderService>();
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await service.RemoveUserOrdersAsync(Guid.NewGuid(), userId), GlobalExceptions.InvalidBookId);
+            Assert.ThrowsAsync<NullReferenceException>(async () => await service.RemoveUserOrdersAsync(Guid.NewGuid(), userId), GlobalExceptions.InvalidBookId);
         }
 
         [Test]
@@ -360,7 +367,7 @@ namespace BookStore.Test
         {
             var service = serviceProvider.GetService<IOrderService>();
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await service.RemoveUserOrdersAsync(bookId, "Random User"), GlobalExceptions.InvalidUser);
+            Assert.ThrowsAsync<NullReferenceException>(async () => await service.RemoveUserOrdersAsync(bookId, "Random User"), GlobalExceptions.InvalidUser);
         }
 
         [Test]

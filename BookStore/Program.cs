@@ -35,6 +35,7 @@ namespace BookStore
             {
                 options.LoginPath = "/User/Login";
                 options.LogoutPath = "/User/Logout";
+                options.AccessDeniedPath = "/Home/AccessDenied";
             });
 
             builder.Services.Configure<CookiePolicyOptions>(options =>
@@ -46,6 +47,11 @@ namespace BookStore
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddApplicationServices();
+
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
 
             builder.Services.AddMvc(options =>
             {

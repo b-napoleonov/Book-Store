@@ -8,6 +8,7 @@ using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace BookStore.Test
@@ -36,6 +37,8 @@ namespace BookStore.Test
                 .AddSingleton<IDeletableEntityRepository<ApplicationUser>, DeletableEntityRepository<ApplicationUser>>()
                 .AddSingleton<IDeletableEntityRepository<Category>, DeletableEntityRepository<Category>>()
                 .AddSingleton<IBookService, BookService>()
+                .AddSingleton<ILogger<BookService>, Logger<BookService>>()
+                .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .BuildServiceProvider();
 
             var userRepository = serviceProvider.GetService<IDeletableEntityRepository<ApplicationUser>>();
@@ -170,6 +173,15 @@ namespace BookStore.Test
                     Author = "Test Author",
                     Price = 10,
                     Rating = 4
+                },
+
+                new AllBooksViewModel
+                {
+                    Id = secondBookId,
+                    Title = "Second",
+                    ImageUrl = "",
+                    Author = "",
+                    Price = 10,
                 }
             };
 

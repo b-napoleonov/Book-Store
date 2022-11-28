@@ -4,6 +4,7 @@ using BookStore.Core.Models.Rating;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BookStore.Core.Services
 {
@@ -12,50 +13,68 @@ namespace BookStore.Core.Services
         private readonly IDeletableEntityRepository<Rating> ratingRepository;
         private readonly IUserService userService;
         private readonly IBookService bookService;
+        private readonly ILogger<RatingService> logger;
 
         public RatingService(
             IDeletableEntityRepository<Rating> _ratingRepository,
             IUserService _userService,
-            IBookService _bookService)
+            IBookService _bookService,
+            ILogger<RatingService> _logger)
         {
             ratingRepository = _ratingRepository;
             userService = _userService;
             bookService = _bookService;
+            logger = _logger;
         }
 
         public async Task AddRating(AddRatingViewModel model, Guid bookId, string userId)
         {
+            var book = await bookService.GetBookByIdAsync(bookId);
+
+            if (book == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.InvalidBookId);
+            }
+
+            var user = await userService.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.InvalidUser);
+            }
+
+            var ratingExists = false;
+
             try
             {
-                var book = await bookService.GetBookByIdAsync(bookId);
-                var user = await userService.GetUserByIdAsync(userId);
+                ratingExists = await ratingRepository
+                    .AllAsNoTracking()
+                    .AnyAsync(r => r.UserId == userId && r.BookId == bookId);
             }
-            catch (ArgumentException ae)
+            catch (Exception ex)
             {
-                throw new ArgumentException(ae.Message);
+                logger.LogError(nameof(AddRating), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToFetch, ex);
             }
-            //var book = await bookService.GetBookByIdAsync(bookId);
-
-            //if (book == null)
-            //{
-            //    throw new ArgumentException(GlobalExceptions.InvalidBookId);
-            //}
-
-            //var user = await userService.GetUserByIdAsync(userId);
-
-            //if (user == null)
-            //{
-            //    throw new ArgumentException(GlobalExceptions.InvalidUser);
-            //}
-
-            var ratingExists = await ratingRepository.AllAsNoTracking().AnyAsync(r => r.UserId == userId && r.BookId == bookId);
 
             if (ratingExists)
             {
-                var existingRating = await ratingRepository
+                Rating existingRating;
+
+                try
+                {
+                    existingRating = await ratingRepository
                     .All()
                     .Where(r => r.UserId == userId)
                     .FirstOrDefaultAsync();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(nameof(AddRating), ex);
+
+                    throw new ApplicationException(GlobalExceptions.DatabaseFailedToFetch, ex);
+                }
 
                 if (existingRating == null)
                 {
@@ -76,7 +95,16 @@ namespace BookStore.Core.Services
                 await ratingRepository.AddAsync(rating);
             }
 
-            await ratingRepository.SaveChangesAsync();
+            try
+            {
+                await ratingRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(AddRating), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
         }
     }
 }

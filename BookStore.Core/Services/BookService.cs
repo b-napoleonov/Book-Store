@@ -6,16 +6,21 @@ using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BookStore.Core.Services
 {
     public class BookService : IBookService
     {
         private readonly IDeletableEntityRepository<Book> bookRepository;
+        private readonly ILogger<BookService> logger;
 
-        public BookService(IDeletableEntityRepository<Book> _bookRepository)
+        public BookService(
+            IDeletableEntityRepository<Book> _bookRepository,
+            ILogger<BookService> _logger)
         {
             bookRepository = _bookRepository;
+            logger = _logger;
         }
 
         public async Task AddBookAsync(AddBookViewModel model)
@@ -45,38 +50,73 @@ namespace BookStore.Core.Services
                 book.Categories.Add(categoryBook);
             }
 
-            await bookRepository.AddAsync(book);
-            await bookRepository.SaveChangesAsync();
+            try
+            {
+                await bookRepository.AddAsync(book);
+                await bookRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(AddBookAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
         }
 
         public async Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync()
         {
-            return await bookRepository
-                .AllAsNoTracking()
-                .Include(b => b.Ratings)
-                .OrderBy(b => b.Title)
-                .Select(b => new AllBooksViewModel
-                {
-                    Id = b.Id,
-                    Title = b.Title,
-                    ImageUrl = b.ImageUrl,
-                    Author = b.Author.Name,
-                    Price = b.Price,
-                    Rating = b.Ratings.Count > 0 ? b.Ratings.Average(r => r.UserRating) : 0
-                })
-                .ToListAsync();
+            List<AllBooksViewModel> result = new List<AllBooksViewModel>();
+
+            try
+            {
+                result = await bookRepository
+                    .AllAsNoTracking()
+                    .Include(b => b.Ratings)
+                    .OrderBy(b => b.Title)
+                    .Select(b => new AllBooksViewModel
+                    {
+                        Id = b.Id,
+                        Title = b.Title,
+                        ImageUrl = b.ImageUrl,
+                        Author = b.Author.Name,
+                        Price = b.Price,
+                        Rating = b.Ratings.Count > 0 ? b.Ratings.Average(r => r.UserRating) : 0
+                    })
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetAllBooksAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
+            return result;
         }
 
         public async Task<DetailsBookViewModel> GetBookAsync(Guid bookId)
         {
-            var book = await bookRepository
-                .AllAsNoTracking()
-                .Include(b => b.Author)
-                .Include(b => b.Publisher)
-                .Include(b => b.Categories)
-                .ThenInclude(b => b.Category)
-                .Where(x => x.Id == bookId)
-                .FirstOrDefaultAsync();
+            Book book;
+
+            try
+            {
+                book = await bookRepository
+                    .AllAsNoTracking()
+                    .Include(b => b.Author)
+                    .Include(b => b.Publisher)
+                    .Include(b => b.Categories)
+                    .ThenInclude(b => b.Category)
+                    .Where(x => x.Id == bookId)
+                    .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetBookAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
 
             if (book == null)
             {
@@ -101,15 +141,28 @@ namespace BookStore.Core.Services
 
         public async Task<IEnumerable<AllBooksViewModel>> GetBooksByCategoryAsync(string categoryName)
         {
-            var books = await bookRepository
-                .AllAsNoTracking()
-                .Include(b => b.Categories)
-                .ThenInclude(cb => cb.Category)
-                .Include(b => b.Author)
-                .Include(b => b.Publisher)
-                .Include(b => b.Ratings)
-                .Where(b => b.Categories.Select(cb => cb.Category.Name == categoryName).FirstOrDefault())
-                .ToListAsync();
+            var books = new List<Book>();
+
+            try
+            {
+                books = await bookRepository
+                    .AllAsNoTracking()
+                    .Include(b => b.Categories)
+                    .ThenInclude(cb => cb.Category)
+                    .Include(b => b.Author)
+                    .Include(b => b.Publisher)
+                    .Include(b => b.Ratings)
+                    .Where(b => b.Categories.Select(cb => cb.Category.Name == categoryName).FirstOrDefault())
+                    .OrderBy(b => b.Title)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetBooksByCategoryAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
 
             var models = new List<AllBooksViewModel>();
 
@@ -138,15 +191,26 @@ namespace BookStore.Core.Services
 
         public async Task<IEnumerable<AllBooksViewModel>> GetBooksByAuthorAsync(string authorName)
         {
-            var books = await bookRepository
-                .AllAsNoTracking()
-                .Include(b => b.Categories)
-                .ThenInclude(cb => cb.Category)
-                .Include(b => b.Author)
-                .Include(b => b.Publisher)
-                .Include(b => b.Ratings)
-                .Where(b => b.Author.Name == authorName)
-                .ToListAsync();
+            var books = new List<Book>();
+
+            try
+            {
+                books = await bookRepository
+                    .AllAsNoTracking()
+                    .Include(b => b.Categories)
+                    .ThenInclude(cb => cb.Category)
+                    .Include(b => b.Author)
+                    .Include(b => b.Publisher)
+                    .Include(b => b.Ratings)
+                    .Where(b => b.Author.Name == authorName)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetBooksByAuthorAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
 
             var models = new List<AllBooksViewModel>();
 
@@ -175,15 +239,27 @@ namespace BookStore.Core.Services
 
         public async Task<IEnumerable<AllBooksViewModel>> GetBooksByPublisherAsync(string publisherName)
         {
-            var books = await bookRepository
-                .AllAsNoTracking()
-                .Include(b => b.Categories)
-                .ThenInclude(cb => cb.Category)
-                .Include(b => b.Author)
-                .Include(b => b.Publisher)
-                .Include(b => b.Ratings)
-                .Where(b => b.Publisher.Name == publisherName)
-                .ToListAsync();
+            var books = new List<Book>();
+
+            try
+            {
+                books = await bookRepository
+                    .AllAsNoTracking()
+                    .Include(b => b.Categories)
+                    .ThenInclude(cb => cb.Category)
+                    .Include(b => b.Author)
+                    .Include(b => b.Publisher)
+                    .Include(b => b.Ratings)
+                    .Where(b => b.Publisher.Name == publisherName)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetBooksByPublisherAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
 
             if (books.Count <= 0)
             {
@@ -212,26 +288,45 @@ namespace BookStore.Core.Services
 
         public async Task<Book> GetBookByIdAsync(Guid bookId)
         {
-            var book = await bookRepository
-                .All()
-                .Where(b => b.Id == bookId)
-                .FirstOrDefaultAsync();
+            Book book;
 
-            if (book == null)
+            try
             {
-                throw new ArgumentException(GlobalExceptions.InvalidBookId);
+                book = await bookRepository
+                    .All()
+                    .Where(b => b.Id == bookId)
+                    .FirstOrDefaultAsync();
             }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetBookByIdAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
 
             return book;
         }
 
         public async Task<double> GetBookRating(Guid bookId)
         {
-            var book = await bookRepository
-                .AllAsNoTracking()
-                .Include(b => b.Ratings)
-                .Where(b => b.Id == bookId)
-                .FirstOrDefaultAsync();
+            Book book;
+
+            try
+            {
+                book = await bookRepository
+                    .AllAsNoTracking()
+                    .Include(b => b.Ratings)
+                    .Where(b => b.Id == bookId)
+                    .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetBookRating), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
 
             if (book == null)
             {
@@ -243,12 +338,24 @@ namespace BookStore.Core.Services
 
         public async Task<IEnumerable<DetailsReviewViewModel>> GetBookReviewsAsync(Guid bookId)
         {
-            var book = await bookRepository
-                .AllAsNoTracking()
-                .Include(b => b.Reviews)
-                .ThenInclude(b => b.User)
-                .Where(b => b.Id == bookId)
-                .FirstOrDefaultAsync();
+            Book book;
+
+            try
+            {
+                book = await bookRepository
+                    .AllAsNoTracking()
+                    .Include(b => b.Reviews)
+                    .ThenInclude(b => b.User)
+                    .Where(b => b.Id == bookId)
+                    .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetBookReviewsAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
 
             if (book == null)
             {
@@ -275,11 +382,23 @@ namespace BookStore.Core.Services
 
         public async Task<DetailsRatingViewModel> GetBookRatingDetailsAsync(Guid bookId)
         {
-            var book = await bookRepository
-                .AllAsNoTracking()
-                .Include(b => b.Ratings)
-                .Where(b => b.Id == bookId)
-                .FirstOrDefaultAsync();
+            Book book;
+
+            try
+            {
+                book = await bookRepository
+                    .AllAsNoTracking()
+                    .Include(b => b.Ratings)
+                    .Where(b => b.Id == bookId)
+                    .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetBookRatingDetailsAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
 
             if (book == null)
             {
@@ -302,10 +421,22 @@ namespace BookStore.Core.Services
 
         public async Task RemoveBook(Guid bookId)
         {
-            var book = await bookRepository
-                .All()
-                .Where(b => b.Id == bookId)
-                .FirstOrDefaultAsync();
+            Book book;
+
+            try
+            {
+                book = await bookRepository
+                    .All()
+                    .Where(b => b.Id == bookId)
+                    .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(RemoveBook), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
 
             if (book == null)
             {
@@ -313,16 +444,38 @@ namespace BookStore.Core.Services
             }
 
             bookRepository.Delete(book);
-            await bookRepository.SaveChangesAsync();
+
+            try
+            {
+                await bookRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(RemoveBook), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
         }
 
         public async Task EditBookAsync(EditBookViewModel model, Guid bookId)
         {
-            var book = await bookRepository
-                .All()
-                .Include(b => b.Categories)
-                .Where(b => b.Id == bookId)
-                .FirstOrDefaultAsync();
+            Book book;
+
+            try
+            {
+                book = await bookRepository
+                    .All()
+                    .Include(b => b.Categories)
+                    .Where(b => b.Id == bookId)
+                    .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(EditBookAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
 
             if (book == null)
             {
@@ -359,17 +512,36 @@ namespace BookStore.Core.Services
                 book.Categories.Add(categoryBook);
             }
 
-            bookRepository.Update(book);
+            try
+            {
+                await bookRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(EditBookAsync), ex);
 
-            await bookRepository.SaveChangesAsync();
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
         }
 
         public async Task<EditBookViewModel> GetBookDataForEditAsync(Guid bookId)
         {
-            var book = await bookRepository
-                .AllAsNoTracking()
-                .Where(b => b.Id == bookId)
-                .FirstOrDefaultAsync();
+            Book book;
+
+            try
+            {
+                book = await bookRepository
+                    .AllAsNoTracking()
+                    .Where(b => b.Id == bookId)
+                    .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetBookDataForEditAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
 
             if (book == null)
             {
@@ -392,11 +564,23 @@ namespace BookStore.Core.Services
 
         public async Task<IEnumerable<HomeBookViewModel>> GetLastThreeBooksAsync()
         {
-            var books = await bookRepository
-                .AllAsNoTracking()
-                .OrderBy(b => b.Title)
-                .Take(3)
-                .ToListAsync();
+            var books = new List<Book>();
+
+            try
+            {
+                books = await bookRepository
+                    .AllAsNoTracking()
+                    .OrderBy(b => b.Title)
+                    .Take(3)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(GetLastThreeBooksAsync), ex);
+
+                throw new ApplicationException(GlobalExceptions.DatabaseFailedToSave, ex);
+            }
+
 
             var model = new List<HomeBookViewModel>();
 
