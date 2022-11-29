@@ -1,6 +1,8 @@
-﻿namespace BookStore.Core.Models.Book
+﻿using BookStore.Core.Contracts;
+
+namespace BookStore.Core.Models.Book
 {
-    public class HomeBookViewModel
+    public class HomeBookViewModel : IBookModel
     {
         public string Title { get; set; } = null!;
 

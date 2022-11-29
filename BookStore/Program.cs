@@ -106,6 +106,10 @@ namespace BookStore
                 name: "areas",
                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+            app.MapControllerRoute(
+                name: "bookDetails",
+                pattern: "Book/Details/{id}/{information}");
+
             app.Run();
         }
     }

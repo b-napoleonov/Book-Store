@@ -1,6 +1,8 @@
-﻿namespace BookStore.Core.Models.Book
+﻿using BookStore.Core.Contracts;
+
+namespace BookStore.Core.Models.Book
 {
-    public class AllBooksViewModel
+    public class AllBooksViewModel : IBookModel
     {
         public Guid Id { get; set; }
 

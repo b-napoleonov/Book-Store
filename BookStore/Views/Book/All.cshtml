@@ -7,7 +7,8 @@
 	@foreach (var book in Model)
 	{
 		<div class="card col-4" style="width: 20rem; ">
-			<a type="button" class="fs-6 mb-3 p-2" asp-area="" asp-action="Details" asp-route-bookId="@book.Id">
+			<a type="button" class="fs-6 mb-3 p-2" asp-area="" asp-action="Details" asp-route-bookId="@book.Id" 
+			asp-route-information="@book.GetInformation()" >
 				<img class="card-img-top" style="width: 15rem;"
 				 src="@book.ImageUrl" alt="Book Image">
 			</a>

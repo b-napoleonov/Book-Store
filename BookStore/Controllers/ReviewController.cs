@@ -1,6 +1,7 @@
 ﻿using BookStore.Common;
 using BookStore.Core.Constants;
 using BookStore.Core.Contracts;
+using BookStore.Core.Extensions;
 using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +45,8 @@ namespace BookStore.Controllers
 
                 TempData[MessageConstant.SuccessMessage] = GlobalConstants.ReviewAddedSuccessfully;
 
-                return RedirectToAction(nameof(BookController.Details), BookController.BookControllerName, new {bookId = bookId });
+                return RedirectToAction(nameof(BookController.Details), BookController.BookControllerName, 
+                    new {bookId = bookId, information = model.GetInformation() });
             }
             catch (Exception)
             {

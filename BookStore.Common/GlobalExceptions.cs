@@ -33,5 +33,7 @@
         public const string StringFieldsErrorMessage = "{0} must be between {1} and {2} characters.";
 
         public const string NumberFieldsErrorMessage = "{0} must be between {1} and {2}.";
+
+        public const string FailedToAccessHouseDetails = "Failed to acces house details!";
     }
 }

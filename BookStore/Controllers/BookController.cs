@@ -2,6 +2,8 @@
 using BookStore.Core.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using BookStore.Core.Extensions;
+using BookStore.Common;
 
 namespace BookStore.Controllers
 {
@@ -33,7 +35,7 @@ namespace BookStore.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Details(Guid bookId)
+        public async Task<IActionResult> Details(Guid bookId, string information)
         {
             try
             {
@@ -44,6 +46,13 @@ namespace BookStore.Controllers
                 var model = await bookService.GetBookAsync(bookId);
                 model.Reviews = await bookService.GetBookReviewsAsync(bookId);
                 model.Ratings = await bookService.GetBookRatingDetailsAsync(bookId);
+
+                if (information != model.GetInformation())
+                {
+                    TempData[MessageConstant.ErrorMessage] = GlobalExceptions.FailedToAccessHouseDetails;
+
+                    return RedirectToAction(nameof(Index));
+                }
 
                 return View(model);
             }

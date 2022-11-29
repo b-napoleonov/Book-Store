@@ -1,5 +1,6 @@
 ﻿using BookStore.Common;
 using BookStore.Core.Contracts;
+using BookStore.Core.Extensions;
 using BookStore.Core.Models.Rating;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,8 @@ namespace BookStore.Controllers
 
 				await ratingService.AddRating(model, bookId, userId);
 
-				return RedirectToAction(nameof(BookController.Details), BookController.BookControllerName, new { bookId = bookId });
+				return RedirectToAction(nameof(BookController.Details), BookController.BookControllerName, 
+					new { bookId = bookId, information = model.GetInformation() });
 			}
 			catch (Exception)
 			{

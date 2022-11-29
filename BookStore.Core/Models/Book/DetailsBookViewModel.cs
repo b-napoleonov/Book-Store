@@ -1,9 +1,10 @@
-﻿using BookStore.Core.Models.Rating;
+﻿using BookStore.Core.Contracts;
+using BookStore.Core.Models.Rating;
 using BookStore.Core.Models.Review;
 
 namespace BookStore.Core.Models.Book
 {
-    public class DetailsBookViewModel
+    public class DetailsBookViewModel : IBookModel
     {
         public DetailsBookViewModel()
         {
