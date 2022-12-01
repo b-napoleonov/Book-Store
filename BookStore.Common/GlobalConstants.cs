@@ -2,6 +2,8 @@
 {
     public static class GlobalConstants
     {
+        public const string AdministrationAreaName = "Administration";
+
         public const string AdministratorRoleName = "Administrator";
 
         public const string BookOrderdSuccessfully = "Book added to your cart.";

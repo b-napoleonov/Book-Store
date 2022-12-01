@@ -30,6 +30,7 @@ namespace BookStore.Controllers
 
             ViewBag.Title = IndexViewTitle;
 
+            //TODO: Implement pagination
             return View(IndexView, model);
         }
 

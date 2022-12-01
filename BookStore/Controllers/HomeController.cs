@@ -1,9 +1,11 @@
-﻿using BookStore.Controllers;
+﻿using BookStore.Areas.Administration.Controllers;
 using BookStore.Core.Contracts;
 using BookStore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using static BookStore.Common.GlobalConstants;
+using BaseController = BookStore.Controllers.BaseController;
 
 namespace BookStore.BaseControllers
 {
@@ -25,6 +27,11 @@ namespace BookStore.BaseControllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            if (User.IsInRole(AdministratorRoleName))
+            {
+                return RedirectToAction(nameof(AdminController.Index), AdminController.AdminControllerName, new { area = AdministrationAreaName });
+            }
+
             var model = await bookService.GetLastThreeBooksAsync();
 
             return View(model);
