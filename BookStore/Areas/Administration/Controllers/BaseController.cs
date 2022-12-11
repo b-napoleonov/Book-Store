@@ -5,8 +5,8 @@ using System.Security.Claims;
 
 namespace BookStore.Areas.Administration.Controllers
 {
-    [Area("Admin")]
-    [Route("Admin/[controller]/[Action]/{id?}")]
+    [Area("Administration")]
+    [Route("Administration/[controller]/[Action]/{id?}")]
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class BaseController : Controller
     {

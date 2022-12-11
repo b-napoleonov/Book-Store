@@ -1,10 +1,10 @@
-﻿using BookStore.BaseControllers;
-using BookStore.Common;
+﻿using BookStore.Common;
 using BookStore.Core.Contracts;
 using BookStore.Core.Models.Category;
 using Microsoft.AspNetCore.Mvc;
+using static BookStore.Common.GlobalConstants;
 
-namespace BookStore.Controllers
+namespace BookStore.Areas.Administration.Controllers
 {
     public class CategoryController : BaseController
     {
@@ -36,7 +36,7 @@ namespace BookStore.Controllers
                 await categoryService.AddCategoryAsync(model);
 
                 //TODO: Think of more meaningful redirect
-                return RedirectToAction(nameof(HomeController.Index), HomeController.HomeControllerName);
+                return RedirectToAction(nameof(BookController.Add), BookController.BookControllerName, new { area = AdministrationAreaName });
             }
             catch (Exception)
             {

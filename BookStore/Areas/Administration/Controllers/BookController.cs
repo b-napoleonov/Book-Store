@@ -3,6 +3,7 @@ using BookStore.Core.Constants;
 using BookStore.Core.Contracts;
 using BookStore.Core.Models.Book;
 using Microsoft.AspNetCore.Mvc;
+using static BookStore.Common.GlobalConstants;
 
 namespace BookStore.Areas.Administration.Controllers
 {
@@ -25,8 +26,8 @@ namespace BookStore.Areas.Administration.Controllers
             publisherService = _publisherService;
         }
 
+        public static string BookControllerName => nameof(BookController).Replace("Controller", string.Empty);
 
-        //TODO: Implement new layout for this area
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -56,7 +57,7 @@ namespace BookStore.Areas.Administration.Controllers
             {
                 await bookService.AddBookAsync(model);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(BookStore.Controllers.BookController.Index), BookControllerName, new { area = "" });
             }
             catch (Exception)
             {
@@ -70,9 +71,9 @@ namespace BookStore.Areas.Administration.Controllers
         {
             await bookService.RemoveBook(bookId);
 
-            TempData[MessageConstant.SuccessMessage] = GlobalConstants.BookDeletedSuccessfully;
+            TempData[MessageConstant.SuccessMessage] = BookDeletedSuccessfully;
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(BookStore.Controllers.BookController.Index), BookControllerName, new { area = "" });
         }
 
         [HttpGet]
@@ -97,9 +98,9 @@ namespace BookStore.Areas.Administration.Controllers
 
             await bookService.EditBookAsync(model, bookId);
 
-            TempData[MessageConstant.SuccessMessage] = GlobalConstants.BookEditedSuccessfully;
+            TempData[MessageConstant.SuccessMessage] = BookEditedSuccessfully;
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(BookStore.Controllers.BookController.Index), BookControllerName, new { area = "" });
         }
     }
 }

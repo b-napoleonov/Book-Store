@@ -18,6 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IGuard, Guard>();
+            services.AddScoped<BookStore.Core.Contracts.Admin.IUserService, BookStore.Core.Services.Admin.UserService>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(DeletableEntityRepository<>));
 
