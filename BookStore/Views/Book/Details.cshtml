@@ -128,6 +128,13 @@
 													</a>
 												</div>
 											}
+												@if (User.IsInRole("Administrator"))
+												{
+													<a type="button" class="btn btn-danger mb-3 p-2" asp-controller="Review" asp-action="Delete" asp-route-reviewId="@review.ReviewId">
+														<i class="fas fa-trash"></i>
+														<span>Delete</span>
+													</a>
+												}
 										</div>
 									</div>
 									<br>

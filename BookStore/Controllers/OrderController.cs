@@ -20,7 +20,7 @@ namespace BookStore.Controllers
             {
                 if (await orderService.CheckUserOrderAsync(GetCurrentUserId()))
                 {
-                    if (await orderService.CheckBookOrderAsync(bookId))
+                    if (await orderService.CheckBookOrderAsync(bookId, GetCurrentUserId()))
                     {
                         await orderService.AddCopiesToOrderAsync(bookId, GetCurrentUserId());
                     }

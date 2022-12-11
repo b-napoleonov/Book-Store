@@ -6,7 +6,7 @@ namespace BookStore.Core.Contracts
 	{
 		Task<bool> CheckUserOrderAsync(string userId);
 
-		Task<bool> CheckBookOrderAsync(Guid bookId);
+		Task<bool> CheckBookOrderAsync(Guid bookId, string userId);
 
 		Task AddNewOrderAsync(Guid bookId, string userId);
 

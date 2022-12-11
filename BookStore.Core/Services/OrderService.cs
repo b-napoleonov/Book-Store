@@ -60,6 +60,7 @@ namespace BookStore.Core.Services
             {
                 BookId = bookId,
                 Order = order,
+                Copies = 1
             });
 
             book.Quantity--;
@@ -137,16 +138,22 @@ namespace BookStore.Core.Services
             }
         }
 
-        public async Task<bool> CheckBookOrderAsync(Guid bookId)
+        public async Task<bool> CheckBookOrderAsync(Guid bookId, string userId)
         {
             var result = false;
 
             try
             {
+                //result = await orderRepository
+                //    .AllAsNoTracking()
+                //    .Include(o => o.BookOrders)
+                //    .AnyAsync(o => o.BookOrders.Any(bo => bo.BookId == bookId));
                 result = await orderRepository
                     .AllAsNoTracking()
+                    .Where(o => o.CustomerId == userId)
                     .Include(o => o.BookOrders)
-                    .AnyAsync(o => o.BookOrders.Any(bo => bo.BookId == bookId));
+                    .SelectMany(o => o.BookOrders)
+                    .AnyAsync(bo => bo.BookId == bookId);
             }
             catch (Exception ex)
             {
