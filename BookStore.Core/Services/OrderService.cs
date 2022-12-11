@@ -5,7 +5,6 @@ using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Net;
 
 namespace BookStore.Core.Services
 {

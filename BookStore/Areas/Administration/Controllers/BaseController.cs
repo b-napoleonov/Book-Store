@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static BookStore.Common.GlobalConstants;
 
 namespace BookStore.Areas.Administration.Controllers
 {
-    [Area("Administration")]
+    [Area(AdministrationAreaName)]
     [Route("Administration/[controller]/[Action]/{id?}")]
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class BaseController : Controller

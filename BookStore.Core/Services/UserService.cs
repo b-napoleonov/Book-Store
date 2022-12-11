@@ -59,7 +59,7 @@ namespace BookStore.Core.Services
             try
             {
                 user = await userRepository
-                .AllAsNoTracking()
+                .All()
                 .Where(u => u.Id == userId)
                 .FirstOrDefaultAsync();
             }

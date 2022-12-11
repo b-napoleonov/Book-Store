@@ -2,6 +2,7 @@
 using BookStore.Core.Models.Admin;
 using BookStore.Infrastructure.Common.Repositories;
 using BookStore.Infrastructure.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Core.Services.Admin
@@ -25,7 +26,7 @@ namespace BookStore.Core.Services.Admin
                     Email = u.Email,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    PhoneNumber = u.PhoneNumber
+                    PhoneNumber = u.PhoneNumber,
                 })
                 .ToListAsync();
         }

@@ -1,7 +1,7 @@
-﻿@model AddCategoryViewModel
+﻿@model AddRoleViewModel
 
 @{
-	ViewBag.Title = "Add Category";
+	ViewBag.Title = "Add Role";
 }
 
 <div class="row">
@@ -9,9 +9,9 @@
 		<form asp-action="Add" method="post">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<div class="form-group">
-				<label asp-for="Name"></label>
-				<input asp-for="Name" class="form-control">
-				<span asp-validation-for="Name" class="small text-danger"></span>
+				<label asp-for="RoleName"></label>
+				<input asp-for="RoleName" class="form-control">
+				<span asp-validation-for="RoleName" class="small text-danger"></span>
 			</div>
 			<div class="mb-3">
 				<input class="btn btn-primary" type="submit" value="Add" />

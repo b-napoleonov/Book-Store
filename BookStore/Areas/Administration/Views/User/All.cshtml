@@ -1,27 +1,40 @@
-﻿@model IEnumerable<UserServiceModel> 
+﻿@model IEnumerable<UserServiceModel>
 
-@{ 
-    ViewBag.Title = "All Users"; 
-} 
+@{
+	ViewBag.Title = "All Users";
+}
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th><label>Email</label></th>
+	<thead>
+		<tr>
+			<th><label>Email</label></th>
+			<th><label>Roles</label></th>
 
-            <th><label>Full Name</label></th>
-            <th><label>Phone Number</label></th>
-            <th><label>User Is Agent</label></th>
-        </tr>
-    </thead>
-    <tbody> @foreach (var user in Model) { <tr>
-            <td><label>@user.Email</label></td>
-            <td><label>@user.FirstName</label></td>
-            <td><label>@user.LastName</label></td>
-            <td><label>@user.PhoneNumber</label></td>
-            <td> @if (user.PhoneNumber != string.Empty) { <label>✔</label> } else { <label
-                    class="text-center">❌</label> } </td>
-        </tr> } </tbody>
+			<th><label>Assign Role</label></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var user in Model)
+		{
+			<tr>
+				<td><label>@user.Email</label></td>
+				@if (user.RoleNames.Count() == 0)
+				{
+					<td><label>User is not in a role!</label></td>
+				}
+				else
+				{
+					<td><label>@string.Join(", ", @user.RoleNames)</label></td>
+				}
+				<td>
+					<a class="nav-link text-dark" asp-area="Administration" asp-controller="Role" asp-action="Assign" asp-route-userId="@user.UserId">
+						<i class="fas fa-user-tag"></i>
+						<span>Assign Role</span>
+					</a>
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>

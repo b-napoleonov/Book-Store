@@ -68,5 +68,8 @@
         public const int PublisherPhoneMaxLength = 15;
         public const int PublisherEmailMaxLength = 50;
         public const int PublisherURLMaxLength = 50;
+
+        public const int RoleNameMaxLength = 20;
+        public const int RoleNameMinLength = 3;
     }
 }
