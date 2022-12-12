@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookStore.Infrastructure.Common.EntityConfiguration
 {
+    /// <summary>
+    /// Configuration for ApplicationUser Entity
+    /// </summary>
     internal class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)

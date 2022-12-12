@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookStore.Infrastructure.Common.EntityConfiguration
 {
+    /// <summary>
+    /// Configuration for CategoryBook Entity
+    /// </summary>
     internal class CategoryBookConfiguration : IEntityTypeConfiguration<CategoryBook>
     {
         public void Configure(EntityTypeBuilder<CategoryBook> builder)

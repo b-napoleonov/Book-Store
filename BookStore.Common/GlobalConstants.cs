@@ -1,5 +1,8 @@
 ﻿namespace BookStore.Common
 {
+    /// <summary>
+    /// Global constants of the app
+    /// </summary>
     public static class GlobalConstants
     {
         public const string AdministrationAreaName = "Administration";

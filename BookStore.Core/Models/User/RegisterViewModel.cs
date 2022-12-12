@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.User
 {
+    /// <summary>
+    /// Data for Registering given user
+    /// </summary>
     public class RegisterViewModel
     {
         [Required]

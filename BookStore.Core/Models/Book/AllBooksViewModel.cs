@@ -2,6 +2,9 @@
 
 namespace BookStore.Core.Models.Book
 {
+    /// <summary>
+    /// Data needed for book index view
+    /// </summary>
     public class AllBooksViewModel : IBookModel
     {
         public Guid Id { get; set; }

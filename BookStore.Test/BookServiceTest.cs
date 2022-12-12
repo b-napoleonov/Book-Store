@@ -13,6 +13,9 @@ using Newtonsoft.Json;
 
 namespace BookStore.Test
 {
+    /// <summary>
+    /// Tests for Book Service
+    /// </summary>
     public class BookServiceTest
     {
         private const int ExpectedBookCountAfterAdd = 3;

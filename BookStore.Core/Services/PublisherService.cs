@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BookStore.Core.Services
 {
+    /// <summary>
+    /// Main class who manages Publishers
+    /// </summary>
     public class PublisherService : IPublisherService
     {
         private readonly IDeletableEntityRepository<Publisher> publisherRepository;
@@ -21,6 +24,11 @@ namespace BookStore.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Gets all non-deleted publishers from the DB
+        /// </summary>
+        /// <returns>IEnumerable of BookPublisherViewModel</returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<IEnumerable<BookPublisherViewModel>> GetAllPublishersAsync()
         {
             var publishers = new List<BookPublisherViewModel>();

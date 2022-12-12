@@ -7,6 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Infrastructure.Models
 {
+    /// <summary>
+    /// Book DB Entity
+    /// </summary>
     public class Book : IDeletableEntity
     {
         private const string MoneyTypeName = "money";

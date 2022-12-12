@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BookStore.Core.Services
 {
+    /// <summary>
+    /// Main class who manages Reviews
+    /// </summary>
     public class ReviewService : IReviewService
     {
         private readonly IDeletableEntityRepository<Review> reviewRepository;
@@ -27,6 +30,15 @@ namespace BookStore.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Add new review with given data and saves it to the DB
+        /// </summary>
+        /// <param name="model">View model with data for creating the review</param>
+        /// <param name="bookId">ID of the book to be checked</param>
+        /// <param name="userId">ID of the user to be checked</param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ApplicationException"></exception>
         public async Task AddReviewAsync(ReviewViewModel model, Guid bookId, string userId)
         {
             var book = await bookService.GetBookByIdAsync(bookId);
@@ -63,6 +75,14 @@ namespace BookStore.Core.Services
             }
         }
 
+        /// <summary>
+        /// Deletes review by given ID
+        /// </summary>
+        /// <param name="reviewId">ID of the review to be checked</param>
+        /// <param name="userId">ID of the user to be checked</param>
+        /// <returns></returns>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task DeleteReviewAsync(int reviewId, string userId)
         {
             Review review;
@@ -104,6 +124,11 @@ namespace BookStore.Core.Services
             }
         }
 
+        /// <summary>
+        /// Gets all non-deleted reviews from the DB
+        /// </summary>
+        /// <returns>IEnumerable of Review</returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<IEnumerable<Review>> GetAllReviewsAsync()
         {
             var reviews = new List<Review>();
@@ -124,6 +149,13 @@ namespace BookStore.Core.Services
             return reviews;
         }
 
+        /// <summary>
+        /// Gets review by given ID
+        /// </summary>
+        /// <param name="reviewId">ID of the review to be searched</param>
+        /// <returns>Review</returns>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<Review> GetReviewByIdAsync(int reviewId)
         {
             Review review;
@@ -150,6 +182,13 @@ namespace BookStore.Core.Services
             return review;
         }
 
+        /// <summary>
+        /// Gets all non-deleted reviews by given user
+        /// </summary>
+        /// <param name="userId">ID of the user to be searched</param>
+        /// <returns>IEnumerable of Review</returns>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<IEnumerable<Review>> GetUserReviewsAsync(string userId)
         {
             var user = await userService.GetUserByIdAsync(userId);
@@ -178,6 +217,15 @@ namespace BookStore.Core.Services
             return reviews;
         }
 
+        /// <summary>
+        /// Updates given review
+        /// </summary>
+        /// <param name="model">View model with data to update the review</param>
+        /// <param name="reviewId">ID of the review to be searched</param>
+        /// <param name="userId">ID of the user to be searched</param>
+        /// <returns></returns>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<Review> UpdateReviewAsync(ReviewViewModel model, int reviewId, string userId)
         {
             Review review;

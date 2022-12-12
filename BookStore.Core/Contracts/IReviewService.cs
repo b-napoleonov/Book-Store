@@ -3,7 +3,10 @@ using BookStore.Infrastructure.Models;
 
 namespace BookStore.Core.Contracts
 {
-	public interface IReviewService
+    /// <summary>
+    /// Interface for managing Reviews
+    /// </summary>
+    public interface IReviewService
 	{
 		Task<IEnumerable<Review>> GetUserReviewsAsync(string userId);
 

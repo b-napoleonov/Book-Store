@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Infrastructure.Models
 {
+    /// <summary>
+    /// Rating DB Entity
+    /// </summary>
     public class Rating : IDeletableEntity
     {
         [Key]

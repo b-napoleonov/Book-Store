@@ -6,6 +6,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Infrastructure.Models
 {
+    /// <summary>
+    /// ApplicationUser DB Entity
+    /// </summary>
     public class ApplicationUser : IdentityUser, IDeletableEntity
     {
         public ApplicationUser()

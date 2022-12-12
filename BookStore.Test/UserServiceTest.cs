@@ -1,6 +1,5 @@
 ﻿using BookStore.Common;
 using BookStore.Core.Contracts;
-using BookStore.Core.Models.Book;
 using BookStore.Core.Models.User;
 using BookStore.Core.Services;
 using BookStore.Infrastructure.Common.Repositories;
@@ -12,6 +11,9 @@ using Newtonsoft.Json;
 
 namespace BookStore.Test
 {
+    /// <summary>
+    /// Tests for User Service
+    /// </summary>
     public class UserServiceTest
     {
         private ServiceProvider serviceProvider;

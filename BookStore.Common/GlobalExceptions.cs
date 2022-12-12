@@ -1,5 +1,8 @@
 ﻿namespace BookStore.Common
 {
+    /// <summary>
+    /// Global exception messages of the app
+    /// </summary>
     public static class GlobalExceptions
     {
         public const string Exception = "Something went wrong.";

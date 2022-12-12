@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Infrastructure.Models
 {
+    /// <summary>
+    /// Author DB Entity
+    /// </summary>
     public class Author : IDeletableEntity
     {
         public Author()

@@ -4,6 +4,9 @@ using BookStore.Core.Models.Review;
 
 namespace BookStore.Core.Models.Book
 {
+    /// <summary>
+    /// Details about the book for book details view
+    /// </summary>
     public class DetailsBookViewModel : IBookModel
     {
         public DetailsBookViewModel()

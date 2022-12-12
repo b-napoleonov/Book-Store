@@ -1,5 +1,8 @@
 ﻿namespace BookStore.Core.Models.Review
 {
+    /// <summary>
+    /// Details about given review
+    /// </summary>
 	public class DetailsReviewViewModel
 	{
 		public int ReviewId { get; set; }

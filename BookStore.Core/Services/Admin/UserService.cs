@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Core.Services.Admin
 {
+    /// <summary>
+    /// Main class who manages Users by Admin
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
@@ -16,6 +19,10 @@ namespace BookStore.Core.Services.Admin
             userRepository = _userRepository;
         }
 
+        /// <summary>
+        /// Gets all non-deleted users from the DB
+        /// </summary>
+        /// <returns>IEnumerable of UserServiceModel</returns>
         public async Task<IEnumerable<UserServiceModel>> All()
         {
             return await userRepository
@@ -31,6 +38,11 @@ namespace BookStore.Core.Services.Admin
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Returns user's First Name + Last Name
+        /// </summary>
+        /// <param name="userId">ID of the user to be searched</param>
+        /// <returns>First Name + Last Name as String</returns>
         public async Task<string> UserFullName(string userId)
         {
             var user = await userRepository

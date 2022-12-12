@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.User
 {
+    /// <summary>
+    /// Data for Login given user
+    /// </summary>
     public class LoginViewModel
     {
         public LoginViewModel()

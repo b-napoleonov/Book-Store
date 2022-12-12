@@ -2,7 +2,10 @@
 
 namespace BookStore.Core.Contracts
 {
-	public interface IOrderService
+    /// <summary>
+    /// Interface for managing Orders
+    /// </summary>
+    public interface IOrderService
 	{
 		Task<bool> CheckUserOrderAsync(string userId);
 

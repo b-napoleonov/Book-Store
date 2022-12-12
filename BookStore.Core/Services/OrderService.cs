@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BookStore.Core.Services
 {
+    /// <summary>
+    /// Main class who manages Orders
+    /// </summary>
     public class OrderService : IOrderService
     {
         private readonly IDeletableEntityRepository<Order> orderRepository;
@@ -27,6 +30,15 @@ namespace BookStore.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Creates new order and saves it to the DB
+        /// </summary>
+        /// <param name="bookId">ID for the book included in the order</param>
+        /// <param name="userId">ID for the user included in the order</param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ApplicationException"></exception>
         public async Task AddNewOrderAsync(Guid bookId, string userId)
         {
             var book = await bookService.GetBookByIdAsync(bookId);
@@ -77,6 +89,15 @@ namespace BookStore.Core.Services
             }
         }
 
+        /// <summary>
+        /// Add more copies of a given book to existing order
+        /// </summary>
+        /// <param name="bookId">ID of the book to be included in the order</param>
+        /// <param name="userId">ID of the user to be checked</param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ApplicationException"></exception>
         public async Task AddCopiesToOrderAsync(Guid bookId, string userId)
         {
             var book = await bookService.GetBookByIdAsync(bookId);
@@ -137,6 +158,13 @@ namespace BookStore.Core.Services
             }
         }
 
+        /// <summary>
+        /// Checks if current book is included in some order
+        /// </summary>
+        /// <param name="bookId">ID of the book to be checked</param>
+        /// <param name="userId">ID of the user to be checked</param>
+        /// <returns>True if book is in order, otherwise false</returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<bool> CheckBookOrderAsync(Guid bookId, string userId)
         {
             var result = false;
@@ -164,6 +192,12 @@ namespace BookStore.Core.Services
             return result;
         }
 
+        /// <summary>
+        /// Check if user has order
+        /// </summary>
+        /// <param name="userId">ID of the user to be checked</param>
+        /// <returns>True if user has order, otherwise false</returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<bool> CheckUserOrderAsync(string userId)
         {
             var result = false;
@@ -185,6 +219,15 @@ namespace BookStore.Core.Services
 
         }
 
+        /// <summary>
+        /// Adds new book to existing order
+        /// </summary>
+        /// <param name="bookId">ID of the book to be added to order</param>
+        /// <param name="userId">ID of the user to be checked</param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ApplicationException"></exception>
         public async Task AddNewBookToOrderAsync(Guid bookId, string userId)
         {
             var book = await bookService.GetBookByIdAsync(bookId);
@@ -249,6 +292,13 @@ namespace BookStore.Core.Services
             }
         }
 
+        /// <summary>
+        /// Gets all non-deleted orders of existing user
+        /// </summary>
+        /// <param name="userId">ID of the user to be checked</param>
+        /// <returns>IEnumerable of OrderViewModel</returns>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<IEnumerable<OrderViewModel>> GetUserOrdersAsync(string userId)
         {
             var user = await userService.GetUserByIdAsync(userId);
@@ -300,6 +350,15 @@ namespace BookStore.Core.Services
             return result;
         }
 
+        /// <summary>
+        /// Deletes copies of book inside order
+        /// </summary>
+        /// <param name="bookId">ID of the book to be checked</param>
+        /// <param name="userId">ID of the user to be checked</param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task RemoveUserOrdersAsync(Guid bookId, string userId)
         {
             var book = await bookService.GetBookByIdAsync(bookId);

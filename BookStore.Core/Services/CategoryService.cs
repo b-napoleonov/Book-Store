@@ -9,11 +9,13 @@ using Microsoft.Extensions.Logging;
 
 namespace BookStore.Core.Services
 {
+    /// <summary>
+    /// Main class who manages Categories
+    /// </summary>
     public class CategoryService : ICategoryService
     {
         private readonly IDeletableEntityRepository<Category> categoryRepository;
         private readonly ILogger<CategoryService> logger;
-
         public CategoryService(
             IDeletableEntityRepository<Category> _categoryRepository,
             ILogger<CategoryService> _logger)
@@ -22,6 +24,12 @@ namespace BookStore.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Adds new category by given model and saves it to the DB
+        /// </summary>
+        /// <param name="model">Contains information for the new category properties</param>
+        /// <returns></returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task AddCategoryAsync(AddCategoryViewModel model)
         {
             var category = new Category
@@ -43,6 +51,11 @@ namespace BookStore.Core.Services
 
         }
 
+        /// <summary>
+        /// Gets all non-deleted categories from the DB
+        /// </summary>
+        /// <returns>IEnumerable of BookCategoryViewModel</returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<IEnumerable<BookCategoryViewModel>> GetAllCategoriesAsync()
         {
             var categories = new List<BookCategoryViewModel>();

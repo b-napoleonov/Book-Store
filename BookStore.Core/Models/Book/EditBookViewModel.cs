@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.Book
 {
+    /// <summary>
+    /// Data needed to edit book
+    /// </summary>
     public class EditBookViewModel
     {
         private const string ImageURLDisplayName = "Image URL";

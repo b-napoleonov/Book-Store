@@ -1,10 +1,12 @@
 ﻿using BookStore.Common;
-using BookStore.Core.Contracts;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.Review
 {
-	public class ReviewViewModel : IBookModel
+    /// <summary>
+    /// Data for creating new review
+    /// </summary>
+    public class ReviewViewModel
 	{
         private const string ReviewDisplayName = "Review";
 
@@ -12,7 +14,5 @@ namespace BookStore.Core.Models.Review
         [StringLength(GlobalConstants.ReviewMaxLength, MinimumLength = GlobalConstants.ReviewMinLength, ErrorMessage = GlobalExceptions.StringFieldsErrorMessage)]
         [Display(Name = ReviewDisplayName)]
         public string UserReview { get; set; } = null!;
-
-        public string Title { get; init; } = null!;
     }
 }

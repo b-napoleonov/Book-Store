@@ -1,5 +1,8 @@
 ﻿namespace BookStore.Core.Models.Order
 {
+	/// <summary>
+	/// Data about given order
+	/// </summary>
 	public class OrderViewModel
 	{
 		public Guid BookId { get; set; }

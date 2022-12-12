@@ -6,7 +6,6 @@ using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Models;
 using Ganss.Xss;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace BookStore.Controllers
 {
@@ -50,8 +49,7 @@ namespace BookStore.Controllers
 
                 TempData[MessageConstant.SuccessMessage] = GlobalConstants.ReviewAddedSuccessfully;
 
-                return RedirectToAction(nameof(BookController.Details), BookController.BookControllerName, 
-                    new {bookId = bookId, information = model.GetInformation() });
+                return RedirectToAction(nameof(BookController.Index), BookController.BookControllerName);
             }
             catch (Exception)
             {

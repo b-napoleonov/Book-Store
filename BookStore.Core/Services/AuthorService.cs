@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BookStore.Core.Services
 {
+    /// <summary>
+    /// Main class who manages Authors
+    /// </summary>
     public class AuthorService : IAuthorService
     {
         private readonly IDeletableEntityRepository<Author> authorRepository;
@@ -21,6 +24,11 @@ namespace BookStore.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Gets all non-deleted authors from the DB
+        /// </summary>
+        /// <returns>IEnumerable of BookAuthorViewModel</returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<IEnumerable<BookAuthorViewModel>> GetAllAuthorsAsync()
         {
             var authors = new List<BookAuthorViewModel>();

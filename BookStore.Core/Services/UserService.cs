@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BookStore.Core.Services
 {
+    /// <summary>
+    /// Main class who manages Users
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
@@ -21,6 +24,13 @@ namespace BookStore.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Gets the total count of all of given user's orders
+        /// </summary>
+        /// <param name="userId">ID of the user to be searched</param>
+        /// <returns>Integer</returns>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<int> GetOrdersCountAsync(string userId)
         {
             ApplicationUser currentUser;
@@ -52,6 +62,12 @@ namespace BookStore.Core.Services
             return booksOrdered;
         }
 
+        /// <summary>
+        /// Gets user by ID
+        /// </summary>
+        /// <param name="userId">ID of the user to be searched</param>
+        /// <returns>ApplicationUser</returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
             ApplicationUser user;
@@ -73,6 +89,13 @@ namespace BookStore.Core.Services
             return user;
         }
 
+        /// <summary>
+        /// Gets data for the user profile page
+        /// </summary>
+        /// <param name="userId">ID of the user to be searched</param>
+        /// <returns>UserProfileViewModel</returns>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<UserProfileViewModel> GetUserProfileDataAsync(string userId)
         {
             ApplicationUser user;

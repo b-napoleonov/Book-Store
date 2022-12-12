@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.ViewComponents
 {
+    /// <summary>
+    /// View Component holding the logic for visualising user's order count in the layout
+    /// </summary>
     public class OrderCountViewComponent : ViewComponent
     {
         private readonly IUserService userService;
@@ -19,6 +22,10 @@ namespace BookStore.ViewComponents
             userManager = _userManager;
         }
 
+        /// <summary>
+        /// Gets user's order count from the Db and fills OrderCountViewModel
+        /// </summary>
+        /// <returns>IViewComponentResult</returns>
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var user = await userManager.GetUserAsync(this.HttpContext.User);

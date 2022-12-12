@@ -1,5 +1,8 @@
 ﻿namespace BookStore.Core.Models.Rating
 {
+    /// <summary>
+    /// Details about given rating
+    /// </summary>
     public class DetailsRatingViewModel
     {
         public double Rating { get; set; }

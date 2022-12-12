@@ -12,6 +12,9 @@ using Newtonsoft.Json;
 
 namespace BookStore.Test
 {
+    /// <summary>
+    /// Tests for Review Service
+    /// </summary>
     public class ReviewServiceTest
     {
         private const int ExpectedReviewCount = 2;

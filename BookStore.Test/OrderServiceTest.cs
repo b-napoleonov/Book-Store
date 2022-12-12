@@ -13,6 +13,9 @@ using System.Net;
 
 namespace BookStore.Test
 {
+    /// <summary>
+    /// Tests for Order Service
+    /// </summary>
     public class OrderServiceTest
     {
         private const int ExpectedOrderCount = 2;

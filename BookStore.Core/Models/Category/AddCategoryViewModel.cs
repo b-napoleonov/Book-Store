@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.Category
 {
+    /// <summary>
+    /// View model with data to add new category
+    /// </summary>
     public class AddCategoryViewModel
 	{
         [Required]

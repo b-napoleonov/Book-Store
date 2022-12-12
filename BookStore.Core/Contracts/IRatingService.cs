@@ -2,7 +2,10 @@
 
 namespace BookStore.Core.Contracts
 {
-	public interface IRatingService
+    /// <summary>
+    /// Interface for managing Ratings
+    /// </summary>
+    public interface IRatingService
 	{
 		Task AddRating(AddRatingViewModel model, Guid bookId, string userId);
 	}

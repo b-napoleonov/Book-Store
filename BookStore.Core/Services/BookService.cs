@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BookStore.Core.Services
 {
+    /// <summary>
+    /// Main class who manages Books
+    /// </summary>
     public class BookService : IBookService
     {
         private readonly IDeletableEntityRepository<Book> bookRepository;
@@ -23,6 +26,12 @@ namespace BookStore.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Creates new book by given model and saves it to the database
+        /// </summary>
+        /// <param name="model">Contains information for the new book properties</param>
+        /// <returns></returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task AddBookAsync(AddBookViewModel model)
         {
             var book = new Book()
@@ -64,6 +73,11 @@ namespace BookStore.Core.Services
 
         }
 
+        /// <summary>
+        /// Gets all non-deleted books from the DB
+        /// </summary>
+        /// <returns>IEnumerable of AllBooksViewModel</returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync()
         {
             List<AllBooksViewModel> result = new List<AllBooksViewModel>();
@@ -95,6 +109,13 @@ namespace BookStore.Core.Services
             return result;
         }
 
+        /// <summary>
+        /// Gets single non-deleted book from the DB by bookId
+        /// </summary>
+        /// <param name="bookId">ID by which the book is searched</param>
+        /// <returns>DetailsBookViewModel</returns>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<DetailsBookViewModel> GetBookAsync(Guid bookId)
         {
             Book book;
@@ -139,6 +160,13 @@ namespace BookStore.Core.Services
             };
         }
 
+        /// <summary>
+        /// Get non-deleted book by Category name
+        /// </summary>
+        /// <param name="categoryName">Category name by which the book is searched</param>
+        /// <returns>IEnumerable of AllBooksViewModel</returns>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<AllBooksViewModel>> GetBooksByCategoryAsync(string categoryName)
         {
             var books = new List<Book>();
@@ -189,6 +217,13 @@ namespace BookStore.Core.Services
             return models;
         }
 
+        /// <summary>
+        /// Get non-deleted book by Author name
+        /// </summary>
+        /// <param name="authorName">Author name by which the book is searched</param>
+        /// <returns>IEnumerable of AllBooksViewModel</returns>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<AllBooksViewModel>> GetBooksByAuthorAsync(string authorName)
         {
             var books = new List<Book>();
@@ -237,6 +272,13 @@ namespace BookStore.Core.Services
             return models;
         }
 
+        /// <summary>
+        /// Get non-deleted book by Publisher name
+        /// </summary>
+        /// <param name="publisherName">Publisher name by which the book is searched</param>
+        /// <returns>IEnumerable of AllBooksViewModel</returns>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<AllBooksViewModel>> GetBooksByPublisherAsync(string publisherName)
         {
             var books = new List<Book>();

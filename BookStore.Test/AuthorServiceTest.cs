@@ -11,6 +11,9 @@ using Newtonsoft.Json;
 
 namespace BookStore.Test
 {
+    /// <summary>
+    /// Tests for Author Service
+    /// </summary>
     public class AuthorServiceTest
     {
         private ServiceProvider serviceProvider;

@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Infrastructure.Models
 {
+    /// <summary>
+    /// Publisher DB Entity
+    /// </summary>
     public class Publisher : IDeletableEntity
     {
         public Publisher()

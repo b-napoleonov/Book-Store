@@ -5,6 +5,9 @@ using BookStore.Infrastructure.Models;
 
 namespace BookStore.Core.Contracts
 {
+    /// <summary>
+    /// Interface for managing Books
+    /// </summary>
     public interface IBookService
     {
         Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync();

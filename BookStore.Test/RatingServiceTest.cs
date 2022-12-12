@@ -1,6 +1,5 @@
 ﻿using BookStore.Common;
 using BookStore.Core.Contracts;
-using BookStore.Core.Models.Book;
 using BookStore.Core.Models.Rating;
 using BookStore.Core.Services;
 using BookStore.Infrastructure.Common.Repositories;
@@ -9,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Net;
 
 namespace BookStore.Test
 {
+    /// <summary>
+    /// Tests for Rating Service
+    /// </summary>
     public class RatingServiceTest
     {
         private ServiceProvider serviceProvider;

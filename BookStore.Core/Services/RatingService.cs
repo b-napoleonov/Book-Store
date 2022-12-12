@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BookStore.Core.Services
 {
+    /// <summary>
+    /// Main class who manages Ratings
+    /// </summary>
     public class RatingService : IRatingService
     {
         private readonly IDeletableEntityRepository<Rating> ratingRepository;
@@ -27,6 +30,16 @@ namespace BookStore.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Adds new rating with given model and saves it to the Db
+        /// </summary>
+        /// <param name="model">View model with data for creating the rating</param>
+        /// <param name="bookId">ID of the book to be checked</param>
+        /// <param name="userId">ID of the user to be checked</param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task AddRating(AddRatingViewModel model, Guid bookId, string userId)
         {
             var book = await bookService.GetBookByIdAsync(bookId);

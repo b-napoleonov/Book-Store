@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Infrastructure.Models
 {
+    /// <summary>
+    /// Review DB Entity
+    /// </summary>
     public class Review : IDeletableEntity
     {
         public int Id { get; set; }

@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Core.Models.Book
 {
+    /// <summary>
+    /// Data to be filed when creating new book
+    /// </summary>
     public class AddBookViewModel
     {
         private const string ImageURLDisplayName = "Image URL";

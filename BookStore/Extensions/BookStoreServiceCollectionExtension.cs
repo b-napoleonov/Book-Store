@@ -5,6 +5,9 @@ using BookStore.Infrastructure.Common.Repositories;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// Extension class who register services
+    /// </summary>
     public static class BookStoreServiceCollectionExtension
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)

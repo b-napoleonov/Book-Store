@@ -1,5 +1,8 @@
 ﻿namespace BookStore.Core.Models.User
 {
+    /// <summary>
+    /// Data for the user profile
+    /// </summary>
     public class UserProfileViewModel
     {
         public string UserName { get; set; } = null!;

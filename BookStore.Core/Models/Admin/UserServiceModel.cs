@@ -1,5 +1,8 @@
 ﻿namespace BookStore.Core.Models.Admin
 {
+    /// <summary>
+    /// Fills the data for all users to be visualised on admin view
+    /// </summary>
     public class UserServiceModel
     {
         public UserServiceModel()

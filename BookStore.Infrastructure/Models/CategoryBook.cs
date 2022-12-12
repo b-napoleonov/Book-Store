@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Infrastructure.Models
 {
+    /// <summary>
+    /// CategoryBook DB Entity
+    /// </summary>
     public class CategoryBook : IDeletableEntity
     {
         [Required]
