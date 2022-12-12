@@ -214,7 +214,7 @@ namespace BookStore.Test
         {
             var service = serviceProvider.GetService<IOrderService>();
 
-            Assert.That(await service.CheckBookOrderAsync(bookId), Is.True);
+            Assert.That(await service.CheckBookOrderAsync(bookId, userId), Is.True);
         }
 
         [Test]
@@ -222,7 +222,7 @@ namespace BookStore.Test
         {
             var service = serviceProvider.GetService<IOrderService>();
 
-            Assert.That(await service.CheckBookOrderAsync(Guid.NewGuid()), Is.False);
+            Assert.That(await service.CheckBookOrderAsync(Guid.NewGuid(), userId), Is.False);
         }
 
         [Test]
