@@ -2,6 +2,7 @@
 using BookStore.Core.Contracts;
 using BookStore.Core.Extensions;
 using BookStore.Core.Models.Rating;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

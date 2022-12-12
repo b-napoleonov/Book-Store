@@ -2,6 +2,7 @@
 using BookStore.Core.Constants;
 using BookStore.Core.Contracts;
 using BookStore.Core.Models.Book;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Mvc;
 using static BookStore.Common.GlobalConstants;
 
@@ -55,6 +56,13 @@ namespace BookStore.Areas.Administration.Controllers
 
             try
             {
+                var sanitizer = new HtmlSanitizer();
+
+                model.ISBN = sanitizer.Sanitize(model.ISBN);
+                model.Title = sanitizer.Sanitize(model.Title);
+                model.Description = sanitizer.Sanitize(model.Description);
+                model.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
+
                 await bookService.AddBookAsync(model);
 
                 return RedirectToAction(nameof(BookStore.Controllers.BookController.Index), BookControllerName, new { area = "" });
@@ -95,6 +103,13 @@ namespace BookStore.Areas.Administration.Controllers
             {
                 return View(model);
             }
+
+            var sanitizer = new HtmlSanitizer();
+
+            model.ISBN = sanitizer.Sanitize(model.ISBN);
+            model.Title = sanitizer.Sanitize(model.Title);
+            model.Description = sanitizer.Sanitize(model.Description);
+            model.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
 
             await bookService.EditBookAsync(model, bookId);
 

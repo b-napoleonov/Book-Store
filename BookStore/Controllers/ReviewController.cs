@@ -4,6 +4,7 @@ using BookStore.Core.Contracts;
 using BookStore.Core.Extensions;
 using BookStore.Core.Models.Review;
 using BookStore.Infrastructure.Models;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -41,6 +42,10 @@ namespace BookStore.Controllers
 
             try
             {
+                var sanitizer = new HtmlSanitizer();
+
+                model.UserReview = sanitizer.Sanitize(model.UserReview);
+
                 await reviewService.AddReviewAsync(model, bookId, GetCurrentUserId());
 
                 TempData[MessageConstant.SuccessMessage] = GlobalConstants.ReviewAddedSuccessfully;

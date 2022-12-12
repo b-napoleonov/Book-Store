@@ -1,6 +1,7 @@
 ﻿using BookStore.Common;
 using BookStore.Core.Contracts;
 using BookStore.Core.Models.Category;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Mvc;
 using static BookStore.Common.GlobalConstants;
 
@@ -33,9 +34,13 @@ namespace BookStore.Areas.Administration.Controllers
 
             try
             {
+                var sanitizer = new HtmlSanitizer();
+
+                model.Name = sanitizer.Sanitize(model.Name);
+
                 await categoryService.AddCategoryAsync(model);
 
-                //TODO: Think of more meaningful redirect
+                //TODO: Preserve already added data
                 return RedirectToAction(nameof(BookController.Add), BookController.BookControllerName, new { area = AdministrationAreaName });
             }
             catch (Exception)

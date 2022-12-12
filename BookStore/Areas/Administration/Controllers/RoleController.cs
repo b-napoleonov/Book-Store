@@ -2,6 +2,7 @@
 using BookStore.Core.Constants;
 using BookStore.Core.Contracts;
 using BookStore.Infrastructure.Models;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -45,6 +46,10 @@ namespace BookStore.Areas.Administration.Controllers
             {
                 if (!await roleManager.RoleExistsAsync(model.RoleName))
                 {
+                    var sanitizer = new HtmlSanitizer();
+
+                    model.RoleName = sanitizer.Sanitize(model.RoleName);
+
                     await roleManager.CreateAsync(new IdentityRole()
                     {
                         Name = model.RoleName
