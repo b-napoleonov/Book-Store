@@ -1,5 +1,4 @@
 ﻿using BookStore.Infrastructure.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,7 +22,7 @@ namespace BookStore.Infrastructure.Common.EntityConfiguration
             builder.HasOne(au => au.Rating)
                 .WithOne(r => r.User)
                 .HasForeignKey<Rating>(r => r.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             //builder.HasData(CreateAdmin());
         }

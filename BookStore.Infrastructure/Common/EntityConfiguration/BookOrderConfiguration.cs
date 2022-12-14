@@ -16,11 +16,6 @@ namespace BookStore.Infrastructure.Common.EntityConfiguration
                 k.BookId,
                 k.OrderId
             });
-
-            //builder.HasOne(e => e.Book)
-            //    .WithMany(e => e.BookOrders)
-            //    .HasForeignKey(e => e.BookId)
-            //    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

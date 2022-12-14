@@ -33,8 +33,10 @@ namespace BookStore.Infrastructure
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
+            builder.ApplyConfiguration(new BookConfiguration());
             builder.ApplyConfiguration(new BookOrderConfiguration());
             builder.ApplyConfiguration(new CategoryBookConfiguration());
+            builder.ApplyConfiguration(new OrderConfiguration());
             builder.ApplyConfiguration(new RatingConfiguration());
 
             base.OnModelCreating(builder);

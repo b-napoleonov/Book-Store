@@ -131,7 +131,7 @@ namespace BookStore.Infrastructure
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("BookStore.Infrastructure.Models.Book", b =>
@@ -190,7 +190,7 @@ namespace BookStore.Infrastructure
 
                     b.HasIndex("PublisherId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("BookStore.Infrastructure.Models.BookOrder", b =>
@@ -214,7 +214,7 @@ namespace BookStore.Infrastructure
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("BookOrders");
+                    b.ToTable("BookOrders", (string)null);
                 });
 
             modelBuilder.Entity("BookStore.Infrastructure.Models.Category", b =>
@@ -238,7 +238,7 @@ namespace BookStore.Infrastructure
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("BookStore.Infrastructure.Models.CategoryBook", b =>
@@ -259,7 +259,7 @@ namespace BookStore.Infrastructure
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoryBooks");
+                    b.ToTable("CategoryBooks", (string)null);
                 });
 
             modelBuilder.Entity("BookStore.Infrastructure.Models.Order", b =>
@@ -289,7 +289,7 @@ namespace BookStore.Infrastructure
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("BookStore.Infrastructure.Models.Publisher", b =>
@@ -328,7 +328,7 @@ namespace BookStore.Infrastructure
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publishers");
+                    b.ToTable("Publishers", (string)null);
                 });
 
             modelBuilder.Entity("BookStore.Infrastructure.Models.Rating", b =>
@@ -359,7 +359,7 @@ namespace BookStore.Infrastructure
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Ratings");
+                    b.ToTable("Ratings", (string)null);
                 });
 
             modelBuilder.Entity("BookStore.Infrastructure.Models.Review", b =>
@@ -394,7 +394,7 @@ namespace BookStore.Infrastructure
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
