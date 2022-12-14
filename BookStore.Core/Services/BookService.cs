@@ -630,6 +630,7 @@ namespace BookStore.Core.Services
             {
                 model.Add(new HomeBookViewModel
                 {
+                    Id = book.Id,
                     Title = book.Title,
                     ImageUrl = book.ImageUrl
                 });

@@ -7,6 +7,7 @@ namespace BookStore.Core.Models.Book
     /// </summary>
     public class HomeBookViewModel : IBookModel
     {
+        public Guid Id { get; set; }
         public string Title { get; set; } = null!;
 
         public string ImageUrl { get; set; } = null!;

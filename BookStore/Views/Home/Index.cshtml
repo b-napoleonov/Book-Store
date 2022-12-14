@@ -3,39 +3,65 @@
 @{
 	ViewData["Title"] = "Home Page";
 	var books = Model.ToList();
+	bool first = true;
 }
 
 <div class="text-center">
 	<h1 class="display-4">Welcome</h1>
-	<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+	<p>This is my <strong>BookStore Website</strong>. Here you can <i>view</i>, <i>rate</i> and <i>buy</i> books and ... <strong>express yourself</strong>.</p> <p color: #00FFFF>Enjoy!!!</p>
 </div>
 
-@*<div class="mb-5"></div>
+<canvas id="canvas" width="1200" height="360" style="position:center;border:1px solid;"></canvas>
+<input type="button" value="Clear" class="canvas-clear btn btn-outline-warning" />
 
-<div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
-	<div class="carousel-indicators">
-		<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-		<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-		<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+@*@if (Model.Count() == 0)
+{
+	<div class="mt-4 p-5 bg-light">
+		<h1 class="display-4">Welcome to the best place for books!</h1>
+		<p class="lead">
+			There are no books in the system currently available
+			so why don't you just add one?
+		</p>
 	</div>
+}
+
+<div class="mb-5"></div>
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
 	<div class="carousel-inner">
-		@for (int i = 0; i < Model.Count(); i++)
+		@foreach (var book in Model)
 		{
-			var book = books[i];
-			<div class="carousel-item @(i == 0 ? "active" : "")">
-				<div class="container">
-					<img src=@book.ImageUrl class="d-block w-100" alt="...">
+			<div class="carousel-item @(first ? "active" : string.Empty)">
+
+				<img class="d-block w-100" style="height:500px"
+				 src="@book.ImageUrl" alt="@book.Title">
+				<div class="carousel-caption d-none d-md-block">
+					<h5>
+						<a class="btn btn-primary" asp-controller="Book" asp-action="Details"
+					   asp-route-bookId="@book.Id" asp-route-information="@book.GetInformation()"> @book.Title</a>
+					</h5>
 				</div>
 			</div>
-		}
-</div>
-<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-	<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	<span class="visually-hidden">Previous</span>
-</button>
-<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-	<span class="carousel-control-next-icon" aria-hidden="true"></span>
-	<span class="visually-hidden">Next</span>
-</button>
-</div>*@
 
+			first = false;
+		}
+	</div>
+	<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Previous</span>
+	</button>
+	<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Next</span>
+	</button>
+</div>
+
+@section Styles{
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link href="~/css/bootstrap-carousel/carousel.css" rel="stylesheet" />
+  }*@
+
+@section Scripts{
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.min.js"></script>
+	<script src="~/js/canvas/canvasdraw.js"></script>
+}
