@@ -125,7 +125,8 @@ namespace BookStore.Core.Services
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Phone = user.PhoneNumber
+                Phone = user.PhoneNumber,
+                IsEmailConfirmed = user.EmailConfirmed
             };
 
             return model;

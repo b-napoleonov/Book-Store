@@ -1,0 +1,32 @@
+﻿@model EmailConfirmViewModel
+
+@{
+	ViewBag.Title = "Confirm Email";
+}
+
+<div class="row">
+	<div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+		<form asp-action="ConfirmEmail" method="post">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="UserCode"></label>
+				<input asp-for="UserCode" class="form-control">
+				<span asp-validation-for="UserCode" class="small text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<input class="btn btn-success" type="submit" value="Confirm Email" />
+			</div>
+			<input type="hidden" name="userEmail" value="@User.Claims.ToList()[2].Value" />
+		</form>
+		<div class="d-grid gap-2 col-6 mx-auto">
+			<a type="button" class="fs-6 btn btn-info mb-3 p-2" asp-area="" asp-controller="User" asp-action="SendToken" asp-route-userEmail="@User.Claims.ToList()[2].Value">
+				<i class="fas fa-paper-plane"></i>
+				<span>Send Token</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

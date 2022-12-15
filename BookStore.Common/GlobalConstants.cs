@@ -23,6 +23,10 @@
 
         public const string BookEditedSuccessfully = "Book edited successfully";
 
+        public const string AppName = "BookStore";
+
+        public const string BookStoreEmailAddress = "book-store-email-sender@abv.bg";
+
         public const int ISBNMaxLength = 13;
         public const int ISBNMinLength = 13;
 
@@ -74,5 +78,8 @@
 
         public const int RoleNameMaxLength = 20;
         public const int RoleNameMinLength = 3;
+
+        public const int UserTokenMaxLength = 10;
+        public const int UserTokenMinLength = 10;
     }
 }

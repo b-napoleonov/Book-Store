@@ -1,28 +1,36 @@
 ﻿using BookStore.Common;
 using BookStore.Core.Constants;
 using BookStore.Core.Contracts;
+using BookStore.Core.Messaging;
 using BookStore.Core.Models.User;
 using BookStore.Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using static BookStore.Common.GlobalConstants;
+using static BookStore.Common.GlobalExceptions;
 
 namespace BookStore.Controllers
 {
     public class UserController : BaseController
     {
+        private const string Subject = "Verify Email";
+
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserService userService;
+        private readonly IEmailSender emailSender;
 
         public UserController(
             SignInManager<ApplicationUser> _signInManager,
             UserManager<ApplicationUser> _userManager,
-            IUserService _userService)
+            IUserService _userService,
+            IEmailSender _emailSender)
         {
             this.signInManager = _signInManager;
             this.userManager = _userManager;
             userService = _userService;
+            emailSender = _emailSender;
         }
 
         public static string UserControllerName => nameof(UserController).Replace("Controller", string.Empty);
@@ -169,6 +177,71 @@ namespace BookStore.Controllers
             {
                 return RedirectToAction(nameof(Register));
             }
+        }
+
+        [HttpGet]
+        public IActionResult ConfirmEmail()
+        {
+            var model = new EmailConfirmViewModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail(EmailConfirmViewModel model, string userEmail)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (userEmail == null)
+            {
+                TempData[MessageConstant.ErrorMessage] = UserNotFound;
+
+                return RedirectToAction(nameof(Profile));
+            }
+
+
+            var user = await userManager.FindByEmailAsync(userEmail);
+
+            if (user == null)
+            {
+                TempData[MessageConstant.ErrorMessage] = UserNotFound;
+
+                return RedirectToAction(nameof(Profile));
+            }
+
+
+            await this.userManager.ConfirmEmailAsync(user, model.UserCode);
+
+            return RedirectToAction(nameof(Profile));
+        }
+
+        public async Task<IActionResult> SendToken(string userEmail)
+        {
+            if (userEmail == null)
+            {
+                TempData[MessageConstant.ErrorMessage] = UserNotFound;
+
+                return RedirectToAction(nameof(Profile));
+            }
+
+            var user = await userManager.FindByEmailAsync(userEmail);
+
+            if (user == null)
+            {
+                TempData[MessageConstant.ErrorMessage] = UserNotFound;
+
+                return RedirectToAction(nameof(Profile));
+            }
+
+            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            await this.emailSender
+                .SendEmailAsync(BookStoreEmailAddress, AppName, userEmail, Subject, code);
+
+            return RedirectToAction(nameof(ConfirmEmail));
         }
     }
 }

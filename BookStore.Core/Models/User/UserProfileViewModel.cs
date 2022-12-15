@@ -14,5 +14,7 @@
         public string? LastName { get; set; }
 
         public string? Phone { get; set; }
+
+        public bool IsEmailConfirmed { get; set; }
     }
 }

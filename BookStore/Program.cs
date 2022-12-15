@@ -1,3 +1,4 @@
+using BookStore.Core.Messaging;
 using BookStore.Infrastructure;
 using BookStore.Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
@@ -58,6 +59,8 @@ namespace BookStore
                     options.AppId = builder.Configuration.GetValue<string>("Authentication:Facebook:AppId");
                     options.AppSecret = builder.Configuration.GetValue<string>("Authentication:Facebook:AppSecret");
                 });
+
+            builder.Services.AddTransient<IEmailSender>(x => new EmailSender(builder.Configuration.GetValue<string>("SendGrid:ApiKey"), x.GetRequiredService<ILogger<EmailSender>>()));
 
             var app = builder.Build();
 

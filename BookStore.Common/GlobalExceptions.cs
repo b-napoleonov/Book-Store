@@ -38,5 +38,15 @@
         public const string NumberFieldsErrorMessage = "{0} must be between {1} and {2}.";
 
         public const string FailedToAccessHouseDetails = "Failed to acces house details!";
+
+        public const string SubjectAndMessageShouldBeProvided = "Subject and message should be provided.";
+
+        public const string EmailSendFailed = "Email sending failed";
+
+        public const string InvalidUserToken = "{0} must be exactly {1} symbols long.";
+
+        public const string UserNotFound = "User not found!";
+
+        public const string InvalidConfirmationCode = "Invalid confirmation code!";
     }
 }
