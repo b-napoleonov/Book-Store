@@ -27,6 +27,8 @@ It is developed using standard Microsoft MVC template and divided into separate 
 
 > [Docker](https://www.docker.com/)
 
+> [FineCodeCoverage](https://github.com/FortuneN/FineCodeCoverage)
+
 ---------
 
 3. Supplementary
