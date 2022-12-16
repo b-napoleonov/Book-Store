@@ -27,8 +27,6 @@ It is developed using standard Microsoft MVC template and divided into separate 
 
 > [Docker](https://www.docker.com/)
 
-> [FineCodeCoverage](https://github.com/FortuneN/FineCodeCoverage)
-
 ---------
 
 3. Supplementary
@@ -56,6 +54,8 @@ It is developed using standard Microsoft MVC template and divided into separate 
 > [Mock](https://github.com/moq/moq)
 
 > [SQLite(InMemory Db for testing)](https://www.sqlite.org/index.html)
+
+> [FineCodeCoverage](https://github.com/FortuneN/FineCodeCoverage)
 
 ---------
 
