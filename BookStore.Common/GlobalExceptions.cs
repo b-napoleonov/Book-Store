@@ -48,5 +48,7 @@
         public const string UserNotFound = "User not found!";
 
         public const string InvalidConfirmationCode = "Invalid confirmation code!";
+
+        public const string EmailAlreadyTaken = "There is a user with this email address. Please try with different email.";
     }
 }

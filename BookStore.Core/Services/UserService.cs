@@ -25,6 +25,18 @@ namespace BookStore.Core.Services
         }
 
         /// <summary>
+        /// Check there is registered user with this email address
+        /// </summary>
+        /// <param name="email">Email address to be checked</param>
+        /// <returns>True if email is taken, otherwise false</returns>
+        public async Task<bool> CheckIfEmailIsFree(string email)
+        {
+            return await userRepository
+                .AllAsNoTracking()
+                .AnyAsync(u => u.Email == email);
+        }
+
+        /// <summary>
         /// Gets the total count of all of given user's orders
         /// </summary>
         /// <param name="userId">ID of the user to be searched</param>

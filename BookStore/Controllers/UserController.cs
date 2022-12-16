@@ -100,6 +100,13 @@ namespace BookStore.Controllers
                 return View(model);
             }
 
+            if (await userService.CheckIfEmailIsFree(model.Email))
+            {
+                TempData[MessageConstant.ErrorMessage] = EmailAlreadyTaken;
+
+                return View(model);
+            }
+
             var user = new ApplicationUser()
             {
                 UserName = model.UserName,

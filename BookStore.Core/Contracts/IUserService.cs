@@ -13,5 +13,7 @@ namespace BookStore.Core.Contracts
         Task<ApplicationUser> GetUserByIdAsync(string userId);
 
         Task<UserProfileViewModel> GetUserProfileDataAsync(string userId);
+
+        Task<bool> CheckIfEmailIsFree(string email);
     }
 }

@@ -485,12 +485,14 @@ namespace BookStore.Test
             {
                 new HomeBookViewModel
                 {
+                    Id = bookId,
                     Title = "First",
                     ImageUrl = "",
                 },
 
                 new HomeBookViewModel
                 {
+                    Id = secondBookId,
                     Title = "Second",
                     ImageUrl = "",
                 },
