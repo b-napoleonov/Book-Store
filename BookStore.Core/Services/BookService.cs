@@ -180,7 +180,7 @@ namespace BookStore.Core.Services
                     .Include(b => b.Author)
                     .Include(b => b.Publisher)
                     .Include(b => b.Ratings)
-                    .Where(b => b.Categories.Select(cb => cb.Category.Name == categoryName).FirstOrDefault())
+                    .Where(b => b.Categories.Any(cb => cb.Category.Name == categoryName))
                     .OrderBy(b => b.Title)
                     .ToListAsync();
             }

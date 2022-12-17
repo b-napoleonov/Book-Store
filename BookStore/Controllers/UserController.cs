@@ -7,6 +7,7 @@ using BookStore.Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using static BookStore.Common.GlobalConstants;
 using static BookStore.Common.GlobalExceptions;
 
@@ -182,7 +183,15 @@ namespace BookStore.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(Register));
+                TempData[MessageConstant.WarningMessage] = NoLoginFoundPleaseRegister;
+
+                var model = new RegisterViewModel()
+                {
+                    UserName = info.Principal.FindFirstValue(ClaimTypes.Name),
+                    Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                };
+
+                return View(nameof(Register), model);
             }
         }
 

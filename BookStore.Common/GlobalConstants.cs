@@ -27,6 +27,8 @@
 
         public const string BookStoreEmailAddress = "book-store-email-sender@abv.bg";
 
+        public const string NoLoginFoundPleaseRegister = "No login found for this user, please register";
+
         public const int ISBNMaxLength = 13;
         public const int ISBNMinLength = 13;
 

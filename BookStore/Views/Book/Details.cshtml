@@ -46,20 +46,20 @@
 													<td>@Model.Year</td>
 													<td>@Model.Pages</td>
 													<td>
-														<a class="link-primary" asp-action="Author" asp-route-authorName="@Model.Author">
+														<a class="alert-link" asp-action="Author" asp-route-authorName="@Model.Author">
 															<span>@Model.Author</span>
 														</a>
 													</td>
 													<td>
-														<a class="link-primary" asp-action="Publisher" asp-route-publisherName="@Model.Publisher">
+														<a class="alert-link" asp-action="Publisher" asp-route-publisherName="@Model.Publisher">
 															<span>@Model.Publisher</span>
 														</a>
 													</td>
 													<td>
 														@foreach (var category in Model.Categories)
 														{
-															<a class="link-primary" asp-action="Category" asp-route-categoryName="@category">
-																<span>@(string.Join(", ", category))</span>
+															<a class="alert-link" asp-action="Category" asp-route-categoryName="@category">
+																<span>@category</span>
 															</a>
 														}
 													</td>

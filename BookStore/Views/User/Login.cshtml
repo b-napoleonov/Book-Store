@@ -12,11 +12,11 @@
 			<form id="account" method="post">
 				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 				<div class="input-group mb-3">
-					<input asp-for="@Model.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
+					<input asp-for="@Model.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="UserName" />
 					<span asp-validation-for="@Model.UserName" class="text-danger"></span>
 					<div class="input-group-append">
 						<div class="input-group-text">
-							<span class="fas fa-envelope"></span>
+							<span class="fas fa-user"></span>
 						</div>
 					</div>
 				</div>
